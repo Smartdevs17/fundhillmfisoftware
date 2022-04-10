@@ -165,6 +165,7 @@ const Register = () => {
 
         <div className="form-group mb-3">
           <input
+          required
             className="form-control"
             type="text"
             parsley-trigger="change" 
@@ -180,6 +181,7 @@ const Register = () => {
 
         <div className="form-group mb-3">
           <input
+          required
             className="form-control"
             type="text"
             parsley-trigger="change" 
@@ -195,6 +197,7 @@ const Register = () => {
 
         <div className="form-group mb-3">
           <input
+          required
             className="form-control"
             type="email"
             placeholder="Email"
@@ -210,6 +213,7 @@ const Register = () => {
 
         <div className="form-group mb-3">
           <input
+          required
             className="form-control"
             type="password"
             required=""
@@ -226,6 +230,7 @@ const Register = () => {
 
         <div className="form-group mb-3">
           <input
+          required
             className="form-control"
             type="password"
             required=""
@@ -251,6 +256,7 @@ const Register = () => {
         <div className="form-group mb-3">
           <div className="custom-control custom-checkbox">
             <input
+            r
               type="checkbox"
               className="custom-control-input"
               id="checkbox-signin"
