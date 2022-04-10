@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Smartdevs17/fundhillmfisoftware/static/css/main.843f9c2b.css",
+    "main.js": "/Smartdevs17/fundhillmfisoftware/static/js/main.12d2b758.js",
+    "static/js/787.28cb0dcd.chunk.js": "/Smartdevs17/fundhillmfisoftware/static/js/787.28cb0dcd.chunk.js",
+    "index.html": "/Smartdevs17/fundhillmfisoftware/index.html",
+    "main.843f9c2b.css.map": "/Smartdevs17/fundhillmfisoftware/static/css/main.843f9c2b.css.map",
+    "main.12d2b758.js.map": "/Smartdevs17/fundhillmfisoftware/static/js/main.12d2b758.js.map",
+    "787.28cb0dcd.chunk.js.map": "/Smartdevs17/fundhillmfisoftware/static/js/787.28cb0dcd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.843f9c2b.css",
+    "static/js/main.12d2b758.js"
+  ]
+}
