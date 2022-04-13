@@ -24,7 +24,9 @@ import {NewBranch,AllBranch, UpdateBranch,NewCustomer,AllCustomer,EditCustomer,
         DisbursedLoan,
         InvoiceLoan,
         OngoingLoan,
-        Dashboard} from "../../pages/admin/"
+        Dashboard,
+        NewExpenses,
+        AllExpenses} from "../../pages/admin/"
 import { AdminLayout } from '../../layouts'
 
 
@@ -98,7 +100,9 @@ function AdminRoute() {
         <Route path="dashboard/invoice" element={<InvoiceLoan />} />
         <Route path="dashboard/ongoing_loan" element={<OngoingLoan />} />
 
-
+        {/* Expenses Management */}
+        <Route path="dashboard/new_expenses" element={<NewExpenses />} />
+        <Route path="dashboard/all_expenses" element={<AllExpenses />} />
 
 
 

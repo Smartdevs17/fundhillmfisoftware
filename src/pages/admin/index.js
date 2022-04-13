@@ -41,6 +41,8 @@ import InvoiceLoan from "./loan/InvoiceLoan";
 import OngoingLoan from "./loan/OngoingLoan"; 
 import Dashboard from "./dashboard/Dashboard"
 import Home from "../home/Home";
+import NewExpenses from "./expenses/NewExpenses"
+import AllExpenses from "./expenses/AllExpenses"
 
 export {
     Login,
@@ -86,5 +88,7 @@ export {
     OngoingLoan,
     Dashboard,
     Home,
+    AllExpenses,
+    NewExpenses,
 }
 

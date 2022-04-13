@@ -158,6 +158,21 @@ function Sidebar() {
                             </li>
 
 
+
+                            <li>
+                                <Link to="#">
+                                    <i > <GoCalendar  /> </i>
+                                    <span> Expenses </span>
+                                    <span className="menu-arrow"></span>
+                                </Link>
+                                <ul className="nav-second-level" >
+                                    <li><Link to="/admin/dashboard/new_expenses">New Expenses</Link></li>
+                                    <li><Link to="/admin/dashboard/all_expenses">All Expenses</Link></li>
+        
+
+                                </ul>
+                            </li>
+
                         </ul>
 
                     </div>
