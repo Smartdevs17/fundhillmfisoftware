@@ -1,7 +1,7 @@
 import Store from "./localForage";
-import ServiceApi from "./serviceApi";
+import api from "./serviceApi";
 
 export {
   Store,
-  ServiceApi,
+  api,
 };

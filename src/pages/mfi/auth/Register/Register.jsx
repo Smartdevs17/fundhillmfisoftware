@@ -8,7 +8,7 @@ import axios from "axios";
 const $store = new Store();
 
 
-const Register = () => {lo
+const Register = () => {
 
   const [name, setName] = useState("");
   const [nameError,setNameError] = useState("");
@@ -41,65 +41,65 @@ const Register = () => {lo
       ;
         // let usernameValid = false
 
-        if(name.length === 0){
-            setNameError("First name is required.");
-        }else{
-            setNameError("")
-            // usernameValid = true;
-        }
+    //     if(name.length === 0){
+    //         setNameError("First name is required.");
+    //     }else{
+    //         setNameError("")
+    //         // usernameValid = true;
+    //     }
 
-        if(lastname.length === 0){
-          setLastNameError("Last name is required.");
-      }else{
-          setLastNameError("")
-          // usernameValid = true;
-      }
+    //     if(lastname.length === 0){
+    //       setLastNameError("Last name is required.");
+    //   }else{
+    //       setLastNameError("")
+    //       // usernameValid = true;
+    //   }
 
 
-      if(phone.length === 0){
-        setPhoneError("Phone number is required.");
-    }else{
-        setPhoneError("")
-        // usernameValid = true;
-    }
+    //   if(phone.length === 0){
+    //     setPhoneError("Phone number is required.");
+    // }else{
+    //     setPhoneError("")
+    //     // usernameValid = true;
+    // }
 
-      if(logo.length === 0){
-        setLogoError("Phone number is required.");
-    }else{
-        setLogoError("")
-        // usernameValid = true;
-    }
-           // let usernameValid = false
+    //   if(logo.length === 0){
+    //     setLogoError("Phone number is required.");
+    // }else{
+    //     setLogoError("")
+    //     // usernameValid = true;
+    // }
+    //        // let usernameValid = false
 
-           if(email.length === 0){
-            setEmailError("This email is required.");
-        }else{
-            setEmailError("")
-            // usernameValid = true;
-        }
+    //        if(email.length === 0){
+    //         setEmailError("This email is required.");
+    //     }else{
+    //         setEmailError("")
+    //         // usernameValid = true;
+    //     }
 
-           // let usernameValid = false
+    //        // let usernameValid = false
 
-           if(password.length === 0){
-            setPasswordError("Password is required.");
-        }else{
-            setPasswordError("")
-            // usernameValid = true;
-        }
+    //        if(password.length === 0){
+    //         setPasswordError("Password is required.");
+    //     }else{
+    //         setPasswordError("")
+    //         // usernameValid = true;
+    //     }
 
-           // let usernameValid = false
+    //        // let usernameValid = false
 
-        if(confirmPassword.length === 0){
-               setConfirmPasswordError("This password is required.");
-        }
-        else if(password !==  confirmPassword){
-          setSamePasswordError("password does not match.");
-          console.log("Password Does not match")
-        }
-        else{
-            setConfirmPasswordError("")
-            // usernameValid = true;
-        }
+    //     if(confirmPassword.length === 0){
+    //            setConfirmPasswordError("This password is required.");
+    //     }
+    //     else if(password !==  confirmPassword){
+    //       setSamePasswordError("password does not match.");
+    //       console.log("Password Does not match")
+    //     }
+    //     else{
+    //         setConfirmPasswordError("")
+    //         // usernameValid = true;
+    //     }
 
 
         // try{

@@ -36,7 +36,7 @@ class ServiceApi {
   }
 
   // POST API REQUEST
-  async push(url, payload = null, resolve = true, is_attached = false) {
+  async push(url, payload = null, resolve = false, is_attached = false) {
     try {
       const response = await axiosClient.post(
         this.appendToURL(url),
@@ -52,8 +52,9 @@ class ServiceApi {
     }
   }
 
+
   // PUT API REQUEST
-  async update(url, payload = {}, resolve = true, is_attached = false) {
+  async update(url, payload = {}, resolve = false, is_attached = false) {
     try {
       const response = await axiosClient.put(
         this.appendToURL(url),
@@ -70,7 +71,7 @@ class ServiceApi {
   }
 
   // DELETE API REQUEST
-  async remove(url, payload = {}, resolve = true) {
+  async remove(url, payload = {}, resolve = false) {
     try {
       const response = await axiosClient.delete(
         this.appendToURL(url),
@@ -94,13 +95,13 @@ class ServiceApi {
       ? {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${'token'}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`
           },
         }
       : {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${'token'}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`
           },
         };
   }
@@ -113,4 +114,5 @@ class ServiceApi {
   }
 }
 
-export default ServiceApi;
+export default new ServiceApi();
+

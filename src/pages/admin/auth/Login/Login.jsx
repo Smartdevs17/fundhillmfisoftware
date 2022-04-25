@@ -56,8 +56,9 @@ const Login = () => {
               email: userRef.current.value,
               password: passwordRef.current.value
             });
-            console.log(res)
-            navigate("/admin/dashboard")
+            console.log(res.data.data)
+            localStorage.setItem("token",res?.data?.data?.token)
+            // navigate("/admin/dashboard",{replace: true})
             dispatch({type: "LOGIN_SUCCESS",payload: res.data});
             setIsLoading(false);
           }catch(err){
@@ -123,7 +124,7 @@ const Login = () => {
 
         <div className="form-group text-center">
         {
-          !isLoading
+          isLoading
             ? <div>Loading</div>
             : (<button
             className="btn btn-success btn-block waves-effect waves-light"
