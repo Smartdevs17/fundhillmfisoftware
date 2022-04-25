@@ -41,7 +41,7 @@ function AdminRoute() {
         {/* Branches */}
         <Route path="dashboard/newbranch" element={<NewBranch />} />
         <Route path="dashboard/allbranch" element={<AllBranch />} />
-        <Route path="dashboard/updatebranch" element={<UpdateBranch />} />
+        <Route path="dashboard/updatebranch:branch_id" element={<UpdateBranch />} />
 
         {/* Customers */}
         <Route path="dashboard/newcustomer" element={<NewCustomer />} />

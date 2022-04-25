@@ -44,6 +44,7 @@ const Register = () => {
   const [checkBox, setCheckBox] = useState(false);
   const [samePasswordError,setSamePasswordError] = useState("");
 
+  const [success,setSuccess] = useState(false)
 
   const navigate = useNavigate();
 
@@ -106,6 +107,10 @@ const Register = () => {
             // usernameValid = true;
         }
 
+        // console.log(firstname)
+            // navigate("/conf_email")
+        setSuccess(true)
+
 
         try{
           const res = await axios.post("https://fundhill-api-vd2zk.ondigitalocean.app/accounts/manage/signup/",{
@@ -116,11 +121,14 @@ const Register = () => {
             "phone":phone,
             "type":"ADMIN"
         })
-           res.data && navigate("/auth/login")
+          //  res.data && navigate("/conf_email")
+          if(res.ok){
+            // setSuccess(true)
+            navigate("/conf_email")
+          }
          }catch(error){
            console.log(error)
          }
-       //   navigate('/mainpage')
      
 
     
@@ -145,7 +153,8 @@ const Register = () => {
       <h5 className="text-muted text-center text-uppercase py-3 font-16">
         Register
       </h5>
-      {/* <input className="form-control" type="text" required placeholder="Enter your username" /> */}
+
+
       <form action="#" className="mt-2" onSubmit={handleSubmit} >
 
       <div className="form-group mb-3">
@@ -216,7 +225,6 @@ const Register = () => {
           required
             className="form-control"
             type="password"
-            required=""
             id="password"
             placeholder="Password"
             value = {password}
@@ -233,7 +241,6 @@ const Register = () => {
           required
             className="form-control"
             type="password"
-            required=""
             id="password"
             placeholder="Confirm Password"
             value = {confirmPassword}
@@ -279,8 +286,12 @@ const Register = () => {
 
           >
             {" "}
-            Register
+           
+            {/* Register */}
+            {success ?  <i className="mdi mdi-36px mdi-spin mdi-loading" />: "Register" }
+
           </button>
+
         </div>
 
         <Link to="#" className="text-muted">

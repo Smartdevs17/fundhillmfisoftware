@@ -8,6 +8,7 @@ import {MdOutlineSearch} from "react-icons/md"
 // import {RiArrowDropDownLine} from "react-icons/ri"
 
 function Navbar() {
+
   return (
     <Fragment>
              
@@ -223,7 +224,7 @@ function Navbar() {
 
                             <NavLink to="/" className="dropdown-item notify-item">
                                 <i className="mdi mdi-logout-variant"></i>
-                                <span>Logout</span>
+                                <span >Logout</span>
                             </NavLink>
 
                         </div>

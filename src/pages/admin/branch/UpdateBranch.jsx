@@ -1,11 +1,13 @@
 import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function UpdateBranch() {
     const [bid, setBId] = useState("");
     const [bname, setBName] = useState("");
     const [bhead, setBHead] = useState("");
     const [baddress, setBAddress] = useState("");
+    const params = useParams();
+    console.log({ params });
   //   const [bnumber, setBNumber] = useState("")
   
     const handleSubmit = (e) => {

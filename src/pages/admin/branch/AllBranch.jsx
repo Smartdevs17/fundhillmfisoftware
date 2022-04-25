@@ -49,29 +49,31 @@ function AllBranch() {
                                     <th>Branch Location</th>
                                     <th>Head of Branch</th>
                                     <th>Action</th>
-                                    <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                         
                                     <tr>
-                                    <td>Branch-1</td>
-                                    <td>Tudun Wada Branch</td>
-                                    <td>Tudun wada</td>
-                                    <td>Mustafa Yahaya</td>
-                                    <td>
-                                    {/* Button trigger modal */}
-                                    <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target="#modelId">
-                                    View
-                                    </button>
+                                        <td>Branch-1</td>
+                                        <td>Tudun Wada Branch</td>
+                                        <td>Tudun wada</td>
+                                        <td>Mustafa Yahaya</td>
+                                        <td>
+                                            <div className="d-flex align-items-center" style={{ gap: '10px' }}>
+                                                <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target="#modelId">
+                                                    View
+                                                </button>
+                                                {/* {`/admin/dashboard/updatebranch?branch_id=${branch?.branch_id}`}  */}
+                                                <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
+                                            </div>
 
-
-                                    </td>
-                                    <td> <button type="button" className="btn btn-primary"> <Link to="/admin/dashboard/updatebranch" style={{color: "#fff"}}> Update </Link> </button> </td>
-                                    </tr>
+                                        </td>
+                                        </tr>
                                 </tbody>
                                 </table>
 
 
+                                {/* {`modelId${index}${branch?.id}`} */}
                             {/* Modal */}
                                     <div className="modal fade" id="modelId" tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                                     <div className="modal-dialog" role="document">

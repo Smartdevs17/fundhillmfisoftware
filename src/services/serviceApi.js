@@ -5,18 +5,13 @@ const axiosClient = axios.create();
 const isDev = process.env.NODE_ENV === "development";
 
 class ServiceApi {
-  base = "v1";
   url = "";
 
   // SELECT BASE URL VERSION
-  service(version = this.base) {
+  service() {
     axiosClient.defaults.baseURL = isDev
       ? process.env.REACT_APP_BASE_DEV_URL
       : process.env.REACT_APP_BASE_PROD_URL;
-
-    this.url = version === "new"
-      ? `/${process.env.REACT_APP_API_V2}`
-      : `/${process.env.REACT_APP_API_V2}`;
     return this;
   }
 
@@ -26,13 +21,15 @@ class ServiceApi {
   }
 
   // GET API REQUEST
-  async fetch(url, resolve = true) {
+  async fetch(url, resolve = false) {
     try {
       const response = await axiosClient.get(
         this.appendToURL(url),
         this.setupHeaders()
       );
-      return resolve ? response?.data : response;
+      return !resolve 
+        ? response 
+        : {...response};
     } catch(err) {
       return this.handleErrors(err);
     }
@@ -47,7 +44,9 @@ class ServiceApi {
         this.setupHeaders(is_attached)
       );
 
-      return resolve ? response?.data : response;
+      return !resolve 
+        ? response 
+        : {...response};
     } catch(err) {
       return this.handleErrors(err);
     }
@@ -62,7 +61,9 @@ class ServiceApi {
         this.setupHeaders(is_attached),
       );
 
-      return resolve ? response?.data : response;
+      return !resolve 
+        ? response 
+        : {...response};
     } catch(err) {
       return this.handleErrors(err);
     }
@@ -79,7 +80,9 @@ class ServiceApi {
         }
       );
 
-      return resolve ? response?.data : response;
+      return !resolve 
+        ? response 
+        : {...response};
     } catch(err) {
       return this.handleErrors(err);
     }
@@ -105,6 +108,7 @@ class ServiceApi {
   // HANDLE API REQUEST ERRORS
   handleErrors(err) {
     // Alert an error message
+    console.error('API ERROR:', err);
     return err?.response;
   }
 }

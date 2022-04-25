@@ -3,7 +3,8 @@ import "./Login.css";
 
 import { Fragment, useState,useEffect, useRef,useContext} from "react";
 import { Store } from "../../../../services";
-import { Link,useNavigate } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
+
 import { Context } from "../../../../context/Context";
 import axios from "axios"
 
@@ -16,6 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [checkBox, setCheckBox] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
 
@@ -49,30 +51,24 @@ const Login = () => {
    
 
           try{
+            setIsLoading(true);
             const res = await axios.post("https://fundhill-api-vd2zk.ondigitalocean.app/accounts/auth/signin/",{
               email: userRef.current.value,
               password: passwordRef.current.value
             });
+            console.log(res)
             navigate("/admin/dashboard")
             dispatch({type: "LOGIN_SUCCESS",payload: res.data});
+            setIsLoading(false);
           }catch(err){
             dispatch({type: "LOGIN_FAILURE"});
             setError(true)
+            setIsLoading(false);
           }
         // console.log(username,password,checkBox);
 
       
   }
-
-
-  // const login = () => {
-  //   let res =  $store.getFromStore(username);
-  //   console.log(res+"This life is beautiful");
-  // };
-
-  // useEffect(() => {
-  //   login();
-  // }, []);
 
 
   return (
@@ -126,13 +122,17 @@ const Login = () => {
         </div>
 
         <div className="form-group text-center">
-          <button
+        {
+          !isLoading
+            ? <div>Loading</div>
+            : (<button
             className="btn btn-success btn-block waves-effect waves-light"
             type="submit"
           >
             {" "}
             Log In{" "}
-          </button>
+          </button>)
+        }
         </div>
 
         <Link to="#" className="text-muted">
