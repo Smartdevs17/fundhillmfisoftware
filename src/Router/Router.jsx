@@ -15,7 +15,7 @@ import { ContextProvider } from "../context/Context"
 
 const Router = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter window={window.location.reload}>
     <ContextProvider>
     <Routes>
       {AdminRoute()}

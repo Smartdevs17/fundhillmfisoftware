@@ -1,7 +1,7 @@
 // STYLES
 import "./Login.css";
 import { Formik, Form, Field } from "formik";
-import Yup from 'yup'; 
+import { object as yupObject, string as yupString } from 'yup';
 import { Fragment, useState, useContext } from "react";
 import { api } from "../../../../services";
 import { ErrorMsg } from "../../../../layouts/components";
@@ -16,11 +16,11 @@ const initialFormState = () => ({
   password: "",
 });
 
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
+const validationSchema = yupObject().shape({
+  email: yupString()
     .email("Invalid email")
     .required("Email is required"),
-  password: Yup.string()
+  password: yupString()
     .required("Password is required"),
 });
 
@@ -35,7 +35,7 @@ const Login = () => {
     setIsLoading(true);
     const response = await api
       .service()
-      .push('/accounts/auth/signin', values, true);
+      .push('/accounts/auth/signin/', values, true);
 
     if (api.isSuccessful(response)) {
       localStorage.setItem("token",response?.data?.data?.token)
@@ -59,7 +59,6 @@ const Login = () => {
         validationSchema={validationSchema}
         onSubmit={async (values, actions) => {
           await login(values);
-          console.log({ values });
         }}
       >
         {(props) => (

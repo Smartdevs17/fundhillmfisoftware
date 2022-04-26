@@ -2,7 +2,7 @@
 import "./Login.css";
 
 import { Formik, Form, Field } from "formik";
-import Yup from 'yup'; 
+import { object as yupObject, string as yupString } from 'yup';
 import { Fragment, useState, useEffect } from "react";
 import { Store, } from "../../../services";
 import { Link } from "react-router-dom";
@@ -14,11 +14,11 @@ const initialFormState = () => ({
   password: "",
 });
 
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
+const validationSchema = yupObject().shape({
+  email: yupString()
     .email("Invalid email")
     .required("Email is required"),
-  password: Yup.string()
+  password: yupString()
     .required("Password is required"),
 });
 
