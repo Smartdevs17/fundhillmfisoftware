@@ -1,13 +1,41 @@
-import { Fragment } from 'react'
-import { Link } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import { object as yupObject, string as yupString } from 'yup';
+import { Fragment, useState } from "react";
+import { api } from "../../../../services";
+import { ErrorMsg } from "../../../../layouts/components";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { css } from "@emotion/react";
+import {DotLoader} from "react-spinners";
 
 function EmailConfirm() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
 
-  const handleClick = (e) => {
+  const handleClick = async(e) => {
         e.preventDefault()
-        const user = localStorage.getItem("user")
-        console.log(typeof(user));
+        const email = localStorage.getItem("user")
+        // console.log(typeof(user));
+        // console.log(email)
+        // console.log(user.email)
+
+        const values = {"email": email};
+
+
+        setIsLoading(true);
+        console.log(values)
+        const response = await api
+              .service()
+              .push("/accounts/manage/resend-activation-email/",values,true)
+
+        if(api.isSuccessful(response)){
+          setTimeout(() => {
+            toast.success('Resend email successfully!');
+            navigate("/conf_email",{replace: true})
+          }, 0);
+        }
+        setIsLoading(false);
   }
 
     return (
