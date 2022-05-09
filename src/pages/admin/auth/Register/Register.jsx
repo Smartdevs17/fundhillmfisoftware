@@ -57,6 +57,7 @@ const Register = () => {
   const register = async(values) => {
         setIsLoading(true);
         console.log(values)
+        localStorage.setItem("user",values)
         // let data = [values];
         //     data = [...data,{"user_role":"admin"}]
         //     console.log(data);
