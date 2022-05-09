@@ -1,8 +1,11 @@
-import {Fragment} from 'react'
+import {Fragment,useEffect } from 'react'
 import { Link } from "react-router-dom";
 
 
 function AllCustomer() {
+
+
+
     return (
         <Fragment>
             {/* Start Page Content here */}

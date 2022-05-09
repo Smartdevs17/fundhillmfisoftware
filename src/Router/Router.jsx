@@ -15,16 +15,15 @@ import { ContextProvider } from "../context/Context"
 
 const Router = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter  >
     <ContextProvider>
-    <Routes>
+    <Routes >
       {AdminRoute()}
       {HomeRoute()}
       {AuthRoutes()}
       {StaffRoute()}
       {StaffAuthRoute()}
       {MFIRoute()}
-      {/* {MFIAuth()} */}
       {EmailConfirmRoute()}
       </Routes>    
     </ContextProvider>

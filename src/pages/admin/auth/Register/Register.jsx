@@ -1,309 +1,225 @@
 // STYLES
 import "./Register.css";
-import { Fragment, useState,useEffect } from "react";
-import { Link,useNavigate } from "react-router-dom";
-import { Store } from "../../../../services";
-import axios from "axios";
+import { Formik, Form, Field } from "formik";
+import { object as yupObject, string as yupString } from 'yup';
+import { Fragment, useState } from "react";
+import { api } from "../../../../services";
+import { ErrorMsg } from "../../../../layouts/components";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { css } from "@emotion/react";
+import {DotLoader} from "react-spinners";
 
-const $store = new Store();
+// CONTEXT
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
+const initialFormState = () => ({
+  first_name: "",
+  last_name: "",
+  "organisation_name": "",
+  email: "",
+  phone: "",
+  password: "",
+  user_role: "ADMIN"
+});
+
+const validationSchema = yupObject().shape({
+  first_name: yupString()
+  .required("First Name is required"),
+  last_name: yupString()
+  .required("Last Name is required"),
+  organisation_name: yupString()
+  .required("Organisation Name is required"),
+  address: yupString()
+  .required("Address is required"),
+  email: yupString()
+  .email("Invalid email")
+  .required("Email is required"),
+  phone: yupString()
+  .required("Phone Number is required"),
+  password: yupString()
+  .required("Password is required"),
+})
 
 const Register = () => {
-  // const [username, setUsername] = useState("");
-  // const [usernameError,setUsernameError] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [emailError,setEmailError] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [passwordError,setPasswordError] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
-  // const [confirmPasswordError,setConfirmPasswordError] = useState("");
-  // const [checkBox, setCheckBox] = useState(false);
-  // const [samePasswordError,setSamePasswordError] = useState("");
-
-
-  const [firstname, setFirstName] = useState("");
-  const [firstnameError,setFirstNameError] = useState("");
-
-  const [lastname, setLastName] = useState("");
-  const [lastnameError,setLastNameError] = useState("");
-
-  const [email, setEmail] = useState("");
-  const [emailError,setEmailError] = useState("");
-
-  const [phone, setPhone] = useState("");
-  const [phoneError,setPhoneError] = useState("");
-
-  const [password, setPassword] = useState("");
-  const [passwordError,setPasswordError] = useState("");
-
-
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [confirmPasswordError,setConfirmPasswordError] = useState("");
-
-
-  const [checkBox, setCheckBox] = useState(false);
-  const [samePasswordError,setSamePasswordError] = useState("");
-
-  const [success,setSuccess] = useState(false)
-
+  const [isLoading, setIsLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ADD8E6");
+  // #90EE90
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-        e.preventDefault()
-      ;
-        // let usernameValid = false
+  
 
-        if(firstname.length === 0){
-            setFirstNameError("First name is required.");
-        }else{
-            setFirstNameError("")
-            // usernameValid = true;
+  const register = async(values) => {
+        setIsLoading(true);
+        console.log(values)
+        // let data = [values];
+        //     data = [...data,{"user_role":"admin"}]
+        //     console.log(data);
+        const response = await api
+              .service()
+              .push("/accounts/manage/signup/",values,true)
+
+        if(api.isSuccessful(response)){
+          setTimeout(() => {
+            toast.success('Registration in successfully!');
+            navigate("/conf_email",{replace: true})
+          }, 0);
         }
-
-        if(lastname.length === 0){
-          setLastNameError("Last name is required.");
-      }else{
-          setLastNameError("")
-          // usernameValid = true;
-      }
-
-
-      if(phone.length === 0){
-        setPhoneError("Phone number is required.");
-    }else{
-        setPhoneError("")
-        // usernameValid = true;
-    }
-
-           // let usernameValid = false
-
-           if(email.length === 0){
-            setEmailError("This email is required.");
-        }else{
-            setEmailError("")
-            // usernameValid = true;
-        }
-
-           // let usernameValid = false
-
-           if(password.length === 0){
-            setPasswordError("Password is required.");
-        }else{
-            setPasswordError("")
-            // usernameValid = true;
-        }
-
-           // let usernameValid = false
-
-        if(confirmPassword.length === 0){
-               setConfirmPasswordError("This password is required.");
-        }
-        else if(password !==  confirmPassword){
-          setSamePasswordError("password does not match.");
-          console.log("Password Does not match")
-        }
-        else{
-            setConfirmPasswordError("")
-            // usernameValid = true;
-        }
-
-        // console.log(firstname)
-            // navigate("/conf_email")
-        setSuccess(true)
-
-
-        try{
-          const res = await axios.post("https://fundhill-api-vd2zk.ondigitalocean.app/accounts/manage/signup/",{
-            "email":email,
-            "first_name":firstname,
-            "last_name":lastname,
-            "password":password,
-            "phone":phone,
-            "type":"ADMIN"
-        })
-          //  res.data && navigate("/conf_email")
-          if(res.ok){
-            // setSuccess(true)
-            navigate("/conf_email")
-          }
-         }catch(error){
-           console.log(error)
-         }
-     
-
-    
-
+        setIsLoading(false);
   }
 
-  // const register = () => {
-  //   $store.pushToStore("user", {
-  //     name: username,
-  //     checkbox: checkBox,
-  //     password: password,
-  //     email: email,
-  //   });
-  // };
 
-  // useEffect(() => {
-  //   register();
-  // }, []);
 
   return (
-    <Fragment>  
+    <Fragment>
       <h5 className="text-muted text-center text-uppercase py-3 font-16">
-        Register
+        Register As a Cooperation
       </h5>
+      <Formik
+        enableReinitialize={true}
+        initialValues={initialFormState()}
+        validationSchema={validationSchema}
+        onSubmit={async (values, actions) => {
+          await register(values);
+        }}
+      >
+        {(props) => (
+          <Form className="mt-2">
+
+          <div className="form-group mb-3">
+              <Field
+                as={'input'}
+                name="first_name"
+                className="form-control"
+                type="text"
+                placeholder="Enter your first name"
+              />
+              <ErrorMsg name={'first_name'} />
+            </div>
+
+            <div className="form-group mb-3">
+              <Field
+                as={'input'}
+                name="last_name"
+                className="form-control"
+                type="text"
+                placeholder="Enter your last name"
+              />
+              <ErrorMsg name={'last_name'} />
+            </div>
+
+            <div className="form-group mb-3">
+              <Field
+                as={'input'}
+                name="organisation_name"
+                className="form-control"
+                type="text"
+                placeholder="Full Co-operation/Organisation Name"
+              />
+              <ErrorMsg name={'organisation_name'} />
+            </div>
 
 
-      <form action="#" className="mt-2" onSubmit={handleSubmit} >
+            <div className="form-group mb-3">
+              <Field
+                as={'input'}
+                name="email"
+                className="form-control"
+                type="email"
+                placeholder="Enter your email"
+              />
+              <ErrorMsg name={'email'} />
+            </div>
 
-      <div className="form-group mb-3">
-          <input
-            className="form-control"
-            type="text"
-            parsley-trigger="change" 
-            placeholder="John"
-            value = {firstname}
-            onChange={(e)  => setFirstName(e.target.value)}
-          />
-          {firstnameError.length > 0 && <div style= {{margin: "5px",color: "red"}} >
-              {firstnameError}
-          </div> }
-        </div>
+            <div className="form-group mb-3">
+              <Field
+                as={'input'}
+                name="phone"
+                className="form-control"
+                type="text"
+                placeholder="Enter your phone number"
+              />
+              <ErrorMsg name={'phone'} />
+            </div>
 
+            <div className="form-group mb-3">
+              <Field
+                as={'input'}
+                name="address"
+                className="form-control"
+                type="text"
+                placeholder="Address location of cooperation"
+              />
+              <ErrorMsg name={'address'} />
+            </div>
 
-        <div className="form-group mb-3">
-          <input
-          required
-            className="form-control"
-            type="text"
-            parsley-trigger="change" 
-            placeholder="Bull"
-            value = {lastname}
-            onChange={(e)  => setLastName(e.target.value)}
-          />
-          {lastnameError.length > 0 && <div style= {{margin: "5px",color: "red"}} >
-              {lastnameError}
-          </div> }
-        </div>
+            <div className="form-group mb-3">
+              <Field
+                as={'input'}
+                name="password"
+                className="form-control"
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+              />
+              <ErrorMsg name={'password'} />
+            </div>
 
-
-        <div className="form-group mb-3">
-          <input
-          required
-            className="form-control"
-            type="text"
-            parsley-trigger="change" 
-            placeholder="(+234)-555-5555-5555"
-            value = {phone}
-            onChange={(e)  => setPhone(e.target.value)}
-          />
-          {phoneError.length > 0 && <div style= {{margin: "5px",color: "red"}} >
-              {phoneError}
-          </div> }
-        </div>
-
-
-        <div className="form-group mb-3">
-          <input
-          required
-            className="form-control"
-            type="email"
-            placeholder="Email"
-            value = {email}
-            onChange={(e)  => setEmail(e.target.value)}
-
-          />
-            {emailError.length > 0 && <div style= {{margin: "5px",color: "red"}} >
-              {emailError}
-          </div> }
-        </div>
-        
-
-        <div className="form-group mb-3">
-          <input
-          required
-            className="form-control"
-            type="password"
-            id="password"
-            placeholder="Password"
-            value = {password}
-            onChange={(e)  => setPassword(e.target.value)}
-
-          />
-            {passwordError.length > 0 && <div style= {{margin: "5px",color: "red"}} >
-              {passwordError}
-          </div> }
-        </div>
-
-        <div className="form-group mb-3">
-          <input
-          required
-            className="form-control"
-            type="password"
-            id="password"
-            placeholder="Confirm Password"
-            value = {confirmPassword}
-            onChange={(e)  => setConfirmPassword(e.target.value)}
-
-          />
-            {confirmPasswordError.length > 0 && <div style= {{margin: "5px",color: "red"}} >
-              {confirmPasswordError}
-
-              
-          </div> }
-
-          {samePasswordError.length > 0 && <div style= {{margin: "5px",color: "red"}} >
-              {samePasswordError}
-
-              
-          </div> }
-        </div>
-
-        <div className="form-group mb-3">
-          <div className="custom-control custom-checkbox">
-            <input
-            r
-              type="checkbox"
-              className="custom-control-input"
-              id="checkbox-signin"
-              value = {checkBox}
-              onChange={(e)  => setCheckBox(e.currentTarget.checked)}
-
-            />
           
-            <label className="custom-control-label" for="checkbox-signin">
-              Remember me
-            </label>
-          
-          </div>
-        </div>
 
-        <div className="form-group text-center">
-          <button
-            className="btn btn-success btn-block waves-effect waves-light"
-            type="submit"
+            {/* <div className="form-group text-center">
+              {
+                isLoading ? 
+                  (<div>Loading, Please wait...</div>)
+                  : (
+                    <button
+                      className="btn btn-success btn-block waves-effect waves-light"
+                      type="submit"
+                    >
+                      Register
+                    </button>
+                  )
+              }
+            </div> */}
 
-          >
-            {" "}
+
+                      <div className="form-group text-center">
+                          {
+                            isLoading ? 
+                              ( <div className="sweet-loading">
+                                  <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                </div>)
+                              : (
+                                <button
+                                  className="btn btn-primary btn-block waves-effect waves-light"
+                                  type="submit"
+                                >
+                                  Register
+                                </button>
+                              )
+                          }
+                        </div>
+
            
-            {/* Register */}
-            {success ?  <i className="mdi mdi-36px mdi-spin mdi-loading" />: "Register" }
+            {/* <Link to="/auth/reset_password" className="text-muted">
+              <i className="mdi mdi-lock mr-1"></i> Forgot your password?
+            </Link> */}
 
-          </button>
-
-        </div>
-
-        <Link to="#" className="text-muted">
-          <i className="mdi mdi-lock mr-1"></i> Forgot your password?
-        </Link>
-        <div className="form-group">
-          <Link to="/auth/login" className="text-muted">
-            {" "}
+            <div className="form-group">
+            <Link to="/auth/login" className="text-muted">
             Have an account? Login
           </Link>
         </div>
-      </form>
+          </Form>
+        )}
+      </Formik>
+
+      
     </Fragment>
   );
 };

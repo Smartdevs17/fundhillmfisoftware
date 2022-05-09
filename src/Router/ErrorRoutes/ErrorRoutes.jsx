@@ -6,7 +6,7 @@ import { Route } from "react-router-dom";
 import {
 
   Error404
-} from  "../../pages/auth";
+} from  "../../pages/admin/auth";
 
 const ErrorRoutes = () => {
   return (

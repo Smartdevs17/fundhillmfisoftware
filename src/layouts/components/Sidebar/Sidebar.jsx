@@ -6,6 +6,8 @@ import {MdOutlineDashboard,} from "react-icons/md"
 import "./sidebar.css"
 
 function Sidebar() {
+
+
   return (
     <Fragment>
             <div className="left-side-menu">
@@ -101,7 +103,7 @@ function Sidebar() {
                                     <li><Link to="/admin/dashboard/withdrawal_receipt">Targeted Savings</Link></li>
                                     <li><Link to="/admin/dashboard/statement_of_account">Regular Savings</Link></li>
                                     <li><Link to="/admin/dashboard/account_history">Statment Account</Link></li>
-                                    <li><Link to="">My Transaction History</Link></li>
+                                    {/* <li><Link to="">My Transaction History</Link></li> */}
                                     {/* <li><Link to="">Targeted Savings</Link></li> */}
 
                                 </ul>
