@@ -1,8 +1,42 @@
-import {Fragment} from 'react'
+import {Fragment,useState} from 'react'
 import { Link } from "react-router-dom";
+import { api } from '../../../services';
+import { css } from "@emotion/react";
+import {DotLoader,ClipLoader,RingLoader,CircleLoader,RotateLoader,SyncLoader,BarLoader,BeatLoader,BounceLoader,ClockLoader,FadeLoader,GridLoader,HashLoader,MoonLoader,PacmanLoader} from "react-spinners";
+
+
+
+
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: green;
+  align-items: center;
+`;
+
 
 function AllBranch() {
+    const [isLoading, setIsLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
+    const [data,setData] = useState([]);
 
+    const allbranches = async() => {
+        setIsLoading(true)
+
+        const branches = await api
+                .service()
+                .fetch("/accounts/branches",true);
+
+                console.log(isLoading);
+            if(branches){
+                setData(branches);
+                setIsLoading(false)
+            }else{
+                setIsLoading(true)
+            }
+    }
 
     return (
         <Fragment>
@@ -41,76 +75,84 @@ function AllBranch() {
                                 <p className="sub-header">
                                 All The Branches that belong to the organisation.
                                 </p>
-                                <table id="datatable" className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
-                                <thead>
-                                    <tr>
-                                    <th>Branch ID</th>
-                                    <th>Branch Name </th>
-                                    <th>Branch Location</th>
-                                    <th>Head of Branch</th>
-                                    <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                         
-                                    <tr>
-                                        <td>Branch-1</td>
-                                        <td>Tudun Wada Branch</td>
-                                        <td>Tudun wada</td>
-                                        <td>Mustafa Yahaya</td>
-                                        <td>
-                                            <div className="d-flex align-items-center" style={{ gap: '10px' }}>
-                                                <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target="#modelId">
-                                                    View
-                                                </button>
-                                                {/* {`/admin/dashboard/updatebranch?branch_id=${branch?.branch_id}`}  */}
-                                                <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
-                                            </div>
 
-                                        </td>
-                                        </tr>
-                                </tbody>
-                                </table>
+                                                      <div className="sweet-loading text-center">
+                                                        <BounceLoader color={color} loading={loading} css={override}  size={150} />
+                                                    </div>
 
 
-                                {/* {`modelId${index}${branch?.id}`} */}
-                            {/* Modal */}
-                                    <div className="modal fade" id="modelId" tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                                    <div className="modal-dialog" role="document">
-                                        <div className="modal-content">
-                                        <div className="modal-header">
-                                            <h5 className="modal-title">Branch ID</h5>
-                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <div className="modal-body">
-                                            <div className="container-fluid">
-                                            <div className="card">
+                                        <div className="form-group text-center">
+                                                    
+                                                    {
+                                                        isLoading ? 
+                                                        ( <div className="sweet-loading">
+                                                            <ClipLoader color={color} loading={loading} css={override}  size={80} />
+                                                            </div>)
+                                                        : (
 
-                                                <div className="card-body">
-                                                    <h5 className="card-title">Branch Name: </h5>
-                                                    <p className="card-text">Branch Head: </p>
-                                                </div>
-                                                <ul className="list-group list-group-flush">
-                                                    <li className="list-group-item">Branch Location: </li>
-                                                    {/* <li className="list-group-item">Branch </li> */}
-                                                </ul>
-                                                <div className="card-body">
-                                                    <button type="button" style={{margin: "10px"}}  className="btn btn-danger"> <Link  style={{color: "#fff"}} to="#" > Delete </Link> </button>     
-                                                    {/* <button type="button" className="btn btn-primary"> <Link to="/admin/dashboard/updatebranch" style={{color: "#fff"}}> Update </Link> </button> */}
+                                                            <table id="datatable" className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
+                                                                <thead>
+                                                                    <tr>
+                                                                    <th>Branch ID</th>
+                                                                    <th>Branch Name </th>
+                                                                    <th>Branch Location</th>
+                                                                    <th>Head of Branch</th>
+                                                                    <th>Action</th>
+                                                                    </tr>
+                                                                </thead>                                
+                                                                <tbody>
+                                                        
+                                                                    <tr>
+                                                                        <td>Branch-1</td>
+                                                                        <td>Tudun Wada Branch</td>
+                                                                        <td>Tudun wada</td>
+                                                                        <td>Mustafa Yahaya</td>
+                                                                        <td>
+                                                                            <div className="d-flex align-items-center" style={{ gap: '10px' }}>
+                                                                                {/* <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target="#modelId">
+                                                                                    View
+                                                                                </button> */}
+                                                                                {/* {`/admin/dashboard/updatebranch?branch_id=${branch?.branch_id}`}  */}
+                                                                                <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
+                                                                                <button type="button" style={{margin: "10px"}}  className="btn btn-danger"> <Link  style={{color: "#fff"}} to={`/admin/dashboard/deletebranch?branch_id=${1}`} > Delete </Link> </button>     
 
-                                                </div>
-                                                </div>
+                                                                            </div>
 
-                                            </div>
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                                                                        </td>
+                                                                        </tr>
+
+                                                                     {
+                                                                        data.map((branch) => {
+                                                                            return(
+                                                                                <tr>
+                                                                                <td> {branch.branch_id} </td>
+                                                                                <td> {branch.branch_name} </td>
+                                                                                <td> {branch.branch_address} </td>
+                                                                                <td> {branch.branch_head} </td>
+                                                                                <td>
+                                                                                    <div className="d-flex align-items-center" style={{ gap: '10px' }}>
+                                                                                        <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
+                                                                                        <button type="button" style={{margin: "10px"}}  className="btn btn-danger"> <Link  style={{color: "#fff"}} to={`/admin/dashboard/deletebranch?branch_id=${1}`} > Delete </Link> </button>     
+                
+                                                                                    </div>
+                
+                                                                                </td>
+                                                                                </tr>
+                                                                            )
+                                                                        })
+                                                                     }
+
+
+                                                                </tbody>
+                                                                </table>
+
+                                                           
+                                                        )
+                                                    }
+                                                      </div>
+                        
+
+          
 
 
 

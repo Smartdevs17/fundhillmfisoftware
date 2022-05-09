@@ -1,7 +1,6 @@
 // STYLES
 import "./index.css";
 import 'react-toastify/dist/ReactToastify.css';
-
 import { StrictMode } from "react";
 import { render } from "react-dom";
 import { ToastContainer } from 'react-toastify';

@@ -1,13 +1,10 @@
 import {Fragment,useEffect } from 'react'
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Dashboard.css"
 
 function Dashboard() {
 
-  useEffect(() => {
-    //  window.location.reload() 
-  },[]);
-  
+    
 
   return (
     
@@ -144,141 +141,7 @@ function Dashboard() {
 
 
                       {/* end row */}
-                      <div className="row">
-                        <div className="col-xl-7">
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="card-box">
-                                <h4 className="header-title mb-3">Inbox</h4>
-                                <div className="inbox-widget slimscroll" style={{maxHeight: 324}}>
-                                  <Link to="#">
-                                    <div className="inbox-item">
-                                      <div className="inbox-item-img"><img src="/assets/images/users/avatar-1.jpg" className="rounded-circle" alt="" /></div>
-                                      <p className="inbox-item-author">Chadengle</p>
-                                      <p className="inbox-item-text">Hey! there I'm available...</p>
-                                      <p className="inbox-item-date">13:40 PM</p>
-                                    </div>
-                                  </Link>
-                                  <Link to="#">
-                                    <div className="inbox-item">
-                                      <div className="inbox-item-img"><img src="/assets/images/users/avatar-2.jpg" className="rounded-circle" alt="" /></div>
-                                      <p className="inbox-item-author">Tomaslau</p>
-                                      <p className="inbox-item-text text-truncate">I've finished it! See you so...</p>
-                                      <p className="inbox-item-date">13:34 PM</p>
-                                    </div>
-                                  </Link>
-                                  <Link to="#">
-                                    <div className="inbox-item">
-                                      <div className="inbox-item-img"><img src="/assets/images/users/avatar-3.jpg" className="rounded-circle" alt="" /></div>
-                                      <p className="inbox-item-author">Stillnotdavid</p>
-                                      <p className="inbox-item-text">This theme is awesome!</p>
-                                      <p className="inbox-item-date">13:17 PM</p>
-                                    </div>
-                                  </Link>
-                                  <Link to="#">
-                                    <div className="inbox-item">
-                                      <div className="inbox-item-img"><img src="assets/images/users/avatar-4.jpg" className="rounded-circle" alt="" /></div>
-                                      <p className="inbox-item-author">Kurafire</p>
-                                      <p className="inbox-item-text">Nice to meet you</p>
-                                      <p className="inbox-item-date">12:20 PM</p>
-                                    </div>
-                                  </Link>
-                                  <Link to="#">
-                                    <div className="inbox-item">
-                                      <div className="inbox-item-img"><img src="assets/images/users/avatar-5.jpg" className="rounded-circle" alt="" /></div>
-                                      <p className="inbox-item-author">Shahedk</p>
-                                      <p className="inbox-item-text">Hey! there I'm available...</p>
-                                      <p className="inbox-item-date">10:15 AM</p>
-                                    </div>
-                                  </Link>
-                           
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="card-box">
-                                <h4 className="header-title mb-3">Sales Statistics</h4>
-                                <p className="font-weight-semibold mb-3">iMacs <span className="text-danger float-right"><b>78%</b></span></p>
-                                <div className="progress" style={{height: 10}}>
-                                  <div className="progress-bar progress-bar-striped bg-danger" role="progressbar" style={{width: '78%'}} aria-valuenow={78} aria-valuemin={0} aria-valuemax={78} />
-                                </div>
-                              </div>
-                              <div className="card-box">
-                                <h4 className="header-title mb-3">Monthly Sales</h4>
-                                <p className="font-weight-semibold mb-2">Macbooks <span className="text-success float-right"><b>25%</b></span></p>
-                                <div className="progress" style={{height: 10}}>
-                                  <div className="progress-bar progress-bar-striped bg-success" role="progressbar" style={{width: '25%'}} aria-valuenow={25} aria-valuemin={0} aria-valuemax={100} />
-                                </div>
-                              </div>
-                              <div className="card-box">
-                                <h4 className="header-title mb-3">Daily Sales</h4>
-                                <p className="font-weight-semibold mb-2">Mobiles <span className="text-warning float-right"><b>75%</b></span></p>
-                                <div className="progress" style={{height: 10}}>
-                                  <div className="progress-bar progress-bar-striped bg-warning" role="progressbar" style={{width: '75%'}} aria-valuenow={75} aria-valuemin={0} aria-valuemax={100} />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {/* end col*/}
-                        <div className="col-xl-5">
-                          <div className="card-box">
-                            <h4 className="header-title mb-3">Top Contracts MFIs</h4>
-                            <div className="table-responsive">
-                              <table className="table table-bordered table-nowrap mb-0">
-                                <thead>
-                                  <tr>
-                                    <th>Company</th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>Status</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th className="text-muted">Apple Technology</th>
-                                    <td>20/02/2014</td>
-                                    <td>19/02/2020</td>
-                                    <td><span className="badge badge-success">Paid</span></td>
-                                  </tr>
-                                  <tr>
-                                    <th className="text-muted">Envato Pty Ltd.</th>
-                                    <td>20/02/2014</td>
-                                    <td>19/02/2020</td>
-                                    <td><span className="badge badge-danger">Unpaid</span></td>
-                                  </tr>
-                                  <tr>
-                                    <th className="text-muted">Dribbble LLC.</th>
-                                    <td>20/02/2014</td>
-                                    <td>19/02/2020</td>
-                                    <td><span className="badge badge-success">Paid</span></td>
-                                  </tr>
-                                  <tr>
-                                    <th className="text-muted">Adobe Family</th>
-                                    <td>20/02/2014</td>
-                                    <td>19/02/2020</td>
-                                    <td><span className="badge badge-success">Paid</span></td>
-                                  </tr>
-                                  <tr>
-                                    <th className="text-muted">Apple Technology</th>
-                                    <td>20/02/2014</td>
-                                    <td>19/02/2020</td>
-                                    <td><span className="badge badge-danger">Unpaid</span></td>
-                                  </tr>
-                                  <tr>
-                                    <th className="text-muted">Envato Pty Ltd.</th>
-                                    <td>20/02/2014</td>
-                                    <td>19/02/2020</td>
-                                    <td><span className="badge badge-success">Paid</span></td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                        {/* end col*/}
-                      </div>
-                      {/* end row */}
+             
                     </div>
                      {/* end container-fluid */}
                   </div>

@@ -9,16 +9,16 @@ const App = () => {
 
 
   // SCRIPTS
-  LoadScripts("/asset/js/jquery.min.js");
-  LoadScripts("/assets/js/vendor.min.js");
+  // LoadScripts("/asset/js/jquery.min.js");
+  // LoadScripts("/assets/js/vendor.min.js");
   
-  LoadScripts("/assets/libs/sweetalert2/sweetalert2.min.js");
-  LoadScripts("/assets/js/pages/sweet-alerts.init.js");
+  // LoadScripts("/assets/libs/sweetalert2/sweetalert2.min.js");
+  // LoadScripts("/assets/js/pages/sweet-alerts.init.js");
 
-  LoadScripts("/assets/libs/morris-js/morris.min.js");
-  LoadScripts("/assets/libs/raphael/raphael.min.js");
-  LoadScripts("/assets/js/pages/dashboard.init.js");
-  LoadScripts("/assets/libs/custombox/custombox.min.js");
+  // LoadScripts("/assets/libs/morris-js/morris.min.js");
+  // LoadScripts("/assets/libs/raphael/raphael.min.js");
+  // LoadScripts("/assets/js/pages/dashboard.init.js");
+  // LoadScripts("/assets/libs/custombox/custombox.min.js");
 
   LoadScripts("/assets/libs/datatables/jquery.dataTables.min.js");
   LoadScripts("/assets/libs/datatables/dataTables.bootstrap4.min.js");
@@ -34,10 +34,9 @@ const App = () => {
   LoadScripts("/assets/libs/datatables/dataTables.keyTable.min.js");
   LoadScripts("/assets/libs/datatables/dataTables.select.min.js");
   LoadScripts("/assets/js/pages/datatables.init.js");
-  LoadScripts("/assets/js/app.min.js");
+  // LoadScripts("/assets/js/app.min.js");
 
-  // LoadScripts("/assets/libs");
-  // LoadScripts("/assets/libs");
+
 
 
   LoadScripts("/asset/js/popper.min.js");

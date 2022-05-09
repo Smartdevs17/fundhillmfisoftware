@@ -3,6 +3,13 @@ import { Link } from "react-router-dom";
 
 function EmailConfirm() {
 
+
+  const handleClick = (e) => {
+        e.preventDefault()
+        const user = localStorage.getItem("user")
+        console.log(typeof(user));
+  }
+
     return (
         <Fragment>
 <div className="my-5">
@@ -19,10 +26,15 @@ function EmailConfirm() {
                 </div>
         </div>
         {/*end diamond*/}
-        <div className="text-center">
+        <div className="text-center col-sm-12" style={{backgroudColor: "#d3d3d3"}}>
           <h3 className="text-danger">Confirm your Email</h3>
-          <p className="text-muted">Thanks for signing up!Please check your inbox for a confirmation email. Click the link in the email to confirm your email address.</p>
-          <div className="button-list">
+          {/* <p className="text-muted">Thanks for signing up!Please check your inbox for a confirmation email. Click the link in the email to confirm your email address.</p> */}
+          <p className="text-muted">Please check your inbox for a confirmation email. Click the link in the email to confirm your email address</p>
+          <p className="text-muted">After you confirm click Continue</p>
+          <div style={{margin: "10px"}}>
+          <Link onClick={handleClick} to="/resend_email" style={{fontSize: "20px"}}> Re-send confirmation email</Link>
+          </div>
+          <div className="button-list" style={{gap: "15px"}}>
           <Link className="btn btn-success waves-effect waves-light" to="/auth/login"> Continue</Link>
           <Link className="btn btn-primary waves-effect waves-light" to="/auth/register"> Back to Sign in</Link>
           </div>

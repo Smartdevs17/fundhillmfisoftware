@@ -7,6 +7,7 @@ import { AuthLayout } from "../../layouts"
 import {
   Login,
   Register,
+  ResetPassword
 } from  "../../pages/admin/auth";
 
 const AuthRoutes = () => {
@@ -14,6 +15,7 @@ const AuthRoutes = () => {
     <Route path="auth" element={<AuthLayout />}>
       <Route path="login" element={<Login />}></Route>
       <Route path="register" element={<Register />}></Route>
+      <Route path="reset_password" element={<ResetPassword />}></Route>
     </Route>
     
   );

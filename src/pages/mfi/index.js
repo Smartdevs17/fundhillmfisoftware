@@ -1,5 +1,3 @@
-import Login  from "./auth/Login/Login"
-import Register from "./auth/Register/Register"
 import NewBranch from "./branch/NewBranch"
 import AllBranch from "./branch/AllBranch"
 import UpdateBranch from "./branch/UpdateBranch"
@@ -45,8 +43,6 @@ import NewExpenses from "./expenses/NewExpenses"
 import AllExpenses from "./expenses/AllExpenses"
 
 export {
-    Login,
-    Register,
     NewBranch,
     AllBranch,
     UpdateBranch,

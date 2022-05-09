@@ -1,18 +1,57 @@
-import { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Fragment, useState,useContext } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import {object as yupObject,string as yupString} from "yup";
+import { ErrorMsg } from "../../../layouts/components";
+import { api  } from "../../../services";
+import { toast } from "react-toastify";
+import { css } from "@emotion/react";
+import {DotLoader} from "react-spinners";
+import {Context} from "../../../context/Context";
 function NewBranch() {
-  const [bid, setBId] = useState("");
-  const [bname, setBName] = useState("");
+  const {user} = useContext(Context)
+  const [isLoading, setIsLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ADD8E6");
   const [bhead, setBHead] = useState("");
-  const [baddress, setBAddress] = useState("");
-//   const [bnumber, setBNumber] = useState("")
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-      e.preventDefault()
 
-      console.log(bid,bname,bhead,baddress)
-  }
+
+
+  const initialFormState = () => ({
+    // branch_id: "",
+    branch_name: "",
+    branch_head_id: "",
+    branch_address: ""
+  });
+
+  const validationSchema = yupObject().shape({
+    // branch_id: yupString()
+    // .required("Branch ID is required"),
+    branch_name: yupString()
+    .required("Branch name is required"),
+    branch_address: yupString()
+    .required("Branch Address is required"),
+    branch_head_id: yupString()
+  })
+
+    const create_branch = async(values) => {
+          setIsLoading(true);
+          console.log(values)
+
+          const response = await api
+                .service()
+                .push("/accounts/branch/create_branch",values,true)
+
+          if(api.isSuccessful(response)){
+            setTimeout( () => {
+              toast.success("Branch successfully created!");
+              navigate("/admin/allbranch",{replace: true})
+            },0);
+          }
+          setIsLoading(false);
+    }
 
   return (
     <Fragment>
@@ -45,24 +84,17 @@ function NewBranch() {
               <div className="col-12">
                 <div className="card-box">
                   <h4 className="header-title mb-4">New Branch</h4>
-                  <form action="" onSubmit={handleSubmit} >
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-text-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Branch ID
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          id="example-text-input"
-                          onChange={e => setBId(e.target.value)}
-                        />
-                      </div>
-                    </div>
 
+                  <Formik 
+                    initialValues={initialFormState()}
+                    validationSchema= {validationSchema}
+                    onSubmit = {async (values,actions) => {
+                      await create_branch(values);
+                    }}
+                   >
+                      {(props) => (
+                        <Form  >
+                 
                     <div className="form-group row">
                       <label
                         htmlFor="example-text-input"
@@ -71,13 +103,15 @@ function NewBranch() {
                         Branch Name
                       </label>
                       <div className="col-lg-10">
-                        <input
-                          className="form-control"
+                        <Field 
+                          as = {"input"}
                           type="text"
-                          id="example-text-input"
-                          onChange={e => setBName(e.target.value)}
-
+                          className= "form-control"
+                          name="branch_name"
                         />
+                      <ErrorMsg name={
+                        "branch_name"
+                      } />
                       </div>
                     </div>
 
@@ -89,14 +123,12 @@ function NewBranch() {
                         Branch Head
                       </label>
                       <div className="col-lg-10">
-                        <select value={bhead} className="form-control" data-toggle="select2"
-                          onChange={e => setBHead(e.target.value)}
-                            >
+                          <Field as="select" name="branch_head_id" className="form-control">
                           <option>Select One</option>
                           <option value={"Staff One"} >Staff 1</option>
                           <option value={"Staff Two"} >Staff 2</option>
                           <option value={"Staff Three"} >Staff 3</option>
-                        </select>
+                          </Field>
                       </div>
                     </div>
 
@@ -108,37 +140,37 @@ function NewBranch() {
                         Branch Address
                       </label>
                       <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          id="example-text-input"
-                          onChange={e => setBAddress(e.target.value)}
-
-                        />
+                        <Field 
+                          as = {"input"}
+                          name="branch_address"
+                          className = "form-control"
+                          />
+                          <ErrorMsg name={"branch_address"} />
                       </div>
                     </div>
 
-                    {/* <div className="form-group row">
-                      <label
-                        htmlFor="example-text-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Branch Number
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          id="example-text-input"
-                          onChange={e => setBNumber(e.target.value)}
-                        />
-                      </div>
-                    </div> */}
+           
 
-                    <button type="submit" className="btn btn-primary btn-block">
-                      Submit
-                    </button>
-                  </form>
+                    <div className="form-group text-center">
+                          {
+                            isLoading ? 
+                              ( <div className="sweet-loading">
+                                  <DotLoader color={color} loading={loading}  size={80} />
+                                </div>)
+                              : (
+                                <button
+                                  className="btn btn-primary btn-block waves-effect waves-light"
+                                  type="submit"
+                                >
+                                  Submit
+                                </button>
+                              )
+                          }
+                        </div>
+                  </Form>
+                      )}
+                  </Formik>
+                  
 
                   <div className="form-group row"></div>
                 </div>
