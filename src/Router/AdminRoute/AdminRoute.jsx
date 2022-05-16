@@ -28,7 +28,8 @@ import {NewBranch,AllBranch, UpdateBranch,NewCustomer,AllCustomer,EditCustomer,
         Dashboard,
         NewExpenses,
         AllExpenses,
-        Profile} from "../../pages/admin/"
+        Profile,
+        Home} from "../../pages/admin/"
 import { AdminLayout } from '../../layouts'
 
 

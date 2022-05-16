@@ -17,10 +17,10 @@ function DailyReport() {
                                 <div className="page-title-right">
                                   <ol className="breadcrumb m-0">
                                     <li className="breadcrumb-item"><Link to="#">FundHill</Link></li>
-                                    <li className="breadcrumb-item active">Report</li>
+                                    <li className="breadcrumb-item active">Admin</li>
                                   </ol>
                                 </div>
-                                <h4 className="page-title">Daily Report</h4>
+                                <h4 className="page-title">Report</h4>
                               </div>
                             </div>
                           </div>     

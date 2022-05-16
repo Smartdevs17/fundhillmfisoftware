@@ -36,9 +36,6 @@ function PendingLoan() {
                             <div className="col-12">
                             <div className="card-box">
                                 <h4 className="header-title">All Pending Loans</h4>
-                                <p className="sub-header">
-                                DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.
-                                </p>
 
                                 <table id="" className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
                                 <thead>

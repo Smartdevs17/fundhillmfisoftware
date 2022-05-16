@@ -24,6 +24,8 @@ function Footer() {
             {/* </div> */}
             <Helmet >
             <script src="/assets/js/vendor.min.js" type="text/javascript"></script>
+            <script src="/assets/libs/rwd-table/rwd-table.min.js" type="text/javascript"></script>
+
             <script src="/assets/libs/sweetalert2/sweetalert2.min.js" type="text/javascript"></script>
             <script src="/assets/js/pages/sweet-alerts.init.js" type="text/javascript"></script>
             <script src="/assets/libs/morris-js/morris.min.js" type="text/javascript"></script>

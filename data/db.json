@@ -1,0 +1,60 @@
+{
+    "marketer": [
+        {
+            "id": 1,
+            "name": "Smart Developer",
+            "phone": "08080968589",
+            "email": "smartdeveloper@gmail.com",
+            "branch": "Abuja Branch",
+            "role": "agent"
+        },
+        {
+            "id": 2,
+            "name": "John Doe",
+            "phone": "08080968589",
+            "email": "johndoe@gmail.com",
+            "branch": "lagos Branch",
+            "role": "agent"
+        },
+        {
+            "id": 1,
+            "name": "Bella Shurmda",
+            "phone": "08080968589",
+            "email": "smartdeveloper@gmail.com",
+            "branch": "Abuja Branch",
+            "role": "agent"
+        },
+        {
+            "id": 1,
+            "name": "Smart Developer",
+            "phone": "08080968589",
+            "email": "smartdeveloper@gmail.com",
+            "branch": "Abuja Branch",
+            "role": "agent"
+        },
+        {
+            "id": 1,
+            "name": "Smart Developer",
+            "phone": "08080968589",
+            "email": "smartdeveloper@gmail.com",
+            "branch": "Abuja Branch",
+            "role": "agent"
+        },
+        {
+            "id": 1,
+            "name": "Smart Developer",
+            "phone": "08080968589",
+            "email": "smartdeveloper@gmail.com",
+            "branch": "Abuja Branch",
+            "role": "agent"
+        },
+        {
+            "id": 1,
+            "name": "Smart Developer",
+            "phone": "08080968589",
+            "email": "smartdeveloper@gmail.com",
+            "branch": "Abuja Branch",
+            "role": "agent"
+        }
+    ]
+}

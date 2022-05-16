@@ -23,7 +23,7 @@ function TargetedReport() {
                                 <ol className="breadcrumb m-0">
                                     <li className="breadcrumb-item"><Link to="#">FundHill</Link></li>
                                     <li className="breadcrumb-item"><Link to="#">Admin</Link></li>
-                                    <li className="breadcrumb-item active">All Customers</li>
+                                    <li className="breadcrumb-item active">Report</li>
                                 </ol>
                                 </div>
                                 <h4 className="page-title">Total Regular Savings Made Today</h4>
