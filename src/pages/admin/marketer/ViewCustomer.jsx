@@ -22,7 +22,7 @@ function ViewCustomer() {
                                 <ol className="breadcrumb m-0">
                                     <li className="breadcrumb-item"><Link to="#">FundHill</Link></li>
                                     <li className="breadcrumb-item"><Link to="#">Admin</Link></li>
-                                    <li className="breadcrumb-item active">All Customers</li>
+                                    <li className="breadcrumb-item active">Marketer</li>
                                 </ol>
                                 </div>
                                 <h4 className="page-title">All Marketer Customers</h4>
@@ -38,9 +38,6 @@ function ViewCustomer() {
                                 <div className="col-12">
                                     <div className="card-box">
                                     <h4 className="header-title">Marketer Name: </h4>
-                                    <p className="sub-header">
-                                        The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. The core library provides the based framework upon which plug-ins can built.
-                                    </p>
                                     <table id="datatable-buttons" className="table table-bordered table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
                                     <thead>
                                     <tr>

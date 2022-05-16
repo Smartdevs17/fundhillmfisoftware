@@ -30,6 +30,7 @@ import AllMarketer from "./marketer/AllMarketer";
 import ViewCustomer from "./marketer/ViewCustomer";
 import MarketerAccount from "./marketer/MarketerAccount";
 import EsusPerform from "./esus/EsusPerform";
+import EsusuTransaction from "./esus/EsusuTransaction";
 import QuickCustomer from "./customer/QuickCustomer";
 import EsusuDReciept from "./esus/EsusuDReciept"
 import EsusuWReciept from "./esus/EsusuWReciept"
@@ -43,6 +44,7 @@ import Dashboard from "./dashboard/Dashboard"
 import Home from "../home/Home";
 import NewExpenses from "./expenses/NewExpenses"
 import AllExpenses from "./expenses/AllExpenses"
+import Profile from "./profile/Profile";
 
 export {
     Login,
@@ -77,6 +79,7 @@ export {
     ViewCustomer,
     MarketerAccount,
     EsusPerform,
+    EsusuTransaction,
     QuickCustomer,
     EsusuDReciept,
     EsusuWReciept,
@@ -90,5 +93,6 @@ export {
     Home,
     AllExpenses,
     NewExpenses,
+    Profile
 }
 

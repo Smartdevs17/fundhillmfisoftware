@@ -25,7 +25,7 @@ function DepositRecipt() {
                           <li className="breadcrumb-item">
                             <Link to="#">Admin</Link>
                           </li>
-                          <li className="breadcrumb-item active">Recipt</li>
+                          <li className="breadcrumb-item active">Savings Plan</li>
                         </ol>
                       </div>
                       <h4 className="page-title">Deposit Recipts</h4>

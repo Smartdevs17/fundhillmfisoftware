@@ -45,7 +45,7 @@ function AllExpenses() {
                                     <li className="breadcrumb-item active">Expenses</li>
                                 </ol>
                                 </div>
-                                <h4 className="page-title">All Expenses</h4>
+                                <h4 className="page-title">All Expenses made by the company..</h4>
                             </div>
                             </div>
                         </div>     
@@ -56,10 +56,7 @@ function AllExpenses() {
                             <div className="col-12">
                             <div className="card-box">
                                 <h4 className="header-title">All Expenses</h4>
-                                <p className="sub-header">
-                                All Expenses made by the company..
-                                </p>
-                                <table id="datatable" className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
+                                <table  className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
                                 <thead>
                                     <tr>
                                     <th> ID </th>
@@ -81,17 +78,20 @@ function AllExpenses() {
                                     <td>2022-04-01</td>
                                 
                                     <td>
-                                    {/* Button trigger modal */}
-                                    <button id='expenses' type="button" className="btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-target="#expensesId">
-                                    Edit
-                                    </button>
-                                    </td>
-                                    <td>  
-                                    <button id="delete-expenses" type="button" className="btn btn-outline-danger waves-effect waves-light">
-                                            Delete
-                                    </button>
-                                     </td>
+                                 
 
+                                    <div className="" style={{display: "flex",justifyContent: "space-between",gap: "10px"}}>
+                                        {/* Button trigger modal */}
+                                        <button id='expenses' type="button" className="btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-target="#expensesId">
+                                        Edit
+                                        </button>
+
+                                        <button id="delete-expenses" type="button" className="btn btn-outline-danger waves-effect waves-light">
+                                            Delete
+                                        </button>
+                                    </div>
+                                    </td>
+                                
                                     {/* <td> <button type="button" className="btn btn-primary"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}> Update </Link> </button> </td> */}
                                     </tr>
                                 </tbody>

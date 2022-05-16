@@ -40,9 +40,7 @@ function AllMarketer() {
                                 <div className="col-12">
                                     <div className="card-box">
                                     <h4 className="header-title">Maketers</h4>
-                                    <p className="sub-header">
-                                        The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. The core library provides the based framework upon which plug-ins can built.
-                                    </p>
+        
                                     <table id="datatable-buttons" className="table table-bordered table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
                                     <thead>
                                     <tr>
@@ -91,8 +89,8 @@ function AllMarketer() {
                                             <span aria-hidden="true">×</span>
                                             </button>
                                         </div>
-                                        <div className="modal-body">
-                                            <div className="container-fluid">
+                                        {/* <div className="modal-body"> */}
+                                            <div className="modal-content">
 
 
                                             <div className="card">
@@ -114,7 +112,7 @@ function AllMarketer() {
 
 
                                             </div>
-                                        </div>
+                                        {/* </div> */}
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                                         </div>

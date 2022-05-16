@@ -15,7 +15,7 @@ function EmailConfirm() {
 
   const handleClick = async(e) => {
         e.preventDefault()
-        const email = localStorage.getItem("user")
+        const email = localStorage.getItem("email")
         // console.log(typeof(user));
         // console.log(email)
         // console.log(user.email)

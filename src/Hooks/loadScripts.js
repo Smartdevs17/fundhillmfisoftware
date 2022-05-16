@@ -5,7 +5,6 @@ const LoadScripts = resourceUrl => {
     const script = document.createElement("script");
     script.src = resourceUrl;
     script.async = false;
-    script.onload = () => this.scriptLoaded()
     document.body.appendChild(script);
     console.log(script)
 

@@ -1,17 +1,89 @@
-import { Fragment,useState } from 'react'
-import { Link } from "react-router-dom";
+// STYLES
+import { Formik, Form, Field } from "formik";
+import { object as yupObject, string as yupString } from 'yup';
+import { Fragment, useState } from "react";
+import { api } from "../../../services";
+import { ErrorMsg } from "../../../layouts/components";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import { css } from "@emotion/react";
+import {DotLoader} from "react-spinners";
+
+
+
+
+function genPassword() {
+    var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var passwordLength = 12;
+    var password = "";
+ for (var i = 0; i <= passwordLength; i++) {
+   var randomNumber = Math.floor(Math.random() * chars.length);
+   password += chars.substring(randomNumber, randomNumber +1);
+  }
+        return password;
+ }
+
+// console.log(genPassword())
+// CONTEXT
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
+const initialFormState = () => ({
+  first_name: "",
+  last_name: "",
+  dob: "",
+  phone: "",
+  email: "",
+  user_role: "",
+  password: genPassword()
+
+});
+
+const validationSchema = yupObject().shape({
+  first_name: yupString()
+  .required("first name is required"),
+  last_name: yupString()
+  .required("last name is require"),
+  organisation_name: yupString()
+  .required("organisation name is required"),
+  email: yupString()
+  .required("email is required"),
+  phone: yupString()
+  .required("phone is required"),
+  user_role: yupString()
+  .required("Marketer role is required")
+})
 
 function NewMarketer() {
 
-    const [marketer,setMarketer] = useState("");
-    const [branch, setBranch] = useState("")
-    const [role, setRole] = useState("");
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        console.log(marketer,branch,role);
-
+    const [isLoading, setIsLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
+    // #90EE90
+    const navigate = useNavigate();
+  
+    
+  
+    const marketer = async(values) => {
+          setIsLoading(true);
+          console.log(values)
+          // let data = [values];
+          //     data = [...data,{"user_role":"admin"}]
+          //     console.log(data);
+          const response = await api
+                .service()
+                .push("/accounts/manage/signup/",values,true,true)
+  
+          if(api.isSuccessful(response)){
+            setTimeout(() => {
+              toast.success('New marketer added successfully!');
+              navigate("/admin/dashboard/new_marketer",{replace: true})
+            }, 0);
+          }
+          setIsLoading(false);
     }
 
 
@@ -32,7 +104,7 @@ function NewMarketer() {
                                 <li className="breadcrumb-item active">Marketer</li>
                             </ol>
                             </div>
-                            <h4 className="page-title">Add New Markteter</h4>
+                            <h4 className="page-title">Add New Marketer</h4>
                         </div>
                         </div>
                     </div>     
@@ -44,52 +116,151 @@ function NewMarketer() {
                         <div className="col-12">
                         <div className="card-box">
                             <h4 className="header-title mb-4">New Marketer</h4>
-                            <form action="" onSubmit={handleSubmit}>
+                            <Formik 
+                                enableReinitialize={true}
+                                initialValues={initialFormState()}
+                                validationSchema={validationSchema}
+                                onSubmit={async (values,actions) => {
+                                await marketer(values)
+                                }}
+                            >
 
-                            
-                        <div className="form-group row">
-                        <label htmlFor="example-tel-input" className="col-lg-2 col-form-label">Choose Staff</label>
-                        <div className="col-lg-10">
-                            <select className="form-control" data-toggle="select2" value={marketer}  onChange={(e)  => setMarketer(e.target.value)} >
-                                    <option>Select One</option>
-                                        <option value={"employee-1"}>Marketer 1</option>
-                                        <option value={"employee-2"}>Marketer 2</option>
-                                        <option value={"employee-3"}>Marketer 3</option>
-                            </select>
-                        </div>     
-                        </div>
+                                {(props) => (
+                                    <Form >
+                                    <div className="form-group row">
+                                    <label
+                                        htmlFor="example-text-input"
+                                        className="col-lg-2 col-form-label"
+                                    >
+                                        First Name
+                                    </label>
+                                    <div className="col-lg-10">
+                                        <Field
+                                        as={'input'}
+                                        name="first_name"
+                                        type="text"
+                                        className="form-control"
+                                        />
+                                    <ErrorMsg name={'first_name'} />
+                                    </div>
+                                    </div>
 
-                        <div className="form-group row">
-                        <label htmlFor="example-tel-input" className="col-lg-2 col-form-label">Choose Branch</label>
-                        <div className="col-lg-10">
-                            <select className="form-control" data-toggle="select2" value={branch}  onChange={(e)  => setBranch(e.target.value)}>
-                                    <option>Select One</option>
-                                        <option value={"branch-1"}>Branch 1</option>
-                                        <option value={"branch-2"}>Branch 2</option>
-                                        <option value={"branch-3"}>Branch 3</option>
-                            </select>
-                        </div>     
-                        </div>
+                                    <div className="form-group row">
+                                    <label
+                                        htmlFor="example-text-input"
+                                        className="col-lg-2 col-form-label"
+                                    >
+                                        Last Name
+                                    </label>
+                                    <div className="col-lg-10">
+                                        <Field
+                                        as={"input"}
+                                        name="last_name"
+                                        type="text"
+                                        className="form-control"
+                                        />
+                                        <ErrorMsg name={'last_name'} />
+                                    </div>
+                                    </div>
 
-                    
-                        <div className="form-group row">
-                            <label htmlFor="example-tel-input" className="col-lg-2 col-form-label">Attach Role</label>
-                            <div className="col-lg-10">
-                                <select className="form-control" data-toggle="select2" value={role} onChange={(e)  => setRole(e.target.value)}>
+
+
+                                    <div className="form-group row">
+                                    <label
+                                        htmlFor="example-text-input"
+                                        className="col-lg-2 col-form-label"
+                                    >
+                                        Email
+                                    </label>
+                                    <div className="col-lg-10">
+                                        <Field
+                                        as={"input"}
+                                        name="email"
+                                        type="text"
+                                        className="form-control"
+                                        />
+                                    <ErrorMsg name={'email'} />
+                                    </div>
+                                    </div>
+
+
+                                    <div className="form-group row">
+                                    <label
+                                        htmlFor="example-tel-input"
+                                        className="col-lg-2 col-form-label"
+                                    >
+                                        Organisation Name
+                                    </label>
+                                    <div className="col-lg-10">
+                                    <Field 
+                                        as={"input"}
+                                        name="organisation_name"
+                                        type="text"
+                                        className="form-control"
+                                        />
+                                    <ErrorMsg name={'organisation_name'} />
+                                    </div>
+                                    </div>
+
+                                    <div className="form-group row">
+                                    <label
+                                        htmlFor="example-text-input"
+                                        className="col-lg-2 col-form-label"
+                                    >
+                                        Phone
+                                    </label>
+                                    <div className="col-lg-10">
+                                        <Field
+                                        className="form-control"
+                                        type="text"
+                                        as={"input"}
+                                        name="phone"
+
+                                        />
+                                        <ErrorMsg name={'phone'} />
+                                    </div>
+                                    </div>
+
+
+
+
+                                    <div className="form-group row">
+                                    <label
+                                        htmlFor="example-tel-input"
+                                        className="col-lg-2 col-form-label"
+                                    >
+                                        Marketer Role
+                                    </label>
+                                    <div className="col-lg-10">
+                                        <Field as="select" name="user_role" className="form-control">
                                         <option>Select One</option>
-                                            <option value={"admin"}>Admin</option>
-                                            <option value={"manager"}>Manager</option>
-                                            <option value={"teller"}>Teller</option>
-                                            <option value={"marketer"}>Marketer</option>
-                               </select>
-                            </div>
-                            
-                        </div> 
-                    
-                        <button type="submit" className="btn btn-primary ">Add Marketer</button>
+                                        <option value="ADMIN" >Admin</option>
+                                        <option value="MANAGER" >Manager</option>
+                                        <option value="TELLAR" >Teller</option>
+                                        <option value="AGENT" >Agent</option>
+                                        </Field>
+                                        <ErrorMsg name={'user_role'} />
+                                    </div>
+                                    </div>                             
 
-                        </form>
 
+
+                                <div className="form-group text-center">
+                                    {
+                                        isLoading ? 
+                                        ( <div className="sweet-loading">
+                                            <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                            </div>)
+                                        : (
+                                            <button type="submit" className="btn btn-primary btn-lg btn-block">
+                                            New Marketer
+                                            </button>
+                                        )
+                                    }
+                                    </div>
+                                </Form>
+                                )}
+                            </Formik>
                         <div className="form-group row">
 
                         </div>
