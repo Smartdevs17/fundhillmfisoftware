@@ -56,7 +56,7 @@ function QuickCustomer() {
                       <li className="breadcrumb-item active">Customer</li>
                     </ol>
                   </div>
-                  <h4 className="page-title">Add New Customer</h4>
+                  <h4 className="page-title">Register Quick Customer</h4>
                 </div>
               </div>
             </div>

@@ -57,7 +57,7 @@ const Register = () => {
   const register = async(values) => {
         setIsLoading(true);
         console.log(values)
-        localStorage.setItem("user",values)
+        localStorage.setItem("email",values.email)
         // let data = [values];
         //     data = [...data,{"user_role":"admin"}]
         //     console.log(data);
@@ -67,7 +67,7 @@ const Register = () => {
 
         if(api.isSuccessful(response)){
           setTimeout(() => {
-            toast.success('Registration in successfully!');
+            toast.success('Registration successfully!');
             navigate("/conf_email",{replace: true})
           }, 0);
         }

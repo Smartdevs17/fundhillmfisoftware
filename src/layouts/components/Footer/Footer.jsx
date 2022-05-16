@@ -30,7 +30,8 @@ function Footer() {
             <script src="/assets/libs/raphael/raphael.min.js" type="text/javascript"></script>
             <script src="/assets/js/pages/dashboard.init.js" type="text/javascript"></script>
             <script src="/assets/libs/custombox/custombox.min.js" type="text/javascript"></script>
-            <script src="/assets/libs/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+
+            {/* <script src="/assets/libs/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
             <script src="/assets/libs/datatables/dataTables.bootstrap4.min.js" type="text/javascript"></script>
             <script src="/assets/libs/datatables/dataTables.responsive.min.js" type="text/javascript"></script>
             <script src="/assets/libs/datatables/responsive.bootstrap4.min.js" type="text/javascript"></script>
@@ -43,7 +44,8 @@ function Footer() {
             <script src="/assets/libs/datatables/buttons.print.min.js" type="text/javascript"></script>
             <script src="/assets/libs/datatables/dataTables.keyTable.min.js" type="text/javascript"></script>
             <script src="/assets/libs/datatables/dataTables.select.min.js" type="text/javascript"></script>
-            <script src="/assets/js/pages/datatables.init.js" type="text/javascript"></script>
+            <script src="/assets/js/pages/datatables.init.js" type="text/javascript"></script> */}
+
             <script src="/assets/js/app.min.js" type="text/javascript"></script>
 
 

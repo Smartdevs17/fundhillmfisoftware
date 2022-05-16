@@ -57,10 +57,10 @@ function NewCustomer() {
                       <li className="breadcrumb-item">
                         <Link to="#">Admin</Link>
                       </li>
-                      <li className="breadcrumb-item active">New Customer</li>
+                      <li className="breadcrumb-item active">Customer</li>
                     </ol>
                   </div>
-                  <h4 className="page-title">Add New Customer</h4>
+                  <h4 className="page-title">Register New Customer</h4>
                 </div>
               </div>
             </div>

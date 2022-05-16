@@ -23,7 +23,7 @@ function History() {
                                 <ol className="breadcrumb m-0">
                                     <li className="breadcrumb-item"><Link to="#">FundHill</Link></li>
                                     <li className="breadcrumb-item"><Link to="#">Admin</Link></li>
-                                    <li className="breadcrumb-item active">All Customers</li>
+                                    <li className="breadcrumb-item active">Savings Plan</li>
                                 </ol>
                                 </div>
                                 <h4 className="page-title">Customer</h4>
@@ -33,17 +33,11 @@ function History() {
     
                         {/* end page title */} 
 
-
-
-
-
                              <div className="row">
                                 <div className="col-12">
                                     <div className="card-box">
-                                    <h4 className="header-title">Buttons example</h4>
-                                    <p className="sub-header">
-                                        The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. The core library provides the based framework upon which plug-ins can built.
-                                    </p>
+                                    <h4 className="header-title">Check for Customer Statement of Account</h4>
+                                    
                                     <table id="datatable-buttons" className="table table-bordered table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
                                     <thead>
                                     <tr>
@@ -101,24 +95,25 @@ function History() {
                                         <div className="col-12">
                                             <div className="card-box">
                                                 <h4 className="header-title mb-4">Search Date Transaction</h4>
+                                                <div className="modal-content">
                                                 <form action="">
+                                                    <div className="form-group row">
+                                                    <label htmlFor="example-text-input" className="col-lg-2 col-form-label">From</label>
+                                                    <div className="col-lg-10">
+                                                        <input className="form-control" type="date"  id="example-text-input" />
+                                                    </div>
+                                                    </div>
 
-                                                <div className="form-group row">
-                                                <label htmlFor="example-text-input" className="col-lg-2 col-form-label">From</label>
-                                                <div className="col-lg-10">
-                                                    <input className="form-control" type="date"  id="example-text-input" />
-                                                </div>
-                                                </div>
+                                                    <div className="form-group row">
+                                                    <label htmlFor="example-search-input" className="col-lg-2 col-form-label">To</label>
+                                                    <div className="col-lg-10">
+                                                        <input className="form-control" type="date" id="example-search-input" />
+                                                    </div>
+                                                    </div>
 
-                                                <div className="form-group row">
-                                                <label htmlFor="example-search-input" className="col-lg-2 col-form-label">To</label>
-                                                <div className="col-lg-10">
-                                                    <input className="form-control" type="date" id="example-search-input" />
+                                                    <button type="submit" className="btn btn-primary btn-block">Search</button>
+                                                    </form>
                                                 </div>
-                                                </div>
-
-                                            <button type="submit" className="btn btn-primary btn-block">Search</button>
-                                            </form>
 
                                             </div>
                                         </div>

@@ -39,7 +39,7 @@ const validationSchema = yupObject().shape({
   });
 
 
-function Transactions() {
+function EsusuTransaction() {
     return (
         <Fragment>
         
@@ -190,7 +190,7 @@ function Transactions() {
                                                         htmlFor="example-tel-input"
                                                         className="col-lg-2 col-form-label"
                                                     >
-                                                        Savings Plan
+                                                        Esus Plan
                                                     </label>
                                                     <div className="col-lg-10">
                                                         <select
@@ -198,9 +198,9 @@ function Transactions() {
                                                         data-toggle="select2"
                                                         >
                                                         <option>Select SavingsType</option>
-                                                        <option value="Savings">Fixed Deposit</option>
-                                                        <option value="fixed">Targeted Savings</option>
-                                                        <option value="loan">Regular Savings </option>
+                                                        <option value="Savings">Daily</option>
+                                                        <option value="fixed">Weekly</option>
+                                                        <option value="loan">Monthly</option>
                                                         <option value="loan">Esusu Savings </option>
 
                                                         </select>
@@ -305,4 +305,4 @@ function Transactions() {
       )
 }
 
-export default Transactions
+export default EsusuTransaction

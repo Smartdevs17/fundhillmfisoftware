@@ -204,7 +204,7 @@ function Navbar() {
                             </div>
 
 
-                            <NavLink to="/" className="dropdown-item notify-item">
+                            <NavLink to="/admin/dashboard/update_profile" className="dropdown-item notify-item">
                                 <i className="mdi mdi-account-outline"></i>
                                 <span>Profile</span>
                             </NavLink>
@@ -215,10 +215,10 @@ function Navbar() {
                                 <span>Settings</span>
                             </NavLink>
 
-                            <NavLink to="/" className="dropdown-item notify-item">
+                            {/* <NavLink to="/" className="dropdown-item notify-item">
                                 <i className="mdi mdi-lock-outline"></i>
                                 <span>Lock Screen</span>
-                            </NavLink>
+                            </NavLink> */}
 
                             <div className="dropdown-divider"></div>
 

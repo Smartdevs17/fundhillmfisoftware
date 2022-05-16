@@ -18,6 +18,7 @@ import {NewBranch,AllBranch, UpdateBranch,NewCustomer,AllCustomer,EditCustomer,
         EsusPerform,QuickCustomer,
         EsusuDReciept,
         EsusuWReciept,
+        EsusuTransaction,
         NewProduct,
         AddBorrower,
         PendingLoan,
@@ -26,7 +27,8 @@ import {NewBranch,AllBranch, UpdateBranch,NewCustomer,AllCustomer,EditCustomer,
         OngoingLoan,
         Dashboard,
         NewExpenses,
-        AllExpenses} from "../../pages/admin/"
+        AllExpenses,
+        Profile} from "../../pages/admin/"
 import { AdminLayout } from '../../layouts'
 
 
@@ -90,7 +92,7 @@ function AdminRoute() {
         <Route path="dashboard/esusu_perform" element={<EsusPerform />} />
         <Route path="dashboard/esusu_withdraw_receipt" element={<EsusuWReciept />} />
         <Route path="dashboard/esusu_deposit_receipt" element={<EsusuDReciept />} />
-        {/* <Route path="dashboard/view_customer" element={<ViewCustomer />} /> */}
+        <Route path="dashboard/esusu_transaction" element={<EsusuTransaction />} />
 
         {/* Loan Management */}
         <Route path="dashboard/new_product" element={<NewProduct />} />
@@ -104,7 +106,8 @@ function AdminRoute() {
         <Route path="dashboard/new_expenses" element={<NewExpenses />} />
         <Route path="dashboard/all_expenses" element={<AllExpenses />} />
 
-
+        {/* Profile Management */}
+        <Route path="dashboard/update_profile" element={<Profile />} />
 
 
     </Route>
