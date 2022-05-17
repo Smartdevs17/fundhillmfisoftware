@@ -26,7 +26,7 @@ function TargetedReport() {
                                     <li className="breadcrumb-item active">Report</li>
                                 </ol>
                                 </div>
-                                <h4 className="page-title">Total Regular Savings Made Today</h4>
+                                <h4 className="page-title">Regular Savings Made Today</h4>
                             </div>
                             </div>
                         </div>     
@@ -41,9 +41,7 @@ function TargetedReport() {
                                 <div className="col-12">
                                     <div className="card-box">
                                     <h4 className="header-title">Regular Savings</h4>
-                                    <p className="sub-header">
-                                        The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. The core library provides the based framework upon which plug-ins can built.
-                                    </p>
+                           
                                     <table id="datatable-buttons" className="table table-bordered table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
                                     <thead>
                                     <tr>

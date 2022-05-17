@@ -25,7 +25,7 @@ function LoanReport() {
                                     <li className="breadcrumb-item active">Report</li>
                                 </ol>
                                 </div>
-                                <h4 className="page-title">Total Loan Paid Today</h4>
+                                <h4 className="page-title">All Loans Paid Today</h4>
                             </div>
                             </div>
                         </div>     

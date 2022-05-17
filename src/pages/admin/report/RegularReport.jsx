@@ -26,7 +26,7 @@ function RegularReport() {
                                     <li className="breadcrumb-item active">Report</li>
                                 </ol>
                                 </div>
-                                <h4 className="page-title">Total Regular Savings Made Today</h4>
+                                <h4 className="page-title"> Regular Savings Made Today</h4>
                             </div>
                             </div>
                         </div>     

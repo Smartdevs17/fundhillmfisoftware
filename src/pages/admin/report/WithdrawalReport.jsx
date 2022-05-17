@@ -26,7 +26,7 @@ function WithdrawalReport() {
                                     <li className="breadcrumb-item active">Report</li>
                                 </ol>
                                 </div>
-                                <h4 className="page-title">Total Withdrawals Made Today</h4>
+                                <h4 className="page-title">All Withdrawals Made Today</h4>
                             </div>
                             </div>
                         </div>     
