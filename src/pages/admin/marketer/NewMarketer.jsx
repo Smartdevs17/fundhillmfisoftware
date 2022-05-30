@@ -13,11 +13,11 @@ import {DotLoader} from "react-spinners";
 
 
 function genPassword() {
-    var chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    var passwordLength = 12;
-    var password = "";
- for (var i = 0; i <= passwordLength; i++) {
-   var randomNumber = Math.floor(Math.random() * chars.length);
+    let chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let passwordLength = 12;
+    let password = "";
+ for (let i = 0; i <= passwordLength; i++) {
+   let randomNumber = Math.floor(Math.random() * chars.length);
    password += chars.substring(randomNumber, randomNumber +1);
   }
         return password;
@@ -70,9 +70,6 @@ function NewMarketer() {
     const marketer = async(values) => {
           setIsLoading(true);
           console.log(values)
-          // let data = [values];
-          //     data = [...data,{"user_role":"admin"}]
-          //     console.log(data);
           const response = await api
                 .service()
                 .push("/accounts/manage/signup/",values,true,true)

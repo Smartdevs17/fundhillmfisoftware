@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
+
+
 function NewBranch() {
   const {user} = useContext(Context)
   const [isLoading, setIsLoading] = useState(false);
@@ -20,15 +22,12 @@ function NewBranch() {
 
 
   const initialFormState = () => ({
-    // branch_id: "",
     branch_name: "",
     branch_head_id: "",
     branch_address: ""
   });
 
   const validationSchema = yupObject().shape({
-    // branch_id: yupString()
-    // .required("Branch ID is required"),
     branch_name: yupString()
     .required("Branch name is required"),
     branch_address: yupString()
@@ -88,7 +87,7 @@ function NewBranch() {
                   <Formik 
                     initialValues={initialFormState()}
                     validationSchema= {validationSchema}
-                    onSubmit = {async (values,actions) => {
+                    onSubmit = { async (values,actions) => {
                       await create_branch(values);
                     }}
                    >
@@ -109,9 +108,7 @@ function NewBranch() {
                           className= "form-control"
                           name="branch_name"
                         />
-                      <ErrorMsg name={
-                        "branch_name"
-                      } />
+                      <ErrorMsg name={"branch_name"} />
                       </div>
                     </div>
 

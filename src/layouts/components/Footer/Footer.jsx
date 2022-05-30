@@ -14,7 +14,7 @@ function Footer() {
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12">
-                                2022 &copy; FundHill Developed by <NavLink to="/">Smart Developers</NavLink>
+                                2022 &copy; FundHill Developed by <NavLink to="/">Smart Developer</NavLink>
                             </div>
                         </div>
                     </div>
