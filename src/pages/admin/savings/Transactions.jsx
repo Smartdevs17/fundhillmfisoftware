@@ -1,12 +1,13 @@
 import { Formik, Form, Field } from "formik";
 import { object as yupObject, string as yupString } from 'yup';
-import { Fragment, useState } from "react";
+import { Fragment, useState,useEffect,useContext} from "react";
 import { api } from "../../../services";
 import { ErrorMsg } from "../../../layouts/components";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { css } from "@emotion/react";
-import {DotLoader} from "react-spinners";
+import {DotLoader,ClipLoader} from "react-spinners";
+import {Context} from "../../../context/Context";
 
 
 // CONTEXT
@@ -17,29 +18,104 @@ const override = css`
 `;
 
 
-const witdrawFormState = () => ({
-    customer: "",
-    amount: "",
-    reason: "",
-    user_role: "ADMIN"
-  });
-  
 
-
-const validationSchema = yupObject().shape({
-    customer: yupString()
-    .required("Customer is required"),
-    email: yupString()
-    .email("Invalid email")
-    .required("Email is required"),
-    phone: yupString()
-    .required("Phone Number is required"),
-    password: yupString()
-    .required("Password is required"),
-  });
 
 
 function Transactions() {
+
+    const {user} = useContext(Context)
+    const [isLoading, setIsLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
+    const [data, setData] = useState("");
+
+    useEffect( async() => {
+        setIsLoading(true)
+
+        const customers = await api
+                .service()
+                .fetch(`/dashboard/savings-plan/${user.org_id}/deposit-withdrawal/`,true);
+                console.log(customers)
+                console.log(isLoading);
+            if(customers){
+                setData(customers);
+                setIsLoading(false)
+            }else{
+                setIsLoading(true)
+            }
+    }, []);
+
+    const withdrawFormState = () => ({
+        customer: "",
+        amount: "",
+        transaction_type: "",
+        reason: "",
+      });
+   
+      
+      const depositFormState = () => ({
+        customer: "",
+        amount: "",
+        depositor: "",
+        transaction_type: "",
+        reason: "",
+      });
+    
+    
+      const withdrawValidationSchema = yupObject().shape({
+        customer: yupString()
+        .required("Please select a customer"),
+        amount: yupString()
+        .required("Amount is required"),
+        reason: yupString()
+      });
+
+
+
+      const depositValidationSchema = yupObject().shape({
+        customer: yupString()
+        .required("Please select a customer"),
+        amount: yupString()
+        .required("Amount is required"),
+        depositor: yupString(),
+        reason: yupString()
+      });
+
+
+      const withdraw = async(values) => {
+        setIsLoading(true);
+        console.log(values)
+
+        const response = await api
+              .service()
+              .push("/accounts/branch/create_branch",values,true)
+
+        if(api.isSuccessful(response)){
+          setTimeout( () => {
+            toast.success("Branch successfully created!");
+            // navigate("/admin/allbranch",{replace: true})
+          },0);
+        }
+        setIsLoading(false);
+    };
+
+    const deposit = async(values) => {
+        setIsLoading(true);
+        console.log(values)
+
+        const response = await api
+            .service()
+            .push("/accounts/branch/create_branch",values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            toast.success("Branch successfully created!");
+            // navigate("/admin/allbranch",{replace: true})
+        },0);
+        }
+        setIsLoading(false);
+    }
+
     return (
         <Fragment>
         
@@ -112,6 +188,78 @@ function Transactions() {
                                    
                                     </tbody>
                                 </table>
+
+
+                                {
+                                    isLoading ? 
+                                    ( <div className="sweet-loading">
+                                        <ClipLoader color={color} loading={loading} css={override}  size={80} />
+                                    </div>)
+                                        : (
+
+            
+                                    <table
+                                    id="datatable-buttons"
+                                    className="table table-bordered table-bordered dt-responsive nowrap"
+                                    style={{
+                                    borderCollapse: "collapse",
+                                    borderSpacing: 0,
+                                    width: "100%",
+                                    }}
+                                >
+
+                                    <thead>
+                                    <tr>
+                                        <th>S/N</th>
+                                        <th>Full Name</th>
+                                        <th>Marketer</th>
+                                        <th>Account Number</th>
+                                        <th>Savings Plan</th>
+                                        <th>Telephone</th>
+                                        <th>Balance</th>
+                                        <th>Transaction</th>
+                                    </tr>
+                                    </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td> 1 </td>
+                                                    <td>Tiger Nixon</td>
+                                                    <td>John Bull</td>
+                                                    <td>1234567890</td>
+                                                    <td>Esusu</td>
+                                                    <td>08076895837</td>
+                                                    <td>$320,800</td>
+                                                </tr>
+
+
+                                                {
+                                    data.map((customer) => {
+                                        return(
+                                                <tr>
+                                                    <td> {customer.id} </td>
+                                                    <td> {customer.date} </td>
+                                                    <td> {customer.customer} </td>
+                                                    <td> {customer.marketer} </td>
+                                                    <td> {customer.acc_no} </td>
+                                                    <td> {customer.transaction_type} </td>
+                                                    <td> {customer.bals } </td>
+                                                    <td> 
+                                                        <button id='withdraw' type="button" className="btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-target="#withdrawId">
+                                                        Withdraw
+                                                        </button>        
+                                                        <button id='deposit' type="button" className="btn btn-outline-success waves-effect waves-light" style={{margin: "10px"}} data-toggle="modal" data-target="#depositId">
+                                                        Deposit
+                                                        </button>
+                                     
+                                                    </td>
+                                                 </tr>
+                                                                                                                )
+                                                })                                                    }
+                                                </tbody>
+                                            </table>
+                                    )
+                                }
+
                                 </div>
                             </div>
                             </div>
@@ -129,13 +277,18 @@ function Transactions() {
                                             </button>
                                         </div>
 
-                                            
-                                        <div className="row">
-                                            <div className="col-12">
-                                                <div className="card-box">
-                                                <h4 className="header-title mb-4">Deposit</h4>
-                                                <form action="">
-                                                <div className="form-group row">
+                                        <div className="modal-content">
+                                        <h4 className="header-title mb-4">Deposit</h4>
+                                            <Formik
+                                                initialValues={depositFormState()}
+                                                validationSchema= {depositValidationSchema}
+                                                onSubmit = { async (values,actions) => {
+                                                    await deposit(values)
+                                                }}
+                                            >
+                                                {(props) => (
+                                                    <Form>
+                                                    <div className="form-group row">
                                                     <label
                                                         htmlFor="example-tel-input"
                                                         className="col-lg-2 col-form-label"
@@ -143,13 +296,15 @@ function Transactions() {
                                                         Customer
                                                     </label>
                                                     <div className="col-lg-10">
-                                                        <input
+                                                        <Field 
+                                                        as={"input"}
+                                                        name="customer"
                                                         className="form-control"
                                                         type="text"
                                                         placeholder="customer 1"
-                                                        id="example-text-input"
                                                         />
                                                     </div>
+                                                    <ErrorMsg name={"customer"} />
                                                     </div>
                                                     <div className="form-group row">
                                                     <label
@@ -159,13 +314,15 @@ function Transactions() {
                                                         Amount
                                                     </label>
                                                     <div className="col-lg-10">
-                                                        <input
+                                                        <Field 
+                                                        as={"input"}
+                                                        name="amount"
                                                         className="form-control"
                                                         type="text"
                                                         placeholder="#10000"
-                                                        id="example-text-input"
                                                         />
                                                     </div>
+                                                    <ErrorMsg name={"amount"} />
                                                     </div>
 
                                                     <div className="form-group row">
@@ -176,37 +333,36 @@ function Transactions() {
                                                         Depositor's 
                                                     </label>
                                                     <div className="col-lg-10">
-                                                        <input
+                                                        <Field
+                                                        as = {"input"}
                                                         className="form-control"
                                                         type="text"
                                                         placeholder="Depositor"
-                                                        id="example-text-input"
+                                                        name="depositor"
                                                         />
                                                     </div>
                                                     </div>  
+
+                                                         <div className="form-group row">
+                                                            <label
+                                                                htmlFor="example-tel-input"
+                                                                className="col-lg-2 col-form-label"
+                                                            >
+                                                                Savings Plan
+                                                            </label>
+                                                            <div className="col-lg-10">
+                                                                <Field as="select" name="transaction_type" className="form-control">
+                                                                <option>Select SavingsType</option>
+                                                                <option value="Savings">Fixed Deposit</option>
+                                                                <option value="fixed">Targeted Savings</option>
+                                                                <option value="loan">Regular Savings </option>
+                                                                <option value="loan">Esusu Savings </option>
+
+                                                                </Field>
+                                                            </div>
+                                                        </div>
                             
-                                                    <div className="form-group row">
-                                                    <label
-                                                        htmlFor="example-tel-input"
-                                                        className="col-lg-2 col-form-label"
-                                                    >
-                                                        Savings Plan
-                                                    </label>
-                                                    <div className="col-lg-10">
-                                                        <select
-                                                        className="form-control"
-                                                        data-toggle="select2"
-                                                        >
-                                                        <option>Select SavingsType</option>
-                                                        <option value="Savings">Fixed Deposit</option>
-                                                        <option value="fixed">Targeted Savings</option>
-                                                        <option value="loan">Regular Savings </option>
-                                                        <option value="loan">Esusu Savings </option>
-
-                                                        </select>
-                                                    </div>
-                                                    </div>
-
+                                                   
 
                                                     <div className="form-group row">
                                                     <label
@@ -216,11 +372,11 @@ function Transactions() {
                                                         Reason
                                                     </label>
                                                     <div className="col-lg-10">
-                                                        <textarea
+                                                        <Field
+                                                        as={"textarea"}
                                                         className="form-control"
                                                         type="text"
-                                                        placeholder=""
-                                                        id="example-text-input"
+                                                        name="reason"
                                                         />
                                                     </div>
                                                     </div>  
@@ -231,12 +387,12 @@ function Transactions() {
                                                     >
                                                     Credit Account
                                                     </button>
-                                                </form>
-                            
-                                                <div className="form-group row"></div>
-                                                </div>
-                                            </div>
-                                            </div>
+                                                    </Form>
+                                                )}
+                                            </Formik>
+                                        </div>
+       
+
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                                         </div>
@@ -259,25 +415,100 @@ function Transactions() {
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form>
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Customer:</label>
-                                        <input type="text" class="form-control" id="recipient-name"/ >
-                                    </div>
 
-                                    <div class="mb-3">
-                                        <label for="recipient-name" class="col-form-label">Amount:</label>
-                                        <input type="text" class="form-control" id="recipient-name"/ >
-                                    </div>
+                                <h4 className="header-title mb-4">Deposit</h4>
+                                            <Formik
+                                                initialValues={withdrawFormState()}
+                                                validationSchema= {withdrawValidationSchema}
+                                                onSubmit = { async (values,actions) => {
+                                                    await withdraw(values)
+                                                }}
+                                            >
+                                                {(props) => (
+                                                    <Form>
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-tel-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                        Customer
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field 
+                                                        as={"input"}
+                                                        name="customer"
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder="customer 1"
+                                                        />
+                                                    </div>
+                                                    <ErrorMsg name={"customer"} />
+                                                    </div>
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                        Amount
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field 
+                                                        as={"input"}
+                                                        name="amount"
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder="#10000"
+                                                        />
+                                                    </div>
+                                                    <ErrorMsg name={"amount"} />
+                                                    </div>
 
-                                    <div class="mb-3">
-                                        <label for="message-text" class="col-form-label">Reason:</label>
-                                        <textarea class="form-control" id="message-text"></textarea>
-                                    </div>
+                                               
 
-                                    <button type="submit" class="btn btn-danger btn-lg">Debit Account</button>
+                                                         <div className="form-group row">
+                                                            <label
+                                                                htmlFor="example-tel-input"
+                                                                className="col-lg-2 col-form-label"
+                                                            >
+                                                                Savings Plan
+                                                            </label>
+                                                            <div className="col-lg-10">
+                                                                <Field as="select" name="transaction_type" className="form-control">
+                                                                <option>Select SavingsType</option>
+                                                                <option value="Savings">Fixed Deposit</option>
+                                                                <option value="fixed">Targeted Savings</option>
+                                                                <option value="loan">Regular Savings </option>
+                                                                <option value="loan">Esusu Savings </option>
 
-                                    </form>
+                                                                </Field>
+                                                            </div>
+                                                        </div>
+                            
+                                                   
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                        Reason
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as={"textarea"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        name="reason"
+                                                        />
+                                                    </div>
+                                                    </div>  
+
+                                                    <button type="submit" class="btn btn-danger btn-lg">Debit Account</button>
+
+                                                    </Form>
+                                                )}
+                                            </Formik> 
+                                    
                                 </div>
                                 {/* <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

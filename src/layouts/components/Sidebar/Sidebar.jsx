@@ -170,6 +170,7 @@ function Sidebar() {
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded="false">
                                     <li><Link to="/admin/dashboard/new_product">New Loan Product</Link></li>
+                                    <li><Link to="/admin/dashboard/add_borrower">Add Borrower</Link></li>
                                     <li><Link to="/admin/dashboard/pending_loan">Pending Loan</Link></li>
                                     <li><Link to="/admin/dashboard/disburse_loan">Disbured Loan</Link></li>
                                     <li><Link to="/admin/dashboard/invoice">Invoice</Link></li>

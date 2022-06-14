@@ -12,6 +12,17 @@ import {DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
 
 
+function genPassword() {
+  let chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let passwordLength = 12;
+  let password = "";
+for (let i = 0; i <= passwordLength; i++) {
+ let randomNumber = Math.floor(Math.random() * chars.length);
+ password += chars.substring(randomNumber, randomNumber +1);
+}
+      return password;
+}
+
 
 function NewCustomer() {
   const [isLoading, setLoading] = useState(false);
@@ -44,6 +55,7 @@ function NewCustomer() {
     state: "",
     country: "",
     user_role: "CUSTOMER",
+    password: genPassword()
   });
 
   const validationSchema = yupObject().shape({
@@ -431,11 +443,8 @@ const new_customer = async(values) => {
                                   <DotLoader color={color} loading={loading}  size={80} />
                                 </div>)
                               : (
-                                <button
-                                  className="btn btn-primary btn-block waves-effect waves-light"
-                                  type="submit"
-                                >
-                                  Submit
+                                <button type="submit" className="btn btn-primary btn-block">
+                                  Create Account
                                 </button>
                               )
                           }
@@ -444,235 +453,6 @@ const new_customer = async(values) => {
                         </Form>
                       )}
                   </Formik>   
-
-
-
-                  {/* <form action="" onSubmit={handleSubmit} >
-                  <div className="form-group row">
-                      <label
-                        htmlFor="example-text-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Title
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="John"
-                          id="example-text-input"
-                          value = {Fname}
-                            onChange={(e)  => setFname(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-text-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        First Name
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="John"
-                          id="example-text-input"
-                          value = {Fname}
-                            onChange={(e)  => setFname(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-search-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Middle Name
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Mikel"
-                          id="example-search-input"
-                          value = {Mname}
-                            onChange={(e)  => setMname(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-search-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Last Name
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Doe"
-                          id="example-search-input"
-                          value = {Lname}
-                            onChange={(e)  => setLname(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-search-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Profile Photo
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          type="file"
-                          className="dropify"
-                          value = {PPFile}
-                            onChange={(e)  => setPPFile(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-search-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        ID
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          type="file"
-                          className="dropify"
-                          value = {IDFile}
-                        onChange={(e)  => setIDFile(e.target.value)}                        />
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-search-input"
-                        className="col-lg-2 col-form-label"
-                        value = {UBFile}
-                        onChange={(e)  => setUBFile(e.target.value)}
-                      >
-                        Utility Bill
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          type="file"
-                          className="dropify"
-                          value = {UBFile}
-                            onChange={(e)  => setUBFile(e.target.value)}                        />
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-search-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        BVN
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="number"
-                          placeholder="10 digit number"
-                          id="example-search-input"
-                          value = {Bvn}
-                            onChange={(e)  => setBvn(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-email-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Email
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="email"
-                          placeholder="smartdeveloper@yahoo.com"
-                          id="example-email-input"
-                          value = {Email}
-                            onChange={(e)  => setEmail(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-url-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Residential Address
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Tudun Wada"
-                          id="example-url-input"
-                          value = {RA}
-                            onChange={(e)  => setRA(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-url-input"
-                        className="col-lg-2 col-form-label"
-                        value = {BA}
-                        onChange={(e)  => setBA(e.target.value)}
-                      >
-                        Business Address
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="text"
-                          placeholder="Hwolshe"
-                          id="example-url-input"
-                        />
-                      </div>
-                    </div>
-
-                    
-                    <div className="form-group row">
-                      <label
-                        htmlFor="example-tel-input"
-                        className="col-lg-2 col-form-label"
-                      >
-                        Telephone Number
-                      </label>
-                      <div className="col-lg-10">
-                        <input
-                          className="form-control"
-                          type="tel"
-                          placeholder="234-(222)-333-4445"
-                          id="example-tel-input"
-                          value = {TN}
-                          onChange={(e)  => setTN(e.target.value)}
-                        />
-                      </div>
-                    </div>
-
-
-                    <button type="submit" className="btn btn-primary btn-block">
-                      Create Account
-                    </button>
-                  </form> */}
 
                   <div className="form-group row"></div>
                 </div>
