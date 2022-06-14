@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
+
+
 function NewBranch() {
   const {user} = useContext(Context)
   const [isLoading, setIsLoading] = useState(false);
@@ -20,16 +22,14 @@ function NewBranch() {
 
 
   const initialFormState = () => ({
-    // branch_id: "",
-    branch_name: "",
+    name: "",
     branch_head_id: "",
-    branch_address: ""
+    branch_address: "",
+    org_id: `${user.org_id}`,
   });
 
   const validationSchema = yupObject().shape({
-    // branch_id: yupString()
-    // .required("Branch ID is required"),
-    branch_name: yupString()
+    name: yupString()
     .required("Branch name is required"),
     branch_address: yupString()
     .required("Branch Address is required"),
@@ -42,7 +42,7 @@ function NewBranch() {
 
           const response = await api
                 .service()
-                .push("/accounts/branch/create_branch",values,true)
+                .push("dashboard/branches/create-branch/",values,true)
 
           if(api.isSuccessful(response)){
             setTimeout( () => {
@@ -88,7 +88,7 @@ function NewBranch() {
                   <Formik 
                     initialValues={initialFormState()}
                     validationSchema= {validationSchema}
-                    onSubmit = {async (values,actions) => {
+                    onSubmit = { async (values,actions) => {
                       await create_branch(values);
                     }}
                    >
@@ -107,11 +107,9 @@ function NewBranch() {
                           as = {"input"}
                           type="text"
                           className= "form-control"
-                          name="branch_name"
+                          name="name"
                         />
-                      <ErrorMsg name={
-                        "branch_name"
-                      } />
+                      <ErrorMsg name={"name"} />
                       </div>
                     </div>
 

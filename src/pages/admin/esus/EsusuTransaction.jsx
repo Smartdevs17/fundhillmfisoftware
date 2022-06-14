@@ -39,6 +39,7 @@ const validationSchema = yupObject().shape({
   });
 
 
+
 function EsusuTransaction() {
     return (
         <Fragment>
@@ -61,7 +62,7 @@ function EsusuTransaction() {
                                 <ol className="breadcrumb m-0">
                                     <li className="breadcrumb-item"><Link to="#">FundHill</Link></li>
                                     <li className="breadcrumb-item"><Link to="#">Admin</Link></li>
-                                    <li className="breadcrumb-item active">Savings Plan</li>
+                                    <li className="breadcrumb-item active">Esusu</li>
                                 </ol>
                                 </div>
                                 <h4 className="page-title">Customer</h4>
@@ -302,7 +303,7 @@ function EsusuTransaction() {
                 </div>
     
         </Fragment>
-      )
+    )
 }
 
 export default EsusuTransaction

@@ -21,6 +21,7 @@ const initialFormState = () => ({
   first_name: "",
   last_name: "",
   "organisation_name": "",
+  "org_type": "",
   email: "",
   phone: "",
   password: "",
@@ -34,6 +35,8 @@ const validationSchema = yupObject().shape({
   .required("Last Name is required"),
   organisation_name: yupString()
   .required("Organisation Name is required"),
+  org_type: yupString()
+  .required("Orginsation type is required"),
   address: yupString()
   .required("Address is required"),
   email: yupString()
@@ -147,6 +150,24 @@ const Register = () => {
               />
               <ErrorMsg name={'phone'} />
             </div>
+
+
+            <div className="form-group mb-3">
+              <label
+              htmlFor="example-tel-input"
+              className="col-lg-10 col-form-label"
+                >
+                 Company Type
+                </label>
+                  <div className="col-lg-10">
+                  <Field as="select" name="org_type" className="form-control">
+                    <option>Choose one</option>
+                    <option value={"MFB"} >MFB</option>
+                    <option value={"MFI"} >MFI</option>
+                  </Field>
+                </div>
+                <ErrorMsg name={"org_type"} />
+              </div>
 
             <div className="form-group mb-3">
               <Field

@@ -1,9 +1,35 @@
-import {Fragment,useEffect } from 'react'
+import {Fragment,useEffect,useContext,useState} from 'react'
 import { Link } from "react-router-dom";
 import "./Dashboard.css"
+import { api } from '../../../services';
+import { css } from "@emotion/react";
+import {DotLoader,ClipLoader,RingLoader,CircleLoader,RotateLoader,SyncLoader,BarLoader,BeatLoader,BounceLoader,ClockLoader,FadeLoader,GridLoader,HashLoader,MoonLoader,PacmanLoader} from "react-spinners";
+import {Context} from "../../../context/Context";
 
 function Dashboard() {
+  const [isLoading, setIsLoading] = useState(false);
+  let [loading, setLoading] = useState(true);
+  let [color, setColor] = useState("#ADD8E6");
+  const [data,setData] = useState("");
+  const {user} = useContext(Context)
 
+    // useEffect( async () => {
+    //   setIsLoading(true)
+
+    //   const orgs = await api
+    //   .service()
+    //   .fetch(`/dashboard/index/${user.org_id}/dashboard`,true);
+    //     console.log(orgs)
+    //     setIsLoading(false)
+    //     if(orgs){
+    //         setData(orgs);
+    //         setIsLoading(false)
+    //     }else{
+    //       console.log("No Data found")
+    //       setIsLoading(true)
+    //     }
+          
+    // }, [])
     
 
   return (

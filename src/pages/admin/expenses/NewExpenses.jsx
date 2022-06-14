@@ -111,7 +111,7 @@ function NewExpenses() {
                             <input
                               className="form-control"
                               type="text"
-                              placeholder="John"
+                              placeholder="Transport Fee"
                               id="example-text-input"
                               value = {desc}
                                 onChange={(e)  => setDesc(e.target.value)}

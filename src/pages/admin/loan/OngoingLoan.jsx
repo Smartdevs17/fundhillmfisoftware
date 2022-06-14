@@ -39,9 +39,7 @@ function OngoingLoan() {
                             <div className="col-12">
                             <div className="card-box">
                                 <h4 className="header-title">Disburse Loan Details</h4>
-                                <p className="sub-header">
-                               Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quibusdam quos natus rerum ducimus deleniti odio at? Exercitationem neque cupiditate cumque incidunt, officia nisi laborum omnis.
-                                </p>
+                              
                                 <table id="datatable" className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
                                 <thead>
                                     <tr>

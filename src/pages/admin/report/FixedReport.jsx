@@ -25,7 +25,7 @@ function FixedReport() {
                                     <li className="breadcrumb-item active">Report</li>
                                 </ol>
                                 </div>
-                                <h4 className="page-title">Savings Plan Report</h4>
+                                <h4 className="page-title">All Savings Plan Report</h4>
                             </div>
                             </div>
                         </div>     

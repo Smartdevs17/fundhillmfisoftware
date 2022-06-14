@@ -11,7 +11,7 @@ const StaffRole = ({children: ReactElement}) => {
     const {user} = useContext(Context);
     const isStaff = user?.user_role ==='AGENT';
     
-    if(!isStaff) { <Navigate to={"/auth/login"} replace={true}  />}
+    // if(!isStaff) { <Navigate to={"/auth/login"} replace={true}  />}
 
     return isStaff ? (
         children
@@ -22,15 +22,6 @@ const StaffRole = ({children: ReactElement}) => {
         </Fragment>
     )
 }
-
-
-
-
-
-
-
-
-
 
 
 export default StaffRole;

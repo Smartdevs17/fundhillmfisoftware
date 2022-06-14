@@ -23,7 +23,7 @@ function AddBorrower() {
                                 <ol className="breadcrumb m-0">
                                     <li className="breadcrumb-item"><Link to="#">FundHill</Link></li>
                                     <li className="breadcrumb-item"><Link to="#">Admin</Link></li>
-                                    <li className="breadcrumb-item active">Loans Managment</li>
+                                    <li className="breadcrumb-item active">Loan</li>
                                 </ol>
                                 </div>
                                 <h4 className="page-title">Customer</h4>

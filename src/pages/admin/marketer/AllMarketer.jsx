@@ -56,11 +56,11 @@ function AllMarketer() {
                                         <tbody>
                                       <tr>
                                         <td> 1 </td>
-                                        <td>Tiger Nixon</td>
-                                        <td>John Bull</td>
-                                        <td>1234567890</td>
-                                        <td>Esusu</td>
-                                        <td>08076895837</td>
+                                        <td>John Doe</td>
+                                        <td>080691235768</td>
+                                        <td>johndoe@gmail.com</td>
+                                        <td>Lagos Branch</td>
+                                        <td>Agent</td>
                                         <td>
                                         {/* Button trigger modal */}
                                         <button id='marketer' type="button" className="btn btn-primary" data-toggle="modal" data-target="#marketerId">

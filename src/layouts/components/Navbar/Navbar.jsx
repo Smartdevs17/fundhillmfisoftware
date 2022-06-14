@@ -22,7 +22,7 @@ function Navbar() {
                         {/* <NavLink className="nav-link dropdown-toggle mr-0 waves-effect waves-light" data-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
                             <img src="/assets/images/flags/us.jpg" alt="" height="12" />
                         </NavLink> */}
-                        <div className="dropdown-menu dropdown-menu-right profile-dropdown ">
+                        {/* <div className="dropdown-menu dropdown-menu-right profile-dropdown ">
 
                             <NavLink to="/" className="dropdown-item notify-item">
                                 <img src="/assets/images/flags/germany.jpg" alt="" className="mr-1" height="12" /> <span
@@ -44,7 +44,7 @@ function Navbar() {
                                     className="align-middle">Russian</span>
                             </NavLink>
 
-                        </div>
+                        </div> */}
                     </li>
 
                     <li className="dropdown notification-list">
@@ -145,7 +145,7 @@ function Navbar() {
                                 <div className="inbox-widget">
                                     <NavLink to="#">
                                         <div className="inbox-item">
-                                            <div className="inbox-item-img"><img src="/assets/images/users/avatar-1.jpg" className="rounded-circle" alt="" /></div>
+                                            <div className="inbox-item-img"><img src="/assets/images/users/avatar-11.jpg" className="rounded-circle" alt="" /></div>
                                             <p className="inbox-item-author">Chadengle</p>
                                             <p className="inbox-item-text text-truncate">Hey! there I'm available...</p>
                                         </div>
@@ -192,7 +192,7 @@ function Navbar() {
 
                     <li className="dropdown notification-list">
                         <NavLink className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <img src="/assets/images/users/avatar-1.jpg" alt="" className="rounded-circle" />
+                            <img src="/assets/images/users/avatar-11.jpg" alt="" className="rounded-circle" />
                             <span className="d-none d-sm-inline-block ml-1 font-weight-medium">Smart Developer</span>
                             <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
                             {/* <MdArrowDropDownCircle className="d-none d-lg-inline-block" /> */}
@@ -242,12 +242,12 @@ function Navbar() {
                 <div className="logo-box">
                     <NavLink to="#" className="logo text-center logo-dark">
                         <span className="logo-lg">
-                            <img src="/assets/images/logo-sm.jpg" alt="" height="50" width="50" />
+                            <img src="/assets/images/fundhill-img.jpg" alt="" height="70" width="100" />
                             {/* <!-- <span className="logo-lg-text-dark">Uplon</span> --> */}
                         </span>
                         <span className="logo-sm">
                             {/* <!-- <span className="logo-lg-text-dark">U</span> --> */}
-                            <img src="/assets/images/logo-sm.jpg" alt="" height="30" width='30' />
+                            <img src="/assets/images/fundhill-img.jpg" alt="" height="50" width='70' />
                         </span>
                     </NavLink>
 

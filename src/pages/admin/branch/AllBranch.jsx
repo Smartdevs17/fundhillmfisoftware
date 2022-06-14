@@ -1,8 +1,9 @@
-import {Fragment,useState} from 'react'
+import {Fragment,useState,useEffect,useContext} from 'react'
 import { Link } from "react-router-dom";
 import { api } from '../../../services';
 import { css } from "@emotion/react";
 import {DotLoader,ClipLoader,RingLoader,CircleLoader,RotateLoader,SyncLoader,BarLoader,BeatLoader,BounceLoader,ClockLoader,FadeLoader,GridLoader,HashLoader,MoonLoader,PacmanLoader} from "react-spinners";
+import {Context} from "../../../context/Context";
 
 
 
@@ -19,16 +20,22 @@ const override = css`
 function AllBranch() {
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
-    let [color, setColor] = useState("#ADD8E6");
+    let [color, setColor] = useState("#ADD8E6"); 
     const [data,setData] = useState([]);
+    const {user} = useContext(Context);
+ 
 
-    const allbranches = async() => {
+
+    useEffect(async () => {
         setIsLoading(true)
 
+        const values = {
+            org_id : `${user.org_id}`
+        }
         const branches = await api
                 .service()
-                .fetch("/accounts/branches",true);
-
+                .fetch("/dashboard/branches/all-branches/",values,true);
+                console.log(branches)
                 console.log(isLoading);
             if(branches){
                 setData(branches);
@@ -36,7 +43,8 @@ function AllBranch() {
             }else{
                 setIsLoading(true)
             }
-    }
+    }, [])
+    
 
     return (
         <Fragment>
@@ -109,9 +117,7 @@ function AllBranch() {
                                                                         <td>Mustafa Yahaya</td>
                                                                         <td>
                                                                             <div className="d-flex align-items-center" style={{ gap: '10px' }}>
-                                                                                {/* <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target="#modelId">
-                                                                                    View
-                                                                                </button> */}
+                                                                  
                                                                                 {/* {`/admin/dashboard/updatebranch?branch_id=${branch?.branch_id}`}  */}
                                                                                 <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
                                                                                 <button type="button" style={{margin: "10px"}}  className="btn btn-danger"> <Link  style={{color: "#fff"}} to={`/admin/dashboard/deletebranch?branch_id=${1}`} > Delete </Link> </button>     

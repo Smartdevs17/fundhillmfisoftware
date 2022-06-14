@@ -153,7 +153,7 @@ function Sidebar() {
                                     <span className="menu-arrow"></span>
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded="false">
-                                <li><Link to="/admin/dashboard/dashboard/esusu_transaction">Esusu Transaction</Link></li>
+                                    <li><Link to="/admin/dashboard/esusu_transaction">Esusu Transaction</Link></li>
                                     <li><Link to="/admin/dashboard/esusu_perform">Esus Performance</Link></li>
                                     <li><Link to="/admin/dashboard/all_marketer">All Marketers</Link></li>
                                     <li><Link to="/admin/dashboard/marketer_account">Marketer Account</Link></li>
@@ -170,6 +170,7 @@ function Sidebar() {
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded="false">
                                     <li><Link to="/admin/dashboard/new_product">New Loan Product</Link></li>
+                                    <li><Link to="/admin/dashboard/add_borrower">Add Borrower</Link></li>
                                     <li><Link to="/admin/dashboard/pending_loan">Pending Loan</Link></li>
                                     <li><Link to="/admin/dashboard/disburse_loan">Disbured Loan</Link></li>
                                     <li><Link to="/admin/dashboard/invoice">Invoice</Link></li>

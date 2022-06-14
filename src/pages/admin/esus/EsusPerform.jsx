@@ -22,7 +22,7 @@ function EsusPerform() {
                                 <ol className="breadcrumb m-0">
                                     <li className="breadcrumb-item"><Link to="#">FundHill</Link></li>
                                     <li className="breadcrumb-item"><Link to="#">Admin</Link></li>
-                                    <li className="breadcrumb-item active">All Customers</li>
+                                    <li className="breadcrumb-item active">Esusu</li>
                                 </ol>
                                 </div>
                                 <h4 className="page-title">Customer</h4>
@@ -39,7 +39,7 @@ function EsusPerform() {
                                 <p className="sub-header">
                                 All Customers and Clients of the MFI.
                                 </p>
-                                <table id="responsive-datatable" className="table table-bordered table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
+                                <table id="datatable-buttons" className="table table-bordered table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
 
                                 <thead>
                                     <tr>
@@ -228,7 +228,7 @@ function EsusPerform() {
                                                     <div className="mt-4">
                                                     <p className="text-muted font-13">Add running payment</p>
                                                     <div className="radio radio-info form-check-inline">
-                                                        <input type="radio" id="inlineRadio1" defaultValue="option1" name="radioInline" defaultChecked />
+                                                        <input type="radio" id="inlineRadio1" defaultValue="option1" name="radioInline" />
                                                         <label htmlFor="inlineRadio1"> No </label>
                                                     </div>
                                                     <div className="radio form-check-inline">

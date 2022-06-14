@@ -45,7 +45,7 @@ function AllExpenses() {
                                     <li className="breadcrumb-item active">Expenses</li>
                                 </ol>
                                 </div>
-                                <h4 className="page-title">All Expenses made by the company..</h4>
+                                <h4 className="page-title">All Expenses made by the company</h4>
                             </div>
                             </div>
                         </div>     
