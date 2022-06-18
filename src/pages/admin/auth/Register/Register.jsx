@@ -20,7 +20,7 @@ const override = css`
 const initialFormState = () => ({
   first_name: "",
   last_name: "",
-  "organisation_name": "",
+  "org_name": "",
   "org_type": "",
   email: "",
   phone: "",
@@ -33,7 +33,7 @@ const validationSchema = yupObject().shape({
   .required("First Name is required"),
   last_name: yupString()
   .required("Last Name is required"),
-  organisation_name: yupString()
+  org_name: yupString()
   .required("Organisation Name is required"),
   org_type: yupString()
   .required("Orginsation type is required"),
@@ -120,12 +120,12 @@ const Register = () => {
             <div className="form-group mb-3">
               <Field
                 as={'input'}
-                name="organisation_name"
+                name="org_name"
                 className="form-control"
                 type="text"
                 placeholder="Full Co-operation/Organisation Name"
               />
-              <ErrorMsg name={'organisation_name'} />
+              <ErrorMsg name={'org_name'} />
             </div>
 
 
@@ -162,8 +162,8 @@ const Register = () => {
                   <div className="col-lg-10">
                   <Field as="select" name="org_type" className="form-control">
                     <option>Choose one</option>
-                    <option value={"MFB"} >MFB</option>
-                    <option value={"MFI"} >MFI</option>
+                    <option value={"B"} >MFB</option>
+                    <option value={"I"} >MFI</option>
                   </Field>
                 </div>
                 <ErrorMsg name={"org_type"} />

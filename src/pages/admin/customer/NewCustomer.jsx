@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState,useEffect,useContext } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import { Country, State, City }  from 'country-state-city';
 import { ICountry, IState, ICity } from 'country-state-city'
@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
+// import "./newcustomer.css";
+
 
 
 function genPassword() {
@@ -24,80 +26,162 @@ for (let i = 0; i <= passwordLength; i++) {
 }
 
 
+// CONTEXT
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
+
+
+
+
+
+
+
+
+
+
+
+
 function NewCustomer() {
-  const [isLoading, setLoading] = useState(false);
-  const [loading,setIsLoading] = useState(true)
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading,setLoading] = useState(true)
   const [color,setColor] = useState("#ADD8E6");
   const navigate = useNavigate();
+  const {user} = useContext(Context);
+  const [marketers,setMarketers] = useState([]);
 
+
+
+  const [first_name, setFirstName] = useState("");
+  const [FnameError,setFnameError] = useState("");
+  const [middle_name, setMiddleName] = useState("");
+  const [MnameError,setMnameError] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [LnameError,setLnameError] = useState("");
+  const [avatar, setAvatar] = useState(null);
+  // const [PPFileError,setPPFileError] = useState(null);
+  const [id_document, setIdDocument] = useState(null);
+  const [utility_bill, setUtilityBill] = useState(null);
+  // const [IDFileError,setIDFileError] = useState("");    
+  // const [UBFile, setUBFile] = useState("");
+  // const [UBFileError,setUBFileError] = useState("");  
+  // const [Bvn, setBvn] = useState("");
+  // const [BvnError,setBvnError] = useState("");    
+  const [dob,setDob] = useState("");
+  const [gender,setGender] = useState("");
+  const [phone,setPhone] = useState("");
+  const [country,setCountry] = useState("");
+  const [state,setState] = useState("");
+  const [city,setCity] = useState("");
+  const [currency,setCurrency] = useState("");
+  const [marketer,setMarketer] = useState("");
+  const [email, setEmail] = useState("");
+  const [EmailError,setEmailError] = useState("");    
+  const [residential_address, setResidentialAddress] = useState("");
+  const [RAError,setRAError] = useState("");    
+  const [BA, setBA] = useState("");
+  const [BAError,setBAError] = useState("");    
+  const [TN, setTN] = useState("");
+  const [TNError,setTNError] = useState("");  
 
   // console.log(Country.getAllCountries())
   // console.log(State.getAllStates())
   const countries = Country.getAllCountries();
   const states = State.getAllStates()
   // console.log(states);
+  useEffect(() => {
+    setIsLoading(true)
 
-  const initialFormState = () => ({
-    title: "",
-    first_name: "",
-    middle_name: "",
-    last_name: "",
-    gender: "",
-    dob: "",
-    avatar: "",
-    id_document: "",
-    email: "",
-    residential_address: "",
-    business_address: "",
-    currency: "",
-    phone: "",
-    city: "",
-    state: "",
-    country: "",
-    user_role: "CUSTOMER",
-    password: genPassword()
-  });
+    const allMarketer = async() => {
+      const res = await api.service().fetch("/accounts/manage/?is_staff=True",true);
+      // console.log(res.data)
+      if(api.isSuccessful(res)){
+        //   console.log(res)
+        setMarketers(res.data.results)
+      }
 
-  const validationSchema = yupObject().shape({
-    title: yupString()
-    .required("The title is required"),
-    first_name: yupString()
-    .required("First name is required"),
-    middle_name: yupString(),
-    last_name: yupString()
-    .required("Last name is required"),
-    gender: yupString(),
-    dob: yupString(),
-    email: yupString(),
-    avatar: yupString()
-    .required("Profile Picture is required"),
-    id_document: yupString(),
-    utility_bill: yupString(),
-    residential_address: yupString(),
-    business_address: yupString(),
-    currency: yupString(),
-    country: yupString()
-    .required("Please Select your country"),
-    state: yupString()
-    .required("Please select your state"),
-    city: yupString()
-    .required("Please select your city")
-  })
-   
-const new_customer = async(values) => {
+      setIsLoading(false);
+
+    }
+
+    allMarketer();
+  },[])
+  
+  
+  const new_customer = async(values) => {
     setIsLoading(true);
     console.log(values);
 
-    const response = await api.service().push("/accounts/manage/signup/",values,true);
+    // const response = await api.service().push(`/accounts/manage/signup/?org_id=${user.data.organisation}`,values,true,true);
+
+    // if(api.isSuccessful(response)){
+    //   setTimeout(() => {
+    //     toast.success("Customer registration was successfully");
+    //     navigate("/admin/dashboard/quick_customer",{replace: true});
+    //   },0);
+    // }
+    // setIsLoading(false);
+
+  }
+
+  const handleAvatarOnChange = (file) => {
+    setAvatar(file[0])
+  }
+
+
+  const handleUtilityOnChange = (file) => {
+    setUtilityBill(file[0])
+  }
+
+
+  const handleDocOnChange = (file) => {
+    setIdDocument(file[0])
+  }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        setIsLoading(true)
+        // setLoading(false)
+        let data = new FormData(e.target);
+        data.append("user_role","CUSTOMER");
+        data.append("password",genPassword());
+        data.append("avatar",avatar);
+        data.append("id_document",id_document);
+        data.append("utility_bill",utility_bill);
+        console.log(data)
+
+
+
+        let values = Object.fromEntries(data.entries())
+        // let remains = {
+        //   user_role: "CUSTOMER",
+        //   password: genPassword()
+        // }
+        // let values = Object.assign(data,remains)
+        // values.append("user_role","CUSTOMER");
+        // values.append("password",genPassword());
+
+        console.log(values);
+
+    const response = await api.service().push(`/accounts/manage/signup/?org_id=${user.data.organisation}`,data,true,true);
 
     if(api.isSuccessful(response)){
       setTimeout(() => {
-        toast.success("New customer registration was successfully");
-        navigate("/admin/dashboard/quick_customer",{replace: true});
+        
+        toast.success("Customer registration was successfully");
+        setIsLoading(false)
+
       },0);
     }
-    setIsLoading(false);
-}
+
+        setIsLoading(false)
+        // setLoading(false)
+
+    }
 
 
   return (
@@ -118,10 +202,10 @@ const new_customer = async(values) => {
                       <li className="breadcrumb-item">
                         <Link to="#">Admin</Link>
                       </li>
-                      <li className="breadcrumb-item active">Customer</li>
+                      <li className="breadcrumb-item active">New Customer</li>
                     </ol>
                   </div>
-                  <h4 className="page-title">Register New Customer</h4>
+                  <h4 className="page-title">Add New Customer</h4>
                 </div>
               </div>
             </div>
@@ -131,110 +215,78 @@ const new_customer = async(values) => {
               <div className="col-12">
                 <div className="card-box">
                   <h4 className="header-title mb-4">New Customer</h4>
-                  <Formik
-                    initialValues={initialFormState()}
-                    validationSchema= {validationSchema}
-                    onSubmit = { async (values,actions) => {
-                        await new_customer(values)
-                    }}
-                 
-                  >
-                  {(props) => (
-                        <Form>
-                              <div className="form-group row">
-                              <label
-                                htmlFor="example-text-input"
-                                className="col-lg-2 col-form-label"
-                              >
-                                Title
-                              </label>
-                              <div className="col-lg-10">
-                                <Field
-                                  as= {"input"}
-                                  className="form-control"
-                                  type="text"
-                                  placeholder="Mr"
-                                  name="title"
-                                />
-                                <ErrorMsg name={"title"} />
-                              </div>
-                            </div>
+                  <form action="" onSubmit={handleSubmit} >
 
-                            <div className="form-group row">
-                              <label
-                                htmlFor="example-text-input"
-                                className="col-lg-2 col-form-label"
-                              >
-                                First Name
-                              </label>
-                              <div className="col-lg-10">
-                                <Field
-                                  as= {"input"}
-                                  className="form-control"
-                                  type="text"
-                                  placeholder="John"
-                                  name="first_name"
-                                />
-                                <ErrorMsg name={"first_name"} />
-                              </div>
-                            </div>
 
-                            <div className="form-group row">
-                              <label
-                                htmlFor="example-text-input"
-                                className="col-lg-2 col-form-label"
-                              >
-                                Middle Name
-                              </label>
-                              <div className="col-lg-10">
-                                <Field
-                                  as= {"input"}
-                                  className="form-control"
-                                  type="text"
-                                  placeholder="Bulus"
-                                  name = "middle_name"
-                                />
-                              </div>
-                            </div>
+                  <div className="form-group row">
+                      <label
+                        htmlFor="example-text-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Title
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name = "title"
+                          type="text"
+                          placeholder="Mr"
+                        />
+                      </div>
+                    </div>
 
-                            <div className="form-group row">
-                              <label
-                                htmlFor="example-text-input"
-                                className="col-lg-2 col-form-label"
-                              >
-                              Last Name
-                              </label>
-                              <div className="col-lg-10">
-                                <Field
-                                  as= {"input"}
-                                  className="form-control"
-                                  type="text"
-                                  placeholder="Deo"
-                                  name = "last_name"
-                                />
-                                <ErrorMsg name={"last_name"} />
-                              </div>
-                            </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-text-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        First Name
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name="first_name"
+                          type="text"
+                          placeholder="John"
+                        />
+                      </div>
+                    </div>
 
-                            <div className="form-group row">
-                              <label
-                                htmlFor="example-text-input"
-                                className="col-lg-2 col-form-label"
-                              >
-                                Email
-                              </label>
-                              <div className="col-lg-10">
-                                <Field
-                                  as= {"input"}
-                                  className="form-control"
-                                  type="email"
-                                  placeholder="smartdevs17@gmail.com"
-                                  name = "email"
-                                />
-                              </div>
-                            </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Middle Name
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name="middle_name"
+                          type="text"
+                          placeholder="Mikel"
+                        />
+                      </div>
+                    </div>
 
-                            <div className="form-group row">
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Last Name
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name="last_name"
+                          type="text"
+                          placeholder="Doe"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
                             <label
                               htmlFor="example-tel-input"
                               className="col-lg-2 col-form-label"
@@ -242,11 +294,11 @@ const new_customer = async(values) => {
                               Gender
                             </label>
                             <div className="col-lg-10">
-                                <Field as="select" name="gender" className="form-control">
+                                <select  name="gender" className="form-control">
                                 <option>Select One</option>
                                 <option value={"M"} >Male</option>
                                 <option value={"F"} >Female</option>
-                                </Field>
+                                </select>
                             </div>
                           </div>
 
@@ -259,8 +311,7 @@ const new_customer = async(values) => {
                               Date of Birth
                               </label>
                               <div className="col-lg-10">
-                                <Field
-                                  as= {"input"}
+                                <input
                                   className="form-control"
                                   type="date"
                                   name = "dob"
@@ -268,65 +319,98 @@ const new_customer = async(values) => {
                               </div>
                             </div>
 
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Profile Photo
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          type="file"
+                          className="dropify"
+                          // name='avatar'
+                          onChange={(e)  => handleAvatarOnChange(e.target.files)}
+                        />
+                      </div>
+                    </div>
 
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        ID
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          type="file"
+                          className="dropify"
+                          // name="id_document"
+                          onChange={(e)  => handleDocOnChange(e.target.files)}
 
-                          <div className="form-group row">
-                          <label
-                            htmlFor="example-search-input"
-                            className="col-lg-2 col-form-label"
-                          >
-                            Profile Photo
-                          </label>
-                          <div className="col-lg-10">
-                            <Field
-                              as = {"input"}
-                              type="file"
-                              className="dropify"
-                              name = "avatar"
                             />
-                            <ErrorMsg name={"avatar"} />
-                          </div>
-                        </div>
+                      </div>
+                    </div>
 
-                        
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Utility Bill
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          type="file"
+                          className="dropify"
+                          // name = "utitity_bill"
+                          onChange={(e)  => handleUtilityOnChange(e.target.files)}
+                           />
+                      </div>
+                    </div>
 
-                        <div className="form-group row">
-                          <label
-                            htmlFor="example-search-input"
-                            className="col-lg-2 col-form-label"
-                          >
-                            Identification Card
-                          </label>
-                          <div className="col-lg-10">
-                            <Field
-                              as = {"input"}
-                              type="file"
-                              className="dropify"
-                              name = "id_document"
-                             
-                            />
-                          </div>
-                        </div>
+                    {/* <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        BVN
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          type="number"
+                          placeholder="10 digit number"
+                          id="example-search-input"
+                          value = {Bvn}
+                            onChange={(e)  => setBvn(e.target.value)}
+                        />
+                      </div>
+                    </div> */}
 
 
-                        <div className="form-group row">
-                          <label
-                            htmlFor="example-search-input"
-                            className="col-lg-2 col-form-label"
-                          >
-                            Utilty Bill
-                          </label>
-                          <div className="col-lg-10">
-                            <Field
-                              as = {"input"}
-                              type="file"
-                              className="dropify"
-                              name = "utility_bill"
-                            />
-                          </div>
-                        </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-email-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Email
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name="email"
+                          type="email"
+                          placeholder="smartdeveloper@yahoo.com"
+         
+                        />
+                      </div>
+                    </div>
 
-                          <div className="form-group row">
+
+                    <div className="form-group row">
                             <label
                               htmlFor="example-tel-input"
                               className="col-lg-2 col-form-label"
@@ -334,51 +418,67 @@ const new_customer = async(values) => {
                               Currency
                             </label>
                             <div className="col-lg-10">
-                                <Field as="select" name="curency" className="form-control">
+                                <select  name="currency" className="form-control">
                                 <option>Select One</option>
                                 <option value={"NGN"} >NGN</option>
                                 <option value={"USD"} >USD</option>
-                                </Field>
+                                </select>
                             </div>
                           </div>
 
-                          <div className="form-group row">
-                              <label
-                                htmlFor="example-text-input"
-                                className="col-lg-2 col-form-label"
-                              >
-                              Residential Address
-                              </label>
-                              <div className="col-lg-10">
-                                <Field
-                                  as= {"input"}
-                                  className="form-control"
-                                  type="text"
-                                  placeholder="Rantya"
-                                  name = "residential_address"
-                                />
-                              </div>
-                            </div>
 
-                            <div className="form-group row">
-                              <label
-                                htmlFor="example-text-input"
-                                className="col-lg-2 col-form-label"
-                              >
-                              Business Address
-                              </label>
-                              <div className="col-lg-10">
-                                <Field
-                                  as= {"input"}
-                                  className="form-control"
-                                  type="text"
-                                  placeholder="Terminus"
-                                  name = "business_address"
-                                />
-                              </div>
-                            </div>
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-url-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Residential Address
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Tudun Wada"
+                          name = "residential_address"
+                        />
+                      </div>
+                    </div>
 
-                            <div className="form-group row">
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-url-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Business Address
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Hwolshe"
+                          name = "business_address"                        />
+                      </div>
+                    </div>
+
+                    
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-tel-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Telephone Number
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          type="tel"
+                          placeholder="234-(222)-333-4445"
+                          name = "phone"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
                             <label
                               htmlFor="example-tel-input"
                               className="col-lg-2 col-form-label"
@@ -386,16 +486,16 @@ const new_customer = async(values) => {
                               Country
                             </label>
                             <div className="col-lg-10">
-                                <Field as="select" name="country" className="form-control">
+                                <select  name="country" className="form-control">
                                 <option>Select One</option>
                                 {
                                   countries.map((country) => (
                                     <>
-                                    <option value={country.isoCode} > {country.name} </option>
+                                    <option key={country.isoCode} value={country.name} > {country.name} </option>
                                     </>
                                   ))
                                 }
-                                </Field>
+                                </select>
                             </div>
                           </div>
 
@@ -407,16 +507,16 @@ const new_customer = async(values) => {
                               State
                             </label>
                             <div className="col-lg-10">
-                                <Field as="select" name="state" className="form-control">
+                                <select  name="state" className="form-control">
                                 <option>Select One</option>
                                 {
                                   states.map((state) => (
                                     <>
-                                    <option value={state.countryCode} > {state.name} </option>
+                                    <option key={state.isoCode} value={state.countryCode} > {state.name} </option>
                                     </>
                                   ))
                                 }
-                                </Field>
+                                </select>
                             </div>
                           </div>
 
@@ -428,31 +528,73 @@ const new_customer = async(values) => {
                               City
                             </label>
                             <div className="col-lg-10">
-                                <Field as="select" name="city" className="form-control">
+                                <select  name="city" className="form-control">
                                 <option>Select One</option>
                                 <option value={"jos"} >Jos</option>
                                 <option value={"bukuru"} >Bukuru</option>
-                                </Field>
+                                </select>
                             </div>
                           </div>
 
-                          <div className="form-group text-center">
-                          {
-                            isLoading ? 
-                              ( <div className="sweet-loading">
-                                  <DotLoader color={color} loading={loading}  size={80} />
-                                </div>)
-                              : (
-                                <button type="submit" className="btn btn-primary btn-block">
-                                  Create Account
-                                </button>
-                              )
-                          }
-                        </div>
 
-                        </Form>
-                      )}
-                  </Formik>   
+                          <div className="form-group row">
+                            <label
+                              htmlFor="example-tel-input"
+                              className="col-lg-2 col-form-label"
+                            >
+                              Marketer
+                            </label>
+                            <div className="col-lg-10">
+                            <select  name="agent_id" className="form-control">
+                                <option>Select One</option>
+                                {
+                                  marketers.map((marketer) => (
+                                    <>
+                                    <option key={marketer.id} value={marketer.id} > {marketer.first_name} </option>
+                                    </>
+                                  ))
+                                }
+                                </select>
+                            </div>
+                          </div>            
+
+               
+{/* 
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-tel-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Choose Staff
+                      </label>
+                      <div className="col-lg-10">
+                        <select className="form-control" data-toggle="select2" value = {Staff} onChange={(e)  => setStaff(e.target.value)}>
+                          <option>Select One</option>
+                          <option value={"Marketer One"}>Staff 1</option>
+                          <option value={"Marketer Two"}>Staff 2</option>
+                          <option value={"Marketer Three"}>Staff 3</option>
+                        </select>
+                      </div>
+                    </div> */}
+
+                    {/* <button type="submit" className="btn btn-primary btn-block">
+                      Create Account
+                    </button> */}
+
+                    <div className="form-group text-center">
+                                    {
+                                        isLoading ? 
+                                        ( <div className="sweet-loading">
+                                            <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                            </div>)
+                                        : (
+                                            <button type="submit" className="btn btn-primary btn-lg btn-block">
+                                            Create Account
+                                            </button>
+                                        )
+                                    }
+                      </div>
+                  </form>
 
                   <div className="form-group row"></div>
                 </div>

@@ -21,31 +21,75 @@ function AllBranch() {
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6"); 
-    const [data,setData] = useState([]);
     const {user} = useContext(Context);
- 
+    const [data,setData] = useState([]);
+    const [marketers,setMarketers] = useState([]);
 
 
-    useEffect(async () => {
+
+    // useEffect( () => {
+    //     setIsLoading(true)
+    //     const branch = async() => {
+    //     const branches = await api
+    //     .service()
+    //     .fetch(`/dashboard/branches/all-branches?org_id=${user.data.organisation}/`,true);
+    //     console.log(branches)
+    //     console.log(isLoading);
+
+    //     setData(branches)
+
+    //     setIsLoading(false)
+    // if(branches){
+    //     setData(branches);
+    //     setIsLoading(false)
+    // }else{
+    //     setIsLoading(true)
+    // }
+    //     }
+
+    //     branch();
+    // }, [])
+
+    useEffect(() => {
         setIsLoading(true)
 
-        const values = {
-            org_id : `${user.org_id}`
-        }
-        const branches = await api
-                .service()
-                .fetch("/dashboard/branches/all-branches/",values,true);
-                console.log(branches)
-                console.log(isLoading);
-            if(branches){
-                setData(branches);
-                setIsLoading(false)
-            }else{
-                setIsLoading(true)
-            }
-    }, [])
+        const allBranches = async() => {
+          const res = await api.service().fetch("https://fundhill-api.herokuapp.com/dashboard/branches/",true);
+          console.log(res.data)
+          if(api.isSuccessful(res)){
+            setData(res.data.results)
+          }
     
+          setIsLoading(false);
+    
+        }
 
+        allBranches();
+      },[]) 
+
+      useEffect(() => {
+        // setIsLoading(true)
+    
+        const allMarketer = async() => {
+          const res = await api.service().fetch("/accounts/manage/?is_staff=True",true);
+          // console.log(res.data)
+          if(api.isSuccessful(res)){
+              console.log(res.data)
+            setMarketers(res.data.results)
+          }
+    
+          // setIsLoading(false);
+    
+        }
+    
+        allMarketer();
+      },[])
+
+    //   const getMarketer = (id) => {
+    //         return marketers.filter((marketer) => marketer.id === id)
+    //   }
+
+    //   console.log(getMarketer(68))
     return (
         <Fragment>
             {/* Start Page Content here */}
@@ -80,22 +124,25 @@ function AllBranch() {
                             <div className="col-12">
                             <div className="card-box">
                                 <h4 className="header-title">All Collections of Branches</h4>
-                                <p className="sub-header">
+                                {/* <p className="sub-header">
                                 All The Branches that belong to the organisation.
-                                </p>
+                                </p> */}
 
-                                                      <div className="sweet-loading text-center">
-                                                        <BounceLoader color={color} loading={loading} css={override}  size={150} />
-                                                    </div>
+                                                     
 
 
                                         <div className="form-group text-center">
                                                     
                                                     {
                                                         isLoading ? 
-                                                        ( <div className="sweet-loading">
-                                                            <ClipLoader color={color} loading={loading} css={override}  size={80} />
-                                                            </div>)
+                                                        ( 
+                                                     
+
+                                                            <div className="sweet-loading text-center">
+                                                                <BounceLoader color={color} loading={loading} css={override}  size={150} />
+                                                            </div>
+                                                                    
+                                                            )
                                                         : (
 
                                                             <table id="datatable" className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
@@ -110,31 +157,14 @@ function AllBranch() {
                                                                 </thead>                                
                                                                 <tbody>
                                                         
-                                                                    <tr>
-                                                                        <td>Branch-1</td>
-                                                                        <td>Tudun Wada Branch</td>
-                                                                        <td>Tudun wada</td>
-                                                                        <td>Mustafa Yahaya</td>
-                                                                        <td>
-                                                                            <div className="d-flex align-items-center" style={{ gap: '10px' }}>
-                                                                  
-                                                                                {/* {`/admin/dashboard/updatebranch?branch_id=${branch?.branch_id}`}  */}
-                                                                                <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
-                                                                                <button type="button" style={{margin: "10px"}}  className="btn btn-danger"> <Link  style={{color: "#fff"}} to={`/admin/dashboard/deletebranch?branch_id=${1}`} > Delete </Link> </button>     
-
-                                                                            </div>
-
-                                                                        </td>
-                                                                        </tr>
-
                                                                      {
                                                                         data.map((branch) => {
                                                                             return(
                                                                                 <tr>
-                                                                                <td> {branch.branch_id} </td>
-                                                                                <td> {branch.branch_name} </td>
+                                                                                <td key={branch.id}> {branch.id} </td>
+                                                                                <td> {branch.name} </td>
                                                                                 <td> {branch.branch_address} </td>
-                                                                                <td> {branch.branch_head} </td>
+                                                                                <td> {branch.branch_head.first_name} {branch.branch_head.last_name} </td>
                                                                                 <td>
                                                                                     <div className="d-flex align-items-center" style={{ gap: '10px' }}>
                                                                                         <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>

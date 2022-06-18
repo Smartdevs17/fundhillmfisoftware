@@ -48,7 +48,7 @@ function EmailConfirm() {
         <div className="text-center">
              <div className="my-3">
                   <Link to="#">
-                            <span><img src="/assets/images/logo-sm.jpg" alt="" height={28} />  </span>
+                            <span><img src="/assets/images/fundhill-img.jpg" alt="" height={28} />  </span>
                           </Link>
                     </div>
                 </div>

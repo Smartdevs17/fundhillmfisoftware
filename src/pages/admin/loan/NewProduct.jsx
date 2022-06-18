@@ -20,24 +20,25 @@ const override = css`
 
 
 function NewProduct() {
-    const {user} = useContext(Context)
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
-    const [data, setData] = useState("");
+    const {user} = useContext(Context)
+    const [data, setData] = useState([]);
 
 
 
 
-    useEffect( async () => {
+    useEffect(  () => {
         setIsLoading(true)
 
-        const branches = await api
+            const newProduct = async() => {
+                const branches = await api
                 .service()
-                .fetch(`/dashboard/branches/${user.org_id}/all-branches`,true);
-                console.log(branches)
+                .fetch(`/dashboard/branches/${user.data.organisation}/all-branches`,true);
+                // console.log(branches)
                 console.log(isLoading);
-            if(branches){
+            if(api.isSuccessful(branches)){
                 setData(branches);
                 setIsLoading(false)
             }else{
@@ -47,16 +48,18 @@ function NewProduct() {
 
         const products = await api
         .service()
-        .fetch(`/dashboard/loan-products/${user.org_id}/all-loan_products`,true);
-        console.log(products)
+        .fetch(`/dashboard/loan-products/${user.data.organistation}/all-loan_products`,true);
+        // console.log(products)
         console.log(isLoading);
-    if(products){
+    if(api.isSuccessful(products)){
         setData(products);
         setIsLoading(false)
     }else{
         setIsLoading(true)
     }
+            }
 
+            newProduct();
     }, [])
 
     const initialFormState = () => ({
@@ -82,7 +85,7 @@ function NewProduct() {
 
         const response = await api
               .service()
-              .push(`${user.org_id}/dashboard/loan-product/add`,values,true)
+              .push(`${user.data.organisation}/dashboard/loan-product/add`,values,true)
 
         if(api.isSuccessful(response)){
           setTimeout( () => {
@@ -213,10 +216,17 @@ function NewProduct() {
                                         </div>
 
                                             
-                                        <div className="row">
+                                        {/* <div className="row">
                                             <div className="col-12">
                                                 <div className="">
-                                                <h4 className="header-title mb-4">Product</h4>
+                          
+                                                </div>
+
+                                            </div>
+                                            </div> */}
+
+
+                                            <h4 className="header-title mb-4">Product</h4>
                                                 <div className="modal-content">
                                                     <Formik
                                                     initialValues={initialFormState()}
@@ -230,25 +240,27 @@ function NewProduct() {
                                                             <div className="form-group row">
                                                                 <label
                                                                     htmlFor="example-text-input"
-                                                                    className="col-lg-2 col-form-label"
+                                                                    className="col-lg-5"
                                                                 >
                                                                     Product Name
                                                                 </label>
                                                                 <div className="col-lg-10">
-                                                                    <Field 
+                                                                <Field 
                                                                     as={"input"}
                                                                     className="form-control"
                                                                     type="text"
-                                                                    placeholder="StudentLoan"                                                                    />
-                                                                    name = "name"
+                                                                    placeholder="10"
+                                                                    name="name"
+                                                                    />
                                                                 </div>
                                                                 <ErrorMsg name={"name"} />
                                                                 </div>
 
-                                                                <div cdilassName="form-group row">
+                                        
+                                                                {/* <div cdilassName="form-group row">
                                                                 <label
                                                                     htmlFor="example-text-input"
-                                                                    className="col-lg-2 col-form-label"
+                                                                    className="col-lg-5"
                                                                 >
                                                                     Product Interest (%)
                                                                 </label>
@@ -262,12 +274,31 @@ function NewProduct() {
                                                                     />
                                                                 </div>
                                                                 <ErrorMsg name={"interest"} />
+                                                                </div> */}
+
+                                                                <div className="form-group row">
+                                                                <label
+                                                                    htmlFor="example-text-input"
+                                                                    className="col-lg-5"
+                                                                >
+                                                                    Product Interest (%)
+                                                                </label>
+                                                                <div className="col-lg-10">
+                                                                    <Field 
+                                                                    as={"input"}
+                                                                    className="form-control"
+                                                                    type="text"
+                                                                    placeholder="10"
+                                                                    name="interest"
+                                                                    />
+                                                                </div>
+                                                                <ErrorMsg name={"Mgt_Charges"} />
                                                                 </div>
 
                                                                 <div className="form-group row">
                                                                 <label
                                                                     htmlFor="example-text-input"
-                                                                    className="col-lg-2 col-form-label"
+                                                                    className="col-lg-5"
                                                                 >
                                                                     Mgt Charges (%)
                                                                 </label>
@@ -282,28 +313,7 @@ function NewProduct() {
                                                                 </div>
                                                                 <ErrorMsg name={"Mgt_Charges"} />
                                                                 </div>
-                                        
 
-                                                                <div className="form-group row">
-                                                                <label
-                                                                    htmlFor="example-tel-input"
-                                                                    className="col-lg-2 col-form-label"
-                                                                    >
-                                                                    State
-                                                                    </label>
-                                                                    <div className="col-lg-10">
-                                                                        <Field as="select" name="state" className="form-control">
-                                                                        <option>Select One</option>
-                                                                        {
-                                                                        data.map((branch) => (
-                                                                            <>
-                                                                            <option value={branch.branch_id} > {branch.branch_name} </option>
-                                                                            </>
-                                                                        ))
-                                                                        }
-                                                                        </Field>
-                                                                    </div>
-                                                                </div>
 
 
                                                                 <button
@@ -318,10 +328,6 @@ function NewProduct() {
                                                 </div>
                                           
                                                 <div className="form-group row"></div>
-                                                </div>
-
-                                            </div>
-                                            </div>
 
 
                                             
