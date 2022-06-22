@@ -1,26 +1,50 @@
-import { Fragment, useState } from "react";
+import {Fragment,useState,useEffect,useContext} from 'react'
 import { Link } from "react-router-dom";
+import { api } from '../../../services';
+import { css } from "@emotion/react";
+import {DotLoader,ClipLoader,RingLoader,CircleLoader,RotateLoader,SyncLoader,BarLoader,BeatLoader,BounceLoader,ClockLoader,FadeLoader,GridLoader,HashLoader,MoonLoader,PacmanLoader} from "react-spinners";
+import {Context} from "../../../context/Context";
+
+
+
+
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: green;
+  align-items: center;
+`;
+
+
 
 function AllExpenses() {
 
+    const [isLoading, setIsLoading] = useState(false);
+    let [loading, setLoading] = useState(true);
+    let [color, setColor] = useState("#ADD8E6");
+    const {user} = useContext(Context);
+    const [expenses,setExpenses] = useState([]);
 
 
 
-    const [amount, setAmount] = useState("");
-    const [amountError,setAmountError] = useState("");
+    useEffect(() => {
+        setIsLoading(true)
 
-    const [desc, setDesc] = useState("");
-    const [descError,setDescError] = useState("");
+        const allExpenses = async() => {
+          const res = await api.service().fetch("/dashboard/expense/",true);
+          console.log(res.data)
+          if(api.isSuccessful(res)){
+            //   console.log(res)
+            setExpenses(res.data.results)
+          }
+    
+          setIsLoading(false);
+    
+        }
 
-
-    const [marketer, setMarketer] = useState("");
-    const [marketerError,setMarketerError] = useState("");
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(marketer,amount,desc);   
-
-    }
+        allExpenses();
+      },[])
 
     return (
         <Fragment>
@@ -56,46 +80,62 @@ function AllExpenses() {
                             <div className="col-12">
                             <div className="card-box">
                                 <h4 className="header-title">All Expenses</h4>
-                                <table  className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
-                                <thead>
-                                    <tr>
-                                    <th> ID </th>
-                                    <th> Marketer </th>
-                                    <th> Amount</th>
-                                    <th> Description </th>
-                                    <th> Date </th>
-                                    <th> Action </th>
-                                    {/* <th></th> */}
-                                    </tr>
-                                </thead>
+                         
+                                <div className="form-group text-center">
+                                                    
+                                                    {
+                                                        isLoading ? 
+                                                        ( 
+                                                     
 
-                                <tbody>
-                                    <tr>
-                                    <td>1</td>
-                                    <td>Joshua Adetunde</td>
-                                    <td>$1000</td>
-                                    <td>Buy Cloths for all the staff</td>
-                                    <td>2022-04-01</td>
-                                
-                                    <td>
-                                 
+                                                            <div className="sweet-loading text-center">
+                                                                <BounceLoader color={color} loading={loading} css={override}  size={150} />
+                                                            </div>
+                                                                    
+                                                            )
+                                                        : (
 
-                                    <div className="" style={{display: "flex",justifyContent: "space-between",gap: "10px"}}>
-                                        {/* Button trigger modal */}
-                                        <button id='expenses' type="button" className="btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-target="#expensesId">
-                                        Edit
-                                        </button>
+                                                            <table id="datatable" className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
+                                                                <thead>
+                                                                    <tr>
+                                                                    <th>Expenses ID</th>
+                                                                    <th>Expenses Marketer </th>
+                                                                    <th>Expenses Amount</th>
+                                                                    <th>Description</th>
+                                                                    <th>Action</th>
+                                                                    </tr>
+                                                                </thead>                                
+                                                                <tbody>
+                                                        
+                                                                     {
+                                                                        expenses.map((expense) => {
+                                                                            return(
+                                                                                <tr>
+                                                                                <td key={expense.id}> {expense.id} </td>
+                                                                                <td> {expense.agent.first_name} {expense.agent.last_name} </td>
+                                                                                <td> {expense.amount} </td>
+                                                                                <td> {expense.description}  </td>
+                                                                                <td>
+                                                                                    <div className="d-flex align-items-center" style={{ gap: '10px' }}>
+                                                                                        <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
+                                                                                        <button type="button" style={{margin: "10px"}}  className="btn btn-danger"> <Link  style={{color: "#fff"}} to={`/admin/dashboard/deletebranch?branch_id=${1}`} > Delete </Link> </button>     
+                
+                                                                                    </div>
+                
+                                                                                </td>
+                                                                                </tr>
+                                                                            )
+                                                                        })
+                                                                     }
 
-                                        <button id="delete-expenses" type="button" className="btn btn-outline-danger waves-effect waves-light">
-                                            Delete
-                                        </button>
-                                    </div>
-                                    </td>
-                                
-                                    {/* <td> <button type="button" className="btn btn-primary"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}> Update </Link> </button> </td> */}
-                                    </tr>
-                                </tbody>
-                                </table>
+
+                                                                </tbody>
+                                                                </table>
+
+                                                           
+                                                        )
+                                                    }
+                                                      </div>
 
 
                             {/* Modal */}
@@ -112,7 +152,7 @@ function AllExpenses() {
                                             <div className="container-fluid">
 
 
-                                            <form action="" onSubmit={handleSubmit} >
+                                            <form action="" >
 
 
                                                 <div className="form-group row">
@@ -123,7 +163,7 @@ function AllExpenses() {
                                                     Choose Marketer
                                                     </label>
                                                     <div className="col-lg-10">
-                                                    <select className="form-control" data-toggle="select2" value = {marketer} onChange={(e)  => setMarketer(e.target.value)}>
+                                                    <select className="form-control" data-toggle="select2" >
                                                         <option>Select One</option>
                                                         <option value={"Marketer One"}>Marketer 1</option>
                                                         <option value={"Marketer Two"}>Marketer 2</option>
@@ -147,8 +187,6 @@ function AllExpenses() {
                                                         type="text"
                                                         placeholder="$1000"
                                                         id="example-text-input"
-                                                        value = {amount}
-                                                        onChange={(e)  => setAmount(e.target.value)}
                                                     />
                                                     </div>
                                                 </div>
@@ -168,8 +206,6 @@ function AllExpenses() {
                                                         type="text"
                                                         placeholder="John"
                                                         id="example-text-input"
-                                                        value = {desc}
-                                                        onChange={(e)  => setDesc(e.target.value)}
                                                     />
                                                     </div>
                                                 </div>

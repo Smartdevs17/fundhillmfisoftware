@@ -32,7 +32,7 @@ function NewBranch() {
 
   const initialFormState = () => ({
     name: "",
-    branch_head_id: 0,
+    branch_head_id: null,
     branch_address: "",
     // org_id: `${user.data.organisation}`,
   });

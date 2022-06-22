@@ -40,21 +40,13 @@ function Sidebar() {
                             </li>
 
                          
-                            <li onClick={() => setArrow(true)} >
+                            {/* <li onClick={() => setArrow(true)} >
                                 <Link  to="#">
                                     <i > <GiBlackBook  /> </i>
                                     <span> Accounting </span>
                                     <span className="menu-arrow"></span>
                                   
-                                    {/* {arrow ? (
-                                        <span>
-                                        <FiChevronDown className="menu-arrow" />
-                                        </span>
-                                    ): (
-                                        <span>
-                                        <FiChevronRight className="menu-arrow" />
-                                        </span>
-                                    )} */}
+                                
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={"false"} >
                                     <li><Link to="/admin/dashboard/all_deposit">Deposit</Link></li>
@@ -66,7 +58,7 @@ function Sidebar() {
                              
 
                                 </ul>
-                            </li>
+                            </li> */}
                         
                             <li>
                                 <Link to="#">
@@ -107,7 +99,7 @@ function Sidebar() {
                                 </ul>
                             </li>
                                    
-                            <li>
+                            {/* <li>
                                 <Link to="#">
                                     <i > <MdOutlineSavings  /> </i>
                                     <span> Savings Plan </span>
@@ -119,11 +111,11 @@ function Sidebar() {
                                     <li><Link to="/admin/dashboard/withdrawal_receipt">Targeted Savings</Link></li>
                                     <li><Link to="/admin/dashboard/statement_of_account">Regular Savings</Link></li>
                                     <li><Link to="/admin/dashboard/account_history">Statment Account</Link></li>
-                                    {/* <li><Link to="">My Transaction History</Link></li> */}
-                                    {/* <li><Link to="">Targeted Savings</Link></li> */}
+                                    <li><Link to="">My Transaction History</Link></li>
+                                    <li><Link to="">Targeted Savings</Link></li>
 
                                 </ul>
-                            </li>
+                            </li> */}
 
 
                                    
@@ -145,7 +137,7 @@ function Sidebar() {
                                 </ul>
                             </li> */}
 
-                            <li>
+                            {/* <li>
                                 <Link to="#">
                                     <i > <IoMdBusiness  /> </i>
                                     <span> Esusu Management </span>
@@ -158,7 +150,7 @@ function Sidebar() {
                                     <li><Link to="/admin/dashboard/marketer_account">Marketer Account</Link></li>
                                     
                                 </ul>
-                            </li>
+                            </li> */}
 
 
                             <li>

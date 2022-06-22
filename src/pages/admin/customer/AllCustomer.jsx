@@ -113,8 +113,8 @@ function AllCustomer() {
                                                 data.map((customer) => (
                                                     <Fragment>
                                                     <tr >
-                                                                <th key={customer.id}><span className="co-name"> {customer.id} </span></th>
-                                                                <td>{customer.first_name} {customer.last_name} </td>
+                                                                <th ><span className="co-name"> {customer.id} </span></th>
+                                                                <td key={customer.id}>{customer.first_name} {customer.last_name} </td>
                                                                 <td> {customer.phone} </td>
                                                                 <td> {customer.email} </td>
                                                                 <td> {customer.country.name} </td>

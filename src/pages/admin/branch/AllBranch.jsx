@@ -27,28 +27,6 @@ function AllBranch() {
 
 
 
-    // useEffect( () => {
-    //     setIsLoading(true)
-    //     const branch = async() => {
-    //     const branches = await api
-    //     .service()
-    //     .fetch(`/dashboard/branches/all-branches?org_id=${user.data.organisation}/`,true);
-    //     console.log(branches)
-    //     console.log(isLoading);
-
-    //     setData(branches)
-
-    //     setIsLoading(false)
-    // if(branches){
-    //     setData(branches);
-    //     setIsLoading(false)
-    // }else{
-    //     setIsLoading(true)
-    // }
-    //     }
-
-    //     branch();
-    // }, [])
 
     useEffect(() => {
         setIsLoading(true)
@@ -67,29 +45,8 @@ function AllBranch() {
         allBranches();
       },[]) 
 
-      useEffect(() => {
-        // setIsLoading(true)
-    
-        const allMarketer = async() => {
-          const res = await api.service().fetch("/accounts/manage/?is_staff=True",true);
-          // console.log(res.data)
-          if(api.isSuccessful(res)){
-              console.log(res.data)
-            setMarketers(res.data.results)
-          }
-    
-          // setIsLoading(false);
-    
-        }
-    
-        allMarketer();
-      },[])
 
-    //   const getMarketer = (id) => {
-    //         return marketers.filter((marketer) => marketer.id === id)
-    //   }
 
-    //   console.log(getMarketer(68))
     return (
         <Fragment>
             {/* Start Page Content here */}
