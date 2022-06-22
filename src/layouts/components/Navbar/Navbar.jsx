@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import { Fragment,useContext } from 'react'
 import { NavLink} from "react-router-dom";
 // import { FaAlignJustify} from "react-icons/fa";
 // import {IoMdNotificationsOutline,IoIosArrowDropdownCircle} from "react-icons/io"
@@ -6,8 +6,19 @@ import { NavLink} from "react-router-dom";
 import {FiSettings} from "react-icons/fi"
 import {MdOutlineSearch} from "react-icons/md"
 // import {RiArrowDropDownLine} from "react-icons/ri"
+import {Context} from "../../../context/Context";
+
+
+
 
 function Navbar() {
+
+    const { user, dispatch } = useContext(Context);
+    const PF = "https://fundhill-api.herokuapp.com/media/"
+  
+    const handleLogout = () => {
+      dispatch({ type: "LOGOUT" });
+    };
 
   return (
     <Fragment>
@@ -191,12 +202,24 @@ function Navbar() {
                     </li>
 
                     <li className="dropdown notification-list">
-                        <NavLink className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
-                            <img src="/assets/images/users/avatar-11.jpg" alt="" className="rounded-circle" />
-                            <span className="d-none d-sm-inline-block ml-1 font-weight-medium">Smart Developer</span>
-                            <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
-                            {/* <MdArrowDropDownCircle className="d-none d-lg-inline-block" /> */}
-                        </NavLink>
+                      {user ? 
+                            (
+                                <NavLink className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                    <img src={PF + user.photo} alt="" className="rounded-circle" />
+                                    <span className="d-none d-sm-inline-block ml-1 font-weight-medium"> {user.data.first_name} {user.data.last_name} </span>
+                                    <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
+                                    {/* <MdArrowDropDownCircle className="d-none d-lg-inline-block" /> */}
+                                </NavLink>
+                            ): 
+                            (
+                                <NavLink className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                    <img src="/assets/images/users/avatar-11.jpg" alt="" className="rounded-circle" />
+                                    <span className="d-none d-sm-inline-block ml-1 font-weight-medium">Smart Developer</span>
+                                    <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
+                                    {/* <MdArrowDropDownCircle className="d-none d-lg-inline-block" /> */}
+                                </NavLink>
+                            )
+                      }
                         <div className="dropdown-menu dropdown-menu-right profile-dropdown ">
 
                             <div className="dropdown-header noti-title">
@@ -222,7 +245,7 @@ function Navbar() {
 
                             <div className="dropdown-divider"></div>
 
-                            <NavLink to="/" className="dropdown-item notify-item">
+                            <NavLink onClick={handleLogout} to="/" className="dropdown-item notify-item">
                                 <i className="mdi mdi-logout-variant"></i>
                                 <span >Logout</span>
                             </NavLink>

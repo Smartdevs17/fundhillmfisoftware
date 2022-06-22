@@ -1,14 +1,14 @@
 // STYLES
 import { Formik, Form, Field } from "formik";
 import { object as yupObject, string as yupString } from 'yup';
-import { Fragment, useState } from "react";
+import { Fragment, useState,useContext } from "react";
 import { api } from "../../../services";
 import { ErrorMsg } from "../../../layouts/components";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
-
+import {Context} from "../../../context/Context";
 
 
 
@@ -31,14 +31,15 @@ const override = css`
   border-color: red;
 `;
 
-const initialFormState = () => ({
+const initialFormState = () => (
+    {
   first_name: "",
   last_name: "",
-  dob: "",
+//   dob: "",
   phone: "",
   email: "",
   user_role: "",
-  password: genPassword()
+  password: genPassword(),
 
 });
 
@@ -47,8 +48,8 @@ const validationSchema = yupObject().shape({
   .required("first name is required"),
   last_name: yupString()
   .required("last name is require"),
-  organisation_name: yupString()
-  .required("organisation name is required"),
+//   organisation_name: yupString()
+//   .required("organisation name is required"),
   email: yupString()
   .required("email is required"),
   phone: yupString()
@@ -62,17 +63,18 @@ function NewMarketer() {
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
+    let {user} = useContext(Context);
     // #90EE90
     const navigate = useNavigate();
   
-    
+    // console.log(user.data)
   
     const marketer = async(values) => {
           setIsLoading(true);
           console.log(values)
           const response = await api
                 .service()
-                .push("/accounts/manage/signup/",values,true,true)
+                .push(`/accounts/manage/signup/?org_id=${user.data.organisation}`,values,true)
   
           if(api.isSuccessful(response)){
             setTimeout(() => {
@@ -181,7 +183,7 @@ function NewMarketer() {
                                     </div>
 
 
-                                    <div className="form-group row">
+                                    {/* <div className="form-group row">
                                     <label
                                         htmlFor="example-tel-input"
                                         className="col-lg-2 col-form-label"
@@ -197,7 +199,7 @@ function NewMarketer() {
                                         />
                                     <ErrorMsg name={'organisation_name'} />
                                     </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className="form-group row">
                                     <label

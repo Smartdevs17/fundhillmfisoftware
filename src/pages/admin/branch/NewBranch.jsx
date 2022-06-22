@@ -1,7 +1,7 @@
-import { Fragment, useState,useContext } from "react";
+import { Fragment, useState,useContext,useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
-import {object as yupObject,string as yupString} from "yup";
+import {object as yupObject,string as yupString,number as yupNumber} from "yup";
 import { ErrorMsg } from "../../../layouts/components";
 import { api  } from "../../../services";
 import { toast } from "react-toastify";
@@ -10,6 +10,14 @@ import {DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
 
 
+
+// CONTEXT
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
+
 function NewBranch() {
   const {user} = useContext(Context)
   const [isLoading, setIsLoading] = useState(false);
@@ -17,15 +25,16 @@ function NewBranch() {
   let [color, setColor] = useState("#ADD8E6");
   const [bhead, setBHead] = useState("");
   const navigate = useNavigate();
+  const [marketers,setMarketers] = useState([]);
 
 
 
 
   const initialFormState = () => ({
     name: "",
-    branch_head_id: "",
+    branch_head_id: null,
     branch_address: "",
-    org_id: `${user.org_id}`,
+    // org_id: `${user.data.organisation}`,
   });
 
   const validationSchema = yupObject().shape({
@@ -33,8 +42,26 @@ function NewBranch() {
     .required("Branch name is required"),
     branch_address: yupString()
     .required("Branch Address is required"),
-    branch_head_id: yupString()
+    branch_head_id: yupNumber()
   })
+
+  useEffect(() => {
+    // setIsLoading(true)
+
+    const allMarketer = async() => {
+      const res = await api.service().fetch("/accounts/manage/?is_staff=True",true);
+      // console.log(res.data)
+      if(api.isSuccessful(res)){
+          console.log(res.data)
+        setMarketers(res.data.results)
+      }
+
+      // setIsLoading(false);
+
+    }
+
+    allMarketer();
+  },[])
 
     const create_branch = async(values) => {
           setIsLoading(true);
@@ -47,7 +74,7 @@ function NewBranch() {
           if(api.isSuccessful(response)){
             setTimeout( () => {
               toast.success("Branch successfully created!");
-              navigate("/admin/allbranch",{replace: true})
+              navigate("/admin/dashboard/newbranch",{replace: true})
             },0);
           }
           setIsLoading(false);
@@ -123,9 +150,13 @@ function NewBranch() {
                       <div className="col-lg-10">
                           <Field as="select" name="branch_head_id" className="form-control">
                           <option>Select One</option>
-                          <option value={"Staff One"} >Staff 1</option>
-                          <option value={"Staff Two"} >Staff 2</option>
-                          <option value={"Staff Three"} >Staff 3</option>
+                          {
+                                  marketers.map((marketer) => (
+                                    <>
+                                    <option key={marketer.id} value={marketer.id} > {marketer.first_name} </option>
+                                    </>
+                                  ))
+                                }
                           </Field>
                       </div>
                     </div>
@@ -153,7 +184,7 @@ function NewBranch() {
                           {
                             isLoading ? 
                               ( <div className="sweet-loading">
-                                  <DotLoader color={color} loading={loading}  size={80} />
+                                  <DotLoader color={color} loading={loading} css={override}  size={80} />
                                 </div>)
                               : (
                                 <button

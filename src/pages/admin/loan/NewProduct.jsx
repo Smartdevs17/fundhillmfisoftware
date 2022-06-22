@@ -1,7 +1,7 @@
 import {Fragment,useState,useContext,useEffect} from 'react'
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import {Formik,Form,Field} from "formik";
-import {object as yupObject, string as yupString} from "yup";
+import {object as yupObject, string as yupString,number as yupNumber} from "yup";
 import {ErrorMsg} from "../../../layouts/components";
 import { api  } from "../../../services";
 import { toast } from "react-toastify";
@@ -20,60 +20,60 @@ const override = css`
 
 
 function NewProduct() {
-    const {user} = useContext(Context)
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
-    const [data, setData] = useState("");
+    const {user} = useContext(Context)
+    const [data, setData] = useState([]);
+    const  navigate = useNavigate();
 
 
 
 
-    useEffect( async () => {
+    useEffect(  () => {
         setIsLoading(true)
 
-        const branches = await api
-                .service()
-                .fetch(`/dashboard/branches/${user.org_id}/all-branches`,true);
-                console.log(branches)
-                console.log(isLoading);
-            if(branches){
-                setData(branches);
-                setIsLoading(false)
-            }else{
-                setIsLoading(true)
-            }
+            const newProduct = async() => {
+              
+                // console.log(isLoading);
+            // if(api.isSuccessful(branches)){
+            //     setData(branches.data.results);
+            //     setIsLoading(false)
+            // }
+            // else{
+            //     setIsLoading(true)
+            // }
 
 
         const products = await api
         .service()
-        .fetch(`/dashboard/loan-products/${user.org_id}/all-loan_products`,true);
-        console.log(products)
-        console.log(isLoading);
-    if(products){
-        setData(products);
+        .fetch("/dashboard/loan-product",true);
+        console.log(products.data.results)
+        
+    if((api.isSuccessful(products))){
+        setData(products.data.results);
         setIsLoading(false)
     }else{
         setIsLoading(true)
     }
+            }
 
+            newProduct();
     }, [])
 
     const initialFormState = () => ({
         name: "",
-        Mgt_Charges: "",
-        interest: "",
-        branch: ""
+        mgt_charges: 0,
+        interest: 0,
       });
 
       const validationSchema = yupObject().shape({
         name: yupString()
         .required("Product name is required"),
-        Mgt_Charges: yupString()
+        mgt_charges: yupNumber()
         .required("Managment Charges is required"),
-        interest: yupString()
+        interest: yupNumber()
         .required("interest rate is required"),
-        branch: yupString()
       });
 
       const add_product = async(values) => {
@@ -82,11 +82,12 @@ function NewProduct() {
 
         const response = await api
               .service()
-              .push(`${user.org_id}/dashboard/loan-product/add`,values,true)
+              .push("dashboard/loan-product/add/",values,true)
 
         if(api.isSuccessful(response)){
           setTimeout( () => {
             toast.success("Loan Product successfully created!");
+            // navigate("/dashboard/loan-product",{replace: true});
           },0);
         }
         setIsLoading(false);
@@ -155,31 +156,17 @@ function NewProduct() {
                                                                 </thead>
 
                                                                 <tbody>
-                                                                    <tr>
-                                                                    <td>1</td>
-                                                                    <td>Student Loan</td>
-                                                                    <td>10</td>
-                                                                    <td>5</td>
-                                                                    <td> 
-                                                                    <button id='editproduct' style={{margin: "10px"}} type="button" className="btn btn-primary" data-toggle="modal" data-target="#editproductId">
-                                                                        Edit
-                                                                    </button>      
-
-                                                                    <button type="button" className="btn btn-danger" id="sa-warning">Delete</button>                              
-                                                                    </td>
-                                                                    
-                                                                    </tr>
+                                                             
 
 
                                                                     {
                                                                         data.map((product) => {
                                                                             return(
                                                                                     <tr>
-                                                                                        <td> {product.id} </td>
+                                                                                        <td key={product.id} > {product.id} </td>
                                                                                         <td> {product.name} </td>
                                                                                         <td> {product.interest} </td>
-                                                                                        <td> {product.Mgt_Charges} </td>
-                                                                                        <td> {product.branch} </td>
+                                                                                        <td> {product.mgt_charges} </td>
                                                                                         <td>
                                                                                             <div className="d-flex align-items-center" style={{ gap: '10px' }}>
                                                                                                 <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
@@ -213,10 +200,17 @@ function NewProduct() {
                                         </div>
 
                                             
-                                        <div className="row">
+                                        {/* <div className="row">
                                             <div className="col-12">
                                                 <div className="">
-                                                <h4 className="header-title mb-4">Product</h4>
+                          
+                                                </div>
+
+                                            </div>
+                                            </div> */}
+
+
+                                            <h4 className="header-title mb-4">Product</h4>
                                                 <div className="modal-content">
                                                     <Formik
                                                     initialValues={initialFormState()}
@@ -230,25 +224,28 @@ function NewProduct() {
                                                             <div className="form-group row">
                                                                 <label
                                                                     htmlFor="example-text-input"
-                                                                    className="col-lg-2 col-form-label"
+                                                                    className="col-lg-5"
                                                                 >
                                                                     Product Name
                                                                 </label>
                                                                 <div className="col-lg-10">
-                                                                    <Field 
+                                                                <Field 
                                                                     as={"input"}
                                                                     className="form-control"
                                                                     type="text"
-                                                                    placeholder="StudentLoan"                                                                    />
-                                                                    name = "name"
+                                                                    placeholder="school load"
+                                                                    name="name"
+                                                                    />
                                                                 </div>
                                                                 <ErrorMsg name={"name"} />
                                                                 </div>
 
-                                                                <div cdilassName="form-group row">
+                                        
+                                                         
+                                                                <div className="form-group row">
                                                                 <label
                                                                     htmlFor="example-text-input"
-                                                                    className="col-lg-2 col-form-label"
+                                                                    className="col-lg-5"
                                                                 >
                                                                     Product Interest (%)
                                                                 </label>
@@ -257,7 +254,7 @@ function NewProduct() {
                                                                     as={"input"}
                                                                     className="form-control"
                                                                     type="text"
-                                                                    placeholder="10"
+                                                                    // placeholder="10"
                                                                     name="interest"
                                                                     />
                                                                 </div>
@@ -267,7 +264,7 @@ function NewProduct() {
                                                                 <div className="form-group row">
                                                                 <label
                                                                     htmlFor="example-text-input"
-                                                                    className="col-lg-2 col-form-label"
+                                                                    className="col-lg-5"
                                                                 >
                                                                     Mgt Charges (%)
                                                                 </label>
@@ -276,52 +273,40 @@ function NewProduct() {
                                                                     as={"input"}
                                                                     className="form-control"
                                                                     type="text"
-                                                                    placeholder="10"
-                                                                    name="Mgt_Charges"
+                                                                    // placeholder="10"
+                                                                    name="mgt_charges"
                                                                     />
                                                                 </div>
-                                                                <ErrorMsg name={"Mgt_Charges"} />
-                                                                </div>
-                                        
-
-                                                                <div className="form-group row">
-                                                                <label
-                                                                    htmlFor="example-tel-input"
-                                                                    className="col-lg-2 col-form-label"
-                                                                    >
-                                                                    State
-                                                                    </label>
-                                                                    <div className="col-lg-10">
-                                                                        <Field as="select" name="state" className="form-control">
-                                                                        <option>Select One</option>
-                                                                        {
-                                                                        data.map((branch) => (
-                                                                            <>
-                                                                            <option value={branch.branch_id} > {branch.branch_name} </option>
-                                                                            </>
-                                                                        ))
-                                                                        }
-                                                                        </Field>
-                                                                    </div>
+                                                                <ErrorMsg name={"mgt_charges"} />
                                                                 </div>
 
 
-                                                                <button
+
+                                                                {/* <button
                                                                 type="submit"
                                                                 className="btn btn-success"
                                                                 >
                                                                 Add
-                                                                </button>
+                                                                </button> */}
+                                                                {/* <div className="form-group text-center"> */}
+                                                                    {
+                                                                        isLoading ? 
+                                                                        ( <div className="sweet-loading">
+                                                                            <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                                                            </div>)
+                                                                        : (
+                                                                            <button type="submit" className="btn btn-success">
+                                                                            Add
+                                                                            </button>
+                                                                        )
+                                                                    }
+                                                                {/* </div> */}
                                                             </Form>
                                                         )}
                                                     </Formik>
                                                 </div>
                                           
                                                 <div className="form-group row"></div>
-                                                </div>
-
-                                            </div>
-                                            </div>
 
 
                                             

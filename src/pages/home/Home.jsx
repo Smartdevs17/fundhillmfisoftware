@@ -31,7 +31,7 @@ function Home() {
                               <div className="full">
                                 <div className="center-desk">
                                   <div className="logo">
-                                    <Link to="/admin/dashboard"><img height="75px" width="75px" src="/asset/images/logo-sm.jpg" alt="#" /></Link>
+                                    <Link to="/admin/dashboard"><img height="75px" width="75px" src="/assets/images/fundhill-img.jpg" alt="#" /></Link>
                                   </div>
                                 </div>
                               </div>

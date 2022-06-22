@@ -89,12 +89,12 @@ class ServiceApi {
         return is_attached ? {
             headers: {
                 "Content-Type": "multipart/form-data",
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-            },
+                Authorization: `${localStorage.getItem("token")}`
+            }, 
         } : {
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`
+                Authorization: `${localStorage.getItem("token")}`
             },
         };
     }
@@ -105,8 +105,9 @@ class ServiceApi {
         const toastOptions = {
             autoClose: false,
         };
-        toast.error('An error occured, please try again', toastOptions);
+        toast.error(`An error occured ${err}, please reload again`, toastOptions);
         console.error('API ERROR:', err);
+        console.log(err)
         return err;
     }
 

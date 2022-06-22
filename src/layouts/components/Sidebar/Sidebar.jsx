@@ -40,23 +40,15 @@ function Sidebar() {
                             </li>
 
                          
-                            <li onClick={() => setArrow(true)} >
+                            {/* <li onClick={() => setArrow(true)} >
                                 <Link  to="#">
                                     <i > <GiBlackBook  /> </i>
                                     <span> Accounting </span>
                                     <span className="menu-arrow"></span>
                                   
-                                    {/* {arrow ? (
-                                        <span>
-                                        <FiChevronDown className="menu-arrow" />
-                                        </span>
-                                    ): (
-                                        <span>
-                                        <FiChevronRight className="menu-arrow" />
-                                        </span>
-                                    )} */}
+                                
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded="false" >
+                                <ul className="nav-second-level"  aria-expanded={"false"} >
                                     <li><Link to="/admin/dashboard/all_deposit">Deposit</Link></li>
                                     <li><Link to="/admin/dashboard/all_withdrawsavings">Withdrawal</Link></li>
                                     <li><Link to="/admin/dashboard/all_regsavings">Regular Savings</Link></li>
@@ -66,7 +58,7 @@ function Sidebar() {
                              
 
                                 </ul>
-                            </li>
+                            </li> */}
                         
                             <li>
                                 <Link to="#">
@@ -74,7 +66,7 @@ function Sidebar() {
                                     <span> Branch </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded="false" >
+                                <ul className="nav-second-level"  aria-expanded={"false"} >
                                     <li><Link to="/admin/dashboard/newbranch">New Branch</Link></li>
                                     <li><Link to="/admin/dashboard/allbranch">All Branches</Link></li>
                                 </ul>
@@ -87,9 +79,9 @@ function Sidebar() {
                                     <span> Customer </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded="false" >
+                                <ul className="nav-second-level"  aria-expanded={false} >
                                     <li><Link to="/admin/dashboard/newcustomer">New Customer</Link></li>
-                                    <li><Link to="/admin/dashboard/quick_customer">Quick Customer</Link></li>
+                                    {/* <li><Link to="/admin/dashboard/quick_customer">Quick Customer</Link></li> */}
                                     <li><Link to="/admin/dashboard/allcustomer">All Customers</Link></li>
                                 </ul>
                             </li>
@@ -100,34 +92,34 @@ function Sidebar() {
                                     <span> Marketer </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded="false" >
+                                <ul className="nav-second-level"  aria-expanded={"false"} >
                                     <li><Link to="/admin/dashboard/new_marketer">New Marketer</Link></li>
                                     <li><Link to="/admin/dashboard/all_marketer">All Marketers</Link></li>
                                     <li><Link to="/admin/dashboard/marketer_account">Marketer Account</Link></li>
                                 </ul>
                             </li>
                                    
-                            <li>
+                            {/* <li>
                                 <Link to="#">
                                     <i > <MdOutlineSavings  /> </i>
                                     <span> Savings Plan </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded="false">
+                                <ul className="nav-second-level"  aria-expanded={"false"}>
                                     <li><Link to="/admin/dashboard/savings">Deposit And WithDrawal</Link></li>
                                     <li><Link to="/admin/dashboard/deposit_receipt">Fixed Deposit</Link></li>
                                     <li><Link to="/admin/dashboard/withdrawal_receipt">Targeted Savings</Link></li>
                                     <li><Link to="/admin/dashboard/statement_of_account">Regular Savings</Link></li>
                                     <li><Link to="/admin/dashboard/account_history">Statment Account</Link></li>
-                                    {/* <li><Link to="">My Transaction History</Link></li> */}
-                                    {/* <li><Link to="">Targeted Savings</Link></li> */}
+                                    <li><Link to="">My Transaction History</Link></li>
+                                    <li><Link to="">Targeted Savings</Link></li>
 
                                 </ul>
-                            </li>
+                            </li> */}
 
 
                                    
-                            <li>
+                            {/* <li>
                                 <Link to="#">
                                     <i > <HiOutlineDocumentReport  /> </i>
                                     <span> Report </span>
@@ -140,26 +132,25 @@ function Sidebar() {
                                     <li><Link to="/admin/dashboard/regular_savings_report">Regular Savings</Link></li>
                                     <li><Link to="/admin/dashboard/marketer_account">Marketer Report</Link></li>
 
-                                    {/* <li><Link to="">My Transaction History</Link></li> */}
-                                    {/* <li><Link to="">Targeted Savings</Link></li> */}
+                            
 
                                 </ul>
-                            </li>
+                            </li> */}
 
-                            <li>
+                            {/* <li>
                                 <Link to="#">
                                     <i > <IoMdBusiness  /> </i>
                                     <span> Esusu Management </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded="false">
+                                <ul className="nav-second-level"  aria-expanded={"false"}>
                                     <li><Link to="/admin/dashboard/esusu_transaction">Esusu Transaction</Link></li>
                                     <li><Link to="/admin/dashboard/esusu_perform">Esus Performance</Link></li>
                                     <li><Link to="/admin/dashboard/all_marketer">All Marketers</Link></li>
                                     <li><Link to="/admin/dashboard/marketer_account">Marketer Account</Link></li>
                                     
                                 </ul>
-                            </li>
+                            </li> */}
 
 
                             <li>
@@ -168,7 +159,7 @@ function Sidebar() {
                                     <span> Loan Management </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded="false">
+                                <ul className="nav-second-level"  aria-expanded={"false"}>
                                     <li><Link to="/admin/dashboard/new_product">New Loan Product</Link></li>
                                     <li><Link to="/admin/dashboard/add_borrower">Add Borrower</Link></li>
                                     <li><Link to="/admin/dashboard/pending_loan">Pending Loan</Link></li>
@@ -187,7 +178,7 @@ function Sidebar() {
                                     <span> Expenses </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded="false">
+                                <ul className="nav-second-level"  aria-expanded={"false"}>
                                     <li><Link to="/admin/dashboard/new_expenses">New Expenses</Link></li>
                                     <li><Link to="/admin/dashboard/all_expenses">All Expenses</Link></li>
         

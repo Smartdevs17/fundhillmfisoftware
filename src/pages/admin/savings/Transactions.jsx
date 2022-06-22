@@ -38,7 +38,7 @@ function Transactions() {
                 console.log(customers)
                 console.log(isLoading);
             if(customers){
-                setData(customers);
+                setData(customers.data.results);
                 setIsLoading(false)
             }else{
                 setIsLoading(true)
@@ -92,7 +92,7 @@ function Transactions() {
 
         if(api.isSuccessful(response)){
           setTimeout( () => {
-            toast.success("Branch successfully created!");
+            toast.success("Withdrawal was successful!");
             // navigate("/admin/allbranch",{replace: true})
           },0);
         }
