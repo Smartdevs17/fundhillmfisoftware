@@ -8,6 +8,8 @@ import {HiOutlineDocumentReport} from "react-icons/hi"
 import {IoMdBusiness} from "react-icons/io" 
 import {MdOutlineDashboard,MdOutlineSavings} from "react-icons/md"
 import "./sidebar.css"
+import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 
 function Sidebar() {
 
@@ -40,7 +42,7 @@ function Sidebar() {
                             </li>
 
                          
-                            {/* <li onClick={() => setArrow(true)} >
+                            <li onClick={() => setArrow(true)} >
                                 <Link  to="#">
                                     <i > <GiBlackBook  /> </i>
                                     <span> Accounting </span>
@@ -58,7 +60,7 @@ function Sidebar() {
                              
 
                                 </ul>
-                            </li> */}
+                            </li>
                         
                             <li>
                                 <Link to="#">
@@ -99,7 +101,7 @@ function Sidebar() {
                                 </ul>
                             </li>
                                    
-                            {/* <li>
+                            <li>
                                 <Link to="#">
                                     <i > <MdOutlineSavings  /> </i>
                                     <span> Savings Plan </span>
@@ -115,7 +117,7 @@ function Sidebar() {
                                     <li><Link to="">Targeted Savings</Link></li>
 
                                 </ul>
-                            </li> */}
+                            </li>
 
 
                                    
@@ -137,7 +139,7 @@ function Sidebar() {
                                 </ul>
                             </li> */}
 
-                            {/* <li>
+                            <li>
                                 <Link to="#">
                                     <i > <IoMdBusiness  /> </i>
                                     <span> Esusu Management </span>
@@ -150,7 +152,7 @@ function Sidebar() {
                                     <li><Link to="/admin/dashboard/marketer_account">Marketer Account</Link></li>
                                     
                                 </ul>
-                            </li> */}
+                            </li>
 
 
                             <li>

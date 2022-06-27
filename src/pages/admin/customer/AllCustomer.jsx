@@ -97,6 +97,7 @@ function AllCustomer() {
                                             <tr>
                                             <th>ID</th>
                                             <th data-priority={1}>Full Name</th>
+                                            <th data-priority={3}>Account Number</th>
                                             <th data-priority={3}>Telephone</th>
                                             <th data-priority={1}>Email</th>
                                             {/* <th data-priority={3}>Savings Plan</th> */}
@@ -113,11 +114,12 @@ function AllCustomer() {
                                                 data.map((customer) => (
                                                     <Fragment>
                                                     <tr >
-                                                                <th ><span className="co-name"> {customer.id} </span></th>
-                                                                <td key={customer.id}>{customer.first_name} {customer.last_name} </td>
+                                                                <th key={customer.id} ><span className="co-name"> {customer.id} </span></th>
+                                                                <td >{customer.first_name} {customer.last_name} </td>
+                                                                <td> {customer.account_number} </td>
                                                                 <td> {customer.phone} </td>
                                                                 <td> {customer.email} </td>
-                                                                <td> {customer.country.name} </td>
+                                                                <td> {customer.agent.first_name} </td>
                                                                 <td> {customer.status} </td>
                                                                 <td> 
                                                                     <button type="button" className="btn btn-danger"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}> Approved </Link> </button> </td>

@@ -34,7 +34,7 @@ const App = () => {
   LoadScripts("/assets/libs/datatables/dataTables.keyTable.min.js");
   LoadScripts("/assets/libs/datatables/dataTables.select.min.js");
   LoadScripts("/assets/js/pages/datatables.init.js");
-  // LoadScripts("/assets/js/app.min.js");
+  LoadScripts("/assets/js/app.min.js");
 
 
 

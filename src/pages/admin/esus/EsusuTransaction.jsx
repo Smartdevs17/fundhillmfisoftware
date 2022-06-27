@@ -131,9 +131,13 @@ function EsusuTransaction() {
                                         </div>
 
                                             
-                                        <div className="row">
+                                        {/* <div className="row">
                                             <div className="col-12">
-                                                <div className="card-box">
+                                     
+                                            </div>
+                                            </div> */}
+
+                                            <div className="modal-body">
                                                 <h4 className="header-title mb-4">Deposit</h4>
                                                 <form action="">
                                                 <div className="form-group row">
@@ -236,8 +240,6 @@ function EsusuTransaction() {
                             
                                                 <div className="form-group row"></div>
                                                 </div>
-                                            </div>
-                                            </div>
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                                         </div>

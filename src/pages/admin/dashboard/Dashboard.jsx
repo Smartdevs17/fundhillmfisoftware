@@ -21,7 +21,12 @@ function Dashboard() {
   let [loading, setLoading] = useState(true);
   let [color, setColor] = useState("#ADD8E6");
   const [data,setData] = useState({});
+  const [org,setOrg] = useState(false);
   const {user} = useContext(Context)
+
+  if(user.created_by==="FUNDHILL"){
+    setOrg(true)
+  }
 
     useEffect( () => {
      const dashboard = async() => {
@@ -142,14 +147,18 @@ function Dashboard() {
                                                                   </div>
                                                                 </div> 
 
-                                                                <div className="col-md-6 col-xl-3">
-                                                                  <div className="card-box tilebox-one">
-                                                                    <i className="icon-rocket float-right m-0 h2 text-muted" />
-                                                                    <h6 className="text-muted text-uppercase mt-0">Total MFI</h6>
-                                                                    <h3 className="my-3" data-plugin="counterup"> {data.mfi_count}</h3>
-                                                                    <span className="badge badge-warning mr-1"> +89% </span> <span className="text-muted">Last year</span>
-                                                                  </div>
-                                                                </div>  
+                                                             {
+                                                               
+                                                                    org &&     
+                                                                    <div className="col-md-6 col-xl-3">
+                                                                          <div className="card-box tilebox-one">
+                                                                            <i className="icon-rocket float-right m-0 h2 text-muted" />
+                                                                            <h6 className="text-muted text-uppercase mt-0">Total MFI</h6>
+                                                                            <h3 className="my-3" data-plugin="counterup"> {data.mfi_count}</h3>
+                                                                            <span className="badge badge-warning mr-1"> +89% </span> <span className="text-muted">Last year</span>
+                                                                          </div>
+                                                                        </div> 
+                                                             } 
 
                                                                 <div className="col-md-6 col-xl-3">
                                                                   <div className="card-box tilebox-one">

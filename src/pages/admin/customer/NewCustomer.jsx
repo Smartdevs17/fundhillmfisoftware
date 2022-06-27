@@ -11,6 +11,8 @@ import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
 // import "./newcustomer.css";
+import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+
 
 
 
@@ -56,37 +58,14 @@ function NewCustomer() {
 
 
 
-  const [first_name, setFirstName] = useState("");
-  const [FnameError,setFnameError] = useState("");
-  const [middle_name, setMiddleName] = useState("");
-  const [MnameError,setMnameError] = useState("");
-  const [last_name, setLastName] = useState("");
-  const [LnameError,setLnameError] = useState("");
+
   const [avatar, setAvatar] = useState(null);
-  // const [PPFileError,setPPFileError] = useState(null);
   const [id_document, setIdDocument] = useState(null);
   const [utility_bill, setUtilityBill] = useState(null);
-  // const [IDFileError,setIDFileError] = useState("");    
-  // const [UBFile, setUBFile] = useState("");
-  // const [UBFileError,setUBFileError] = useState("");  
-  // const [Bvn, setBvn] = useState("");
+ 
+  const [bvn, setBvn] = useState("");
   // const [BvnError,setBvnError] = useState("");    
-  const [dob,setDob] = useState("");
-  const [gender,setGender] = useState("");
-  const [phone,setPhone] = useState("");
-  const [country,setCountry] = useState("");
-  const [state,setState] = useState("");
-  const [city,setCity] = useState("");
-  const [currency,setCurrency] = useState("");
-  const [marketer,setMarketer] = useState("");
-  const [email, setEmail] = useState("");
-  const [EmailError,setEmailError] = useState("");    
-  const [residential_address, setResidentialAddress] = useState("");
-  const [RAError,setRAError] = useState("");    
-  const [BA, setBA] = useState("");
-  const [BAError,setBAError] = useState("");    
-  const [TN, setTN] = useState("");
-  const [TNError,setTNError] = useState("");  
+
 
   // console.log(Country.getAllCountries())
   // console.log(State.getAllStates())
@@ -371,7 +350,7 @@ function NewCustomer() {
                       </div>
                     </div>
 
-                    {/* <div className="form-group row">
+                    <div className="form-group row">
                       <label
                         htmlFor="example-search-input"
                         className="col-lg-2 col-form-label"
@@ -383,12 +362,10 @@ function NewCustomer() {
                           className="form-control"
                           type="number"
                           placeholder="10 digit number"
-                          id="example-search-input"
-                          value = {Bvn}
-                            onChange={(e)  => setBvn(e.target.value)}
+                          name="bvn"
                         />
                       </div>
-                    </div> */}
+                    </div>
 
 
                     <div className="form-group row">
