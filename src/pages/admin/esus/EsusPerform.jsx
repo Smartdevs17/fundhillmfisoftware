@@ -86,7 +86,7 @@ function EsusPerform() {
 
                                     <div className="btn-group">
                                     <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action <i className="mdi mdi-chevron-down" />
+                                        Action 
                                     </button>
                                     <div className="dropdown-menu" x-placement="bottom-start" style={{position: 'absolute', willChange: 'transform', top: 0, left: 0, transform: 'translate3d(0px, 38px, 0px)'}}>
                                         {/* <a className="dropdown-item" href="#">Dropdown link</a>
@@ -120,9 +120,14 @@ function EsusPerform() {
                                         </div>
 
                                             
-                                        <div className="row">
+                                        {/* <div className="row">
                                             <div className="col-12">
-                                                <div className="">
+                                           
+
+                                            </div>
+                                            </div> */}
+
+                                            <div className="modal-body">
                                                 <h4 className="header-title mb-4"></h4>
                                                 <form action="">
                                             
@@ -175,11 +180,6 @@ function EsusPerform() {
                             
                                                 <div className="form-group row"></div>
                                                 </div>
-
-                                            </div>
-                                            </div>
-
-
                                             
 
                                         <div className="modal-footer">
@@ -201,9 +201,14 @@ function EsusPerform() {
                                         </div>
 
                                             
-                                        <div className="row">
+                                        {/* <div className="row">
                                             <div className="col-12">
-                                                <div className="">
+                                     
+
+                                            </div>
+                                            </div> */}
+
+                                            <div className="modal-body">
                                                 <h4 className="header-title mb-4"></h4>
                                                 <form action="">
                                             
@@ -249,11 +254,6 @@ function EsusPerform() {
                             
                                                 <div className="form-group row"></div>
                                                 </div>
-
-                                            </div>
-                                            </div>
-
-
                                             
 
                                         <div className="modal-footer">
