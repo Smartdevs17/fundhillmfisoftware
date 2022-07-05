@@ -1,6 +1,11 @@
 import {Fragment,useEffect,useContext,useState} from 'react'
 import { Link } from "react-router-dom";
 // import "./Dashboard.css"
+import { Formik, Form, Field } from "formik";
+import {object as yupObject,string as yupString,number as yupNumber} from "yup";
+import { ErrorMsg } from "../../../layouts/components";
+import { toast } from "react-toastify";
+
 import { api } from '../../../services';
 import { css } from "@emotion/react";
 import {DotLoader,ClipLoader,RingLoader,CircleLoader,RotateLoader,SyncLoader,BarLoader,BeatLoader,BounceLoader,ClockLoader,FadeLoader,GridLoader,HashLoader,MoonLoader,PacmanLoader} from "react-spinners";
@@ -18,7 +23,8 @@ const override = css`
 
 function AllCustomer() {
     const [isLoading, setIsLoading] = useState(false);
-    let [loading, setLoading] = useState(true);
+    const [Loading, setLoading] = useState(false)
+    let [loading, setloading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
     const {user} = useContext(Context)
     const [data,setData] = useState([]);
@@ -39,7 +45,48 @@ function AllCustomer() {
         allCustomer();
       },[])
 
+      const savingsFormState = (id) => ({
+        user: id,
+        frequency: null,
+        amount_per_cycle: null,
+        duration_in_months: null,
+        amount: null,
+        plan_type: null
+      });
+    
+    
+      const savingsValidationSchema = yupObject().shape({
+        user: yupNumber()
+        .required("User is required"),
+        frequency: yupString()
+        .required("frequency is required"),
+        amount_per_cycle: yupNumber()
+        .required("Amount cycle is required"),
+        duration_in_months: yupNumber()
+        .required("Duration is required"),
+        amount: yupNumber()
+        .required("Amount is required"),
+        plan_type: yupString()
+        .required("Select a savings plan."),
+      });
 
+
+      const savings = async(values) => {
+        setLoading(true);
+        console.log(values)
+
+        const response = await api
+            .service()
+            .push("/dashboard/savings-plan/add/",values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            toast.success("Savings Plan successfully added!");
+            // navigate("/admin/allbranch",{replace: true})
+        },0);
+        }
+        setLoading(false);
+    }
 
     return (
         <Fragment>
@@ -75,42 +122,41 @@ function AllCustomer() {
 
 
 
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card-box">
-                                <div className="responsive-table-plugin">
-                                    <div className="table-rep-plugin">
-                                    <div className="table-responsive" data-pattern="priority-columns">
+                      
+
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card-box">
+                                    <h4 className="header-title">Maketers</h4>
 
                                     {
                                         isLoading ? 
                                                         ( 
-                                                                   
                                                             <div className="sweet-loading text-center">
                                                                 <BounceLoader color={color} loading={loading} css={override}  size={150} />
                                                             </div>
-                                                        )
-                                                        : (
-
-                                                            <table id="tech-companies-1" className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                            <th>ID</th>
-                                            <th data-priority={1}>Full Name</th>
-                                            <th data-priority={3}>Account Number</th>
-                                            <th data-priority={3}>Telephone</th>
-                                            <th data-priority={1}>Email</th>
-                                            {/* <th data-priority={3}>Savings Plan</th> */}
-                                            <th data-priority={3}>Marketer</th>
-                                            {/* <th data-priority={6}>Branch</th> */}
-                                            <th data-priority={6}>Status</th>
-                                            <th data-priority={6}>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                      
-
-                                            {
+                                                            
+                                                            )
+                                                        : 
+                                                        (
+                                                            <table id="datatable-buttons" className="table table-bordered table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
+                                                            <thead>
+                                                                    <tr>
+                                                                    <th>ID</th>
+                                                                    <th data-priority={1}>Full Name</th>
+                                                                    <th data-priority={3}>Account Number</th>
+                                                                    <th data-priority={3}>Telephone</th>
+                                                                    <th data-priority={1}>Email</th>
+                                                                    {/* <th data-priority={3}>Savings Plan</th> */}
+                                                                    <th data-priority={3}>Marketer</th>
+                                                                    {/* <th data-priority={6}>Branch</th> */}
+                                                                    <th data-priority={6}>Add Plan </th>
+                                                                    <th data-priority={6}>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                    <tbody>
+                                                              
+                                                                    {
                                                 data.map((customer) => (
                                                     <Fragment>
                                                     <tr >
@@ -120,8 +166,12 @@ function AllCustomer() {
                                                                 <td> {customer.phone} </td>
                                                                 <td> {customer.email} </td>
                                                                 <td> {customer.agent.first_name} </td>
-                                                                <td> {customer.status} </td>
-                                                                <td> 
+                                                                <td>
+                                                                    {/* Button trigger modal */}
+                                                                    <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#plan_${customer.id}`} >
+                                                                    Add Plan
+                                                                    </button>
+                                                                </td>                                                                <td> 
                                                                     <button type="button" className="btn btn-danger"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}> Approved </Link> </button> </td>
                                                                 <td>
                                                                     {/* Button trigger modal */}
@@ -168,6 +218,150 @@ function AllCustomer() {
                                                             </div>
                                                         </div>
                                                         </div>
+
+
+
+                                                                                     {/* Modal */}
+                                <div className="modal fade" id={`plan_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                <div className="modal-dialog" role="document">
+                                        <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">Customer ID</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+
+                                        <div className="modal-body">
+                                        <h4 className="header-title mb-4">Deposit</h4>
+                                            <Formik
+                                                initialValues={savingsFormState(customer.id)}
+                                                validationSchema= {savingsValidationSchema}
+                                                onSubmit = { async (values,actions) => {
+                                                    await savings(values)
+                                                }}
+                                            >
+                                                {(props) => (
+                                                    <Form>
+                                                
+                                                    <div className="form-group row">
+                                                            <label
+                                                                htmlFor="example-tel-input"
+                                                                className="col-lg-2 col-form-label"
+                                                            >
+                                                                Frequency
+                                                            </label>
+                                                            <div className="col-lg-10">
+                                                                <Field as="select" name="frequency" className="form-control">
+                                                                <option>Select SavingsType</option>
+                                                                <option value="DAILY">DAILY</option>
+                                                                <option value="WEEKLY">WEEKLY</option>
+                                                                <option value="MONTHLY">MONTHLY</option>
+                                                                <option value="YEARLY">YEARLY</option>
+
+                                                                </Field>
+                                                            </div>
+                                                            <ErrorMsg name={"frequency"} />
+                                                        </div>
+
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                        Amount
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field 
+                                                        as={"input"}
+                                                        name="amount"
+                                                        className="form-control"
+                                                        type="number"
+                                                        placeholder="#10000"
+                                                        />
+                                                    </div>
+                                                    <ErrorMsg name={"amount"} />
+                                                    </div>
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Amount Cycle
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="number"
+                                                        placeholder="10"
+                                                        name="amount_per_cycle"
+                                                        />
+                                                    </div>
+                                                    <ErrorMsg name={"amount_per_cycle"} />
+                                                    </div>  
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Duration
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="number"
+                                                        placeholder="1-12"
+                                                        name="duration_in_months"
+                                                        />
+                                                    </div>
+                                                    <ErrorMsg name={"duration_in_months"} />
+                                                    </div>  
+
+                                                         <div className="form-group row">
+                                                            <label
+                                                                htmlFor="example-tel-input"
+                                                                className="col-lg-2 col-form-label"
+                                                            >
+                                                                Savings Plan
+                                                            </label>
+                                                            <div className="col-lg-10">
+                                                                <Field as="select" name="plan_type" className="form-control">
+                                                                <option>Select SavingsType</option>
+                                                                <option value="FIXED SAVINGS">Fixed Savings</option>
+
+                                                                </Field>
+                                                            </div>
+                                                            <ErrorMsg name={"plan_type"} />
+                                                        </div>
+                            
+                                                   
+
+                                                  
+
+                                                    <button
+                                                    type="submit"
+                                                    className="btn btn-success"
+                                                    >
+                                                    Submit
+                                                    </button>
+                                                    </Form>
+                                                )}
+                                            </Formik>
+                                        </div>
+       
+
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
                                                     </Fragment>
                                                 ))
                                             }
@@ -211,26 +405,17 @@ function AllCustomer() {
                                         </div>
                                     </div>
                                     </div>
-                                            
-                                        </tbody>
-                                        </table>
-
+                                                                
+                                                                    </tbody>
+                                                            </table>
                                                         )
                                     }
-                                       
-
-
-
-                                    </div> {/* end .table-responsive */}
-                                    </div> {/* end .table-rep-plugin*/}
-                                </div> {/* end .responsive-table-plugin*/}
-                                </div> {/* end card-box */}
-                            </div> {/* end col */}
-                            </div>
-                            {/* end row */}
-
-
-
+        
+                                   
+                                    </div>
+                                </div>
+                                </div>
+                                {/* end row */}
                  
 
 

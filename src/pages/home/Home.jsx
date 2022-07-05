@@ -53,7 +53,7 @@ function Home() {
                                       <Link className="nav-link" to="/auth/staff/login">Login As Staff</Link>
                                     </li>
                                     <li className="nav-item">
-                                      <Link className="nav-link" to="/auth/register">Register</Link>
+                                      <Link className="nav-link" to="/esusu/dashboard">Esusu Dashboard</Link>
                                     </li>
                                   </ul>
                                 </div>

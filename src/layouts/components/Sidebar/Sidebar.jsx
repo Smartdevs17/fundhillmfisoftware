@@ -83,7 +83,7 @@ function Sidebar() {
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={false} >
                                     <li><Link to="/admin/dashboard/newcustomer">New Customer</Link></li>
-                                    {/* <li><Link to="/admin/dashboard/quick_customer">Quick Customer</Link></li> */}
+                                    <li><Link to="/admin/dashboard/quick_customer">Quick Customer</Link></li>
                                     <li><Link to="/admin/dashboard/allcustomer">All Customers</Link></li>
                                 </ul>
                             </li>
@@ -107,7 +107,7 @@ function Sidebar() {
                                     <span> Savings Plan </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={"false"}>
+                                <ul className="nav-second-level" >
                                     <li><Link to="/admin/dashboard/savings">Deposit And WithDrawal</Link></li>
                                     <li><Link to="/admin/dashboard/deposit_receipt">Fixed Deposit</Link></li>
                                     <li><Link to="/admin/dashboard/withdrawal_receipt">Targeted Savings</Link></li>

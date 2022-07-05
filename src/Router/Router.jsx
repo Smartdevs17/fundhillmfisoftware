@@ -11,6 +11,7 @@ import StaffAuthRoute from "./StaffAuthRoute/StaffAuthRoute";
 import MFIRoute from "./MFIRoute/MFIRoute";
 // import MFIAuth from "./MFIAuth/MFIAuth";
 import EmailConfirmRoute from "./ErrorRoutes/EmailConfirmRoute";
+import EsusuRoute from "./EsusuRoute/EsusuRoute";
 import { ContextProvider } from "../context/Context"
 
 const Router = () => {
@@ -21,10 +22,11 @@ const Router = () => {
       {AdminRoute()}
       {HomeRoute()}
       {AuthRoutes()}
-      {StaffRoute()}
+      {/* {StaffRoute()}
       {StaffAuthRoute()}
-      {MFIRoute()}
+      {MFIRoute()} */}
       {EmailConfirmRoute()}
+      {EsusuRoute()}
       </Routes>    
     </ContextProvider>
      

@@ -47,10 +47,10 @@ function Home() {
                                       <Link className="nav-link" to="#"> Home</Link>
                                     </li>
                                     <li className="nav-item">
-                                      <Link className="nav-link" to="/auth/login">Login</Link>
+                                      <Link className="nav-link" to="/auth/login">Esusu</Link>
                                     </li>
                                     <li className="nav-item">
-                                      <Link className="nav-link" to="/auth/register">Register</Link>
+                                      <Link className="nav-link" to="/esusu/dashboard/">Esusu Dashboard</Link>
                                     </li>
                                   </ul>
                                 </div>
@@ -60,6 +60,8 @@ function Home() {
                         </div>
                       </div>
                       {/* end header inner */}
+
+
                       {/* end header */}
                       {/* banner */}
                       <section className="banner_main">
