@@ -76,7 +76,7 @@ function NewCustomer() {
     setIsLoading(true)
 
     const allMarketer = async() => {
-      const res = await api.service().fetch("/accounts/manage/?is_staff=True",true);
+      const res = await api.service().fetch("/accounts/manage/?is_staff=True&user_role=AGENT",true);
       // console.log(res.data)
       if(api.isSuccessful(res)){
         //   console.log(res)
@@ -131,6 +131,7 @@ function NewCustomer() {
         data.append("avatar",avatar);
         data.append("id_document",id_document);
         data.append("utility_bill",utility_bill);
+        data.append("country","Nigeria");
         console.log(data)
 
 
@@ -152,6 +153,7 @@ function NewCustomer() {
       setTimeout(() => {
         
         toast.success("Customer registration was successfully");
+        navigate("/admin/dashboard/newcustomer",{replace: true})
         setIsLoading(false)
 
       },0);
@@ -455,7 +457,7 @@ function NewCustomer() {
                       </div>
                     </div>
 
-                    <div className="form-group row">
+                    {/* <div className="form-group row">
                             <label
                               htmlFor="example-tel-input"
                               className="col-lg-2 col-form-label"
@@ -474,9 +476,9 @@ function NewCustomer() {
                                 }
                                 </select>
                             </div>
-                          </div>
+                          </div> */}
 
-                          <div className="form-group row">
+                          {/* <div className="form-group row">
                             <label
                               htmlFor="example-tel-input"
                               className="col-lg-2 col-form-label"
@@ -495,9 +497,25 @@ function NewCustomer() {
                                 }
                                 </select>
                             </div>
-                          </div>
+                          </div> */}
 
                           <div className="form-group row">
+                          <label
+                            htmlFor="example-url-input"
+                            className="col-lg-2 col-form-label"
+                          >
+                            State
+                          </label>
+                          <div className="col-lg-10">
+                            <input
+                              className="form-control"
+                              type="text"
+                              placeholder="Plateau"
+                              name = "state"  />
+                          </div>
+                        </div>
+
+                          {/* <div className="form-group row">
                             <label
                               htmlFor="example-tel-input"
                               className="col-lg-2 col-form-label"
@@ -511,8 +529,23 @@ function NewCustomer() {
                                 <option value={"bukuru"} >Bukuru</option>
                                 </select>
                             </div>
-                          </div>
+                          </div> */}
 
+                          <div className="form-group row">
+                          <label
+                            htmlFor="example-url-input"
+                            className="col-lg-2 col-form-label"
+                          >
+                            City
+                          </label>
+                          <div className="col-lg-10">
+                            <input
+                              className="form-control"
+                              type="text"
+                              placeholder="Plateau"
+                              name = "city"  />
+                          </div>
+                        </div>
 
                           <div className="form-group row">
                             <label

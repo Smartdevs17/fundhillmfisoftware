@@ -259,7 +259,7 @@ useEffect(() => {
                                             </button>
                                         </div>
 
-                                        <div className="modal-content">
+                                        <div className="modal-body">
                                                 <Formik 
                                                 initialValues={initialFormState(customer.id)}
                                                 validationSchema={validationSchema}

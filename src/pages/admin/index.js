@@ -45,6 +45,7 @@ import Home from "../home/Home";
 import NewExpenses from "./expenses/NewExpenses"
 import AllExpenses from "./expenses/AllExpenses"
 import Profile from "./profile/Profile";
+import PendingCustomer from "./customer/PendingCustomer";
 
 export {
     Login,
@@ -93,6 +94,7 @@ export {
     Home,
     AllExpenses,
     NewExpenses,
-    Profile
+    Profile,
+    PendingCustomer,
 }
 

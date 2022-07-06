@@ -18,13 +18,22 @@ const override = css`
 `;
 
 
+const initialFormState = (id) => ({
+   id: id,
+   status: ""
+  });
 
+  const validationSchema = yupObject().shape({
+    status: yupString()
+    .required("Select an action"),
+  })
 
 
 function PendingLoan() {
 
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
+    const [loader, setLoader] = useState(false);
     let [color, setColor] = useState("#ADD8E6");
     const {user} = useContext(Context)
     const [data,setData] = useState([]);
@@ -44,6 +53,24 @@ function PendingLoan() {
 
         allCustomer();
       },[])
+
+      const approve_loan = async(values) => {
+        setLoader(true);
+        console.log(values)
+
+        const response = await api
+            .service()
+            .push("/dashboard/loan/action/",values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            toast.success("Successfully approved loan!");
+            // navigate("/admin/dashboard/add_borrower",{replace: true});
+        },0);
+        }
+        setLoader(false);
+    }
+
 
     return (
         <Fragment>
@@ -75,70 +102,7 @@ function PendingLoan() {
     
                         {/* end page title */} 
                         
-                        <div className="row">
-                            <div className="col-12">
-                            <div className="card-box">
-                                <h4 className="header-title">All Pending Loans</h4>
-
-                                <table id="" className="table table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
-                                <thead>
-                                    <tr>
-                                    <th> ID</th>
-                                    <th> Full Names</th>
-                                    <th> Amount + Interest </th>
-                                    <th> Account No. </th>
-                                    <th> Product </th>
-                                    <th> Payback Date </th>
-                                    <th> Date </th>
-                                    <th> Status </th>
-                                    <th> Payment Status </th>
-                                    <th> Action </th>
-       
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                    <td>1</td>
-                                    <td>Donald Trump</td>
-                                    <td>#1200000</td>
-                                    <td>1234567889</td>
-                                    <td>Product 1</td>
-                                    <td>2 Jan 2022</td>
-                                    <td>4 Oct 2022</td>
-                                    <td>Fixed</td>
-                                    <td>Not Approved</td>
-                                    <td>
-
-                                    <div className="btn-group">
-                                    <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action <i className="mdi mdi-chevron-down" />
-                                    </button>
-                                    <div className="dropdown-menu" x-placement="bottom-start" style={{position: 'absolute', willChange: 'transform', top: 0, left: 0, transform: 'translate3d(0px, 38px, 0px)'}}>
-                                       
-                                        <button id="approve-loan" type="button" className="dropdown-item btn btn-outline-success waves-effect waves-light" >
-                                        Approve Loan
-                                        </button>        
-                                        {/* <button type="button" className="btn btn-danger" id="sa-warning">Delete</button>                               */}
-
-                                         <button id='reject-loan' type="button" className=" dropdown-item btn btn-outline-danger waves-effect waves-light" >
-                                        Reject Loan
-                                        </button>
-
-                                        <button id="delete-loan" type="button" className=" dropdown-item btn btn-outline-danger waves-effect waves-light">
-                                            Delete
-                                        </button> 
-
-                                    </div>
-                                    </div>
-
-                                    </td>
-                                    </tr>
-                                </tbody>
-                                    </table>
-                               
-                            </div>
-                            </div>
-                        </div> {/* end row */}
+           
 
 
 
@@ -171,7 +135,7 @@ function PendingLoan() {
                                                             <th> Payback Date </th>
                                                             <th> Date </th>
                                                             <th> Status </th>
-                                                            <th> Payment Status </th>
+                                                            {/* <th> Payment Status </th> */}
                                                             <th> Action </th>
                             
                                                             </tr>
@@ -184,18 +148,59 @@ function PendingLoan() {
                                                     <Fragment>
                                                     <tr >
                                                                 <th ><span className="co-name"> {customer.id} </span></th>
-                                                                <td key={customer.id}>{customer.first_name} {customer.last_name} </td>
-                                                                <td> {customer.phone} </td>
-                                                                <td> {customer.email} </td>
-                                                                <td> {customer.country.name} </td>
-                                                                <td> {customer.status} </td>
+                                                                <td key={customer.id}>{customer.borrower.first_name} {customer.borrower.last_name} </td>
+                                                                <td> {customer.amount_to_repay} </td>
+                                                                <td> {customer.account_number} </td>
+                                                                <td> {customer.loan_product.name} </td>
+                                                                <td> {customer.final_due_date} </td>
+                                                                <td> {customer.date_created} </td>
+                                                                {/* <td> {customer.status} </td> */}
+
                                                                 <td> 
-                                                                    <button type="button" className="btn btn-danger"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}> Approved </Link> </button> </td>
-                                                                <td>
-                                                                    {/* Button trigger modal */}
+                                                                    <button type="button" className="btn btn-danger"> {customer.status} </button> </td>
+                                                                {/* <td>
                                                                     <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#modal_${customer.id}`} >
                                                                     View
                                                                     </button>
+                                                                </td> */}
+
+                                                                <td>
+
+                                                                  
+                                                                    <Formik 
+                                                initialValues={initialFormState(customer.id)}
+                                                validationSchema={validationSchema}
+                                                onSubmit={ async(values,action) => {
+                                                    await approve_loan(values)
+                                                }}
+                                                   
+                                                >
+                                                    {(props) => (
+                                                        <Form >
+
+
+
+                                                                <Field  as = {"select"} name="status" className="form-control" >
+                                                                        <option  className="btn btn-secondary dropdown-toggle" >Action </option>
+                                                                        <option className="dropdown-item btn btn-outline-success waves-effect waves-light" value="ACTIVATE">Activate Loan</option>
+                                                                        <option className="dropdown-item btn btn-outline-success waves-effect waves-light" value="APPROVED">Approve Loan</option>
+                                                                        <option value="PENDING" className=" dropdown-item btn btn-outline-danger waves-effect waves-light" >Reject Loan</option>
+                                                                        <option value="DENIED" className=" dropdown-item btn btn-outline-danger waves-effect waves-light">Delete</option>
+                                                                    </Field >
+                                                            
+                                                                
+                                                                <button
+                                                                className="btn btn-success"
+                                                                type="submit"
+                                                                >
+                                                                Submit
+                                                                </button>
+                                                      
+                                                </Form>
+                                                    )}
+                                                </Formik>
+
+
                                                                 </td>
                                                                 </tr>
 

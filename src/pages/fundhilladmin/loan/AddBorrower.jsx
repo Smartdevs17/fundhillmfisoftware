@@ -26,7 +26,7 @@ const [isLoading, setIsLoading] = useState(false);
 const [loader, setLoader] = useState(false);
 let [loading, setLoading] = useState(true);
 let [color, setColor] = useState("#ADD8E6");
-// const {user} = useContext(Context)
+const {user} = useContext(Context)
 const [marketers,setMarketers] = useState([]);
 const [branches,setBranches] = useState([]);
 const [customers,setCustomers] = useState([]);
@@ -115,9 +115,10 @@ useEffect(() => {
                 branch: null,
                 category: "",
                 payment_frequency: "",
-                loan_period_in_years: null,
+                loan_period_in_months: null,
                 payment_schedule: "",
-                loan_officer: null
+                loan_officer: null,
+                organisation: user.data.organisation
             });
 
             const validationSchema = yupObject().shape({
@@ -133,9 +134,9 @@ useEffect(() => {
                 .required("Select a payment frequency"),
                 payment_schedule: yupString()
                 .required("Select a payment schedule"),
-                branch: yupString()
-                .required("Select a branch name"),
-                loan_period_in_years: yupNumber()
+                // branch: yupNumber()
+                // .required("Select a branch name"),
+                loan_period_in_months: yupNumber()
                 .required("Enter loan period"),
                 loan_officer: yupNumber()
                 .required("Select a loan officer"),
@@ -332,8 +333,8 @@ useEffect(() => {
                                                         <div className="col-lg-10">
                                                             <Field  as = {"select"} name="category" className="form-control">
                                                             <option>Select One</option>
-                                                            <option value="FL">Flat</option>
-                                                            <option value="RB">Reducing Balance</option>
+                                                            <option value="FLAT">Flat</option>
+                                                            <option value="REDUCING BALANCE">Reducing Balance</option>
                                                             </Field >
                                                         </div>
                                                         <ErrorMsg name="category" />
@@ -361,7 +362,7 @@ useEffect(() => {
                                                             }
                                                             </Field >
                                                         </div>
-                                                        <ErrorMsg name="branch" />
+                                                        <ErrorMsg name="loan_product" />
                                                         </div>
 
 
@@ -405,7 +406,7 @@ useEffect(() => {
                                                             <div className="form-group row">
                                                             <label htmlFor="example-tel-input" className="col-lg-5 col-form-label">Loan Period</label>
                                                             <div className="col-lg-10">
-                                                                <Field  as = {"select"} name="loan_period_in_years" className="form-control" >
+                                                                <Field  as = {"select"} name="loan_period_in_months" className="form-control" >
                                                                         <option>Select One</option>
                                                                             <option value="1">1</option>
                                                                             <option value="2">2</option>
@@ -425,8 +426,8 @@ useEffect(() => {
                                                         <div className="col-lg-10">
                                                             <Field  as = {"select"} name='payment_schedule' className="form-control" >
                                                                     <option>Select One</option>
-                                                                        <option value="M">Manuel Payment</option>
-                                                                        <option value="A">System auto Debit</option>
+                                                                        <option value="MANUAL">Manuel Payment</option>
+                                                                        <option value="AUTO">System auto Debit</option>
                                                                 </Field >
                                                         </div>
                                                         <ErrorMsg name="payment_schedule" />

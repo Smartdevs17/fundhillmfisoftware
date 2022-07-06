@@ -67,7 +67,7 @@
             cancelButtonColor: "#6c757d",
             confirmButtonText: "Yes, approve it!"
         }).then(function (t) {
-            t.value && Swal.fire("Approved!", "Your Loan has been approved.", "success")
+            console.log(t.value ) && Swal.fire("Approved!", "Your Loan has been approved.", "success")
         })
     }),
         t("#sa-params").click(function () {
