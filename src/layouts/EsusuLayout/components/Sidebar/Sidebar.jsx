@@ -50,7 +50,7 @@ function Sidebar() {
                                   
                                 
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={"false"} >
+                                <ul className="nav-second-level"   >
                                     <li><Link to="/esusu/dashboard/all_deposit">Deposit</Link></li>
                                     <li><Link to="/esusu/dashboard/all_withdrawsavings">Withdrawal</Link></li>
                                     <li><Link to="/esusu/dashboard/all_regsavings">Regular Savings</Link></li>
@@ -68,7 +68,7 @@ function Sidebar() {
                                     <span> Branch </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={"false"} >
+                                <ul className="nav-second-level"   >
                                     <li><Link to="/esusu/dashboard/newbranch">New Branch</Link></li>
                                     <li><Link to="/esusu/dashboard/allbranch">All Branches</Link></li>
                                 </ul>
@@ -81,9 +81,10 @@ function Sidebar() {
                                     <span> Membership </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={false} >
+                                <ul className="nav-second-level"   >
                                     <li><Link to="/esusu/dashboard/newcustomer">New Memebers</Link></li>
-                                    <li><Link to="/esusu/dashboard/quick_customer">Pending Verification</Link></li>
+                                    <li><Link to="/esusu/dashboard/quick_customer">Savings Plan</Link></li>
+                                    <li><Link to="/esusu/dashboard/pending_customer">Pending Verification</Link></li>
                                     <li><Link to="/esusu/dashboard/allcustomer">All Memebers</Link></li>
                                     {/* List of Tasks to be performed in all membership
                                     i: Password Recover
@@ -100,10 +101,10 @@ function Sidebar() {
                                     <span> Payout </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={"false"} >
+                                <ul className="nav-second-level"   >
                                     <li><Link to="/esusu/dashboard/new_marketer">Investment Payout</Link></li>
-                                    <li><Link to="/esusu/dashboard/all_marketer">All Marketers</Link></li>
-                                    <li><Link to="/esusu/dashboard/marketer_account">Marketer Account</Link></li>
+                                    {/* <li><Link to="/esusu/dashboard/all_marketer">All Marketers</Link></li>
+                                    <li><Link to="/esusu/dashboard/marketer_account">Marketer Account</Link></li> */}
                                 </ul>
                             </li>
                                    
@@ -132,15 +133,8 @@ function Sidebar() {
                                     <span> Report </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level" aria-expanded={false} >
-                                    <li><Link to="/esusu/dashboard/daily_report">Daily Report</Link></li>
-                                    <li><Link to="/esusu/dashboard/fixed_savings_report">Fixed Deposit</Link></li>
-                                    <li><Link to="/esusu/dashboard/targeted_savings_report">Targeted Savings</Link></li>
-                                    <li><Link to="/esusu/dashboard/regular_savings_report">Regular Savings</Link></li>
-                                    <li><Link to="/esusu/dashboard/marketer_account">Marketer Report</Link></li>
-
-                            
-
+                                <ul className="nav-second-level"  >
+                                    <li><Link to="/esusu/dashboard/daily_report">General Report</Link></li>
                                 </ul>
                             </li>
 
@@ -150,7 +144,7 @@ function Sidebar() {
                                     <span> Esusu Management </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={"false"}>
+                                <ul className="nav-second-level"  >
                                     <li><Link to="/esusu/dashboard/esusu_transaction">Esusu Transaction</Link></li>
                                     <li><Link to="/esusu/dashboard/esusu_perform">Esus Performance</Link></li>
                                     
@@ -158,13 +152,13 @@ function Sidebar() {
                             </li>
 
 
-                            <li>
+                            {/* <li>
                                 <Link to="#">
                                     <i > <GiMoneyStack  /> </i>
                                     <span> Loan Management </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={"false"}>
+                                <ul className="nav-second-level"  >
                                     <li><Link to="/esusu/dashboard/new_product">New Loan Product</Link></li>
                                     <li><Link to="/esusu/dashboard/add_borrower">Add Borrower</Link></li>
                                     <li><Link to="/esusu/dashboard/pending_loan">Pending Loan</Link></li>
@@ -173,7 +167,7 @@ function Sidebar() {
                                     <li><Link to="/esusu/dashboard/ongoing_loan">Ongoing Loan</Link></li>
 
                                 </ul>
-                            </li>
+                            </li> */}
 
 
 
@@ -183,7 +177,7 @@ function Sidebar() {
                                     <span> Expenses </span>
                                     <span className="menu-arrow"></span>
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={"false"}>
+                                <ul className="nav-second-level"  >
                                     <li><Link to="/esusu/dashboard/new_expenses">New Expenses</Link></li>
                                     <li><Link to="/esusu/dashboard/all_expenses">All Expenses</Link></li>
         

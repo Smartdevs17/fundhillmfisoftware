@@ -46,11 +46,11 @@ function Sidebar() {
                                 <Link  to="#">
                                     <i > <GiBlackBook  /> </i>
                                     <span> Accounting </span>
-                                    <span className="menu-arrow"></span>
+                                    {/* <span className="menu-arrow"></span> */}
                                   
                                 
                                 </Link>
-                                <ul className="nav-second-level"  aria-expanded={"false"} >
+                                <ul className="nav-second-level" >
                                     <li><Link to="/admin/dashboard/all_deposit">Deposit</Link></li>
                                     <li><Link to="/admin/dashboard/all_withdrawsavings">Withdrawal</Link></li>
                                     <li><Link to="/admin/dashboard/all_regsavings">Regular Savings</Link></li>
@@ -66,7 +66,7 @@ function Sidebar() {
                                 <Link to="#">
                                     <i > <AiOutlineBranches  /> </i>
                                     <span> Branch </span>
-                                    <span className="menu-arrow"></span>
+                                    {/* <span className="menu-arrow"></span> */}
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={"false"} >
                                     <li><Link to="/admin/dashboard/newbranch">New Branch</Link></li>
@@ -79,7 +79,7 @@ function Sidebar() {
                                 <Link to="#">
                                     <i > <FiUsers  /> </i>
                                     <span> Customer </span>
-                                    <span className="menu-arrow"></span>
+                                    {/* <span className="menu-arrow"></span> */}
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={false} >
                                     <li><Link to="/admin/dashboard/newcustomer">New Customer</Link></li>
@@ -92,7 +92,7 @@ function Sidebar() {
                                 <Link to="#">
                                     <i > <AiOutlineUser  /> </i>
                                     <span> Marketer </span>
-                                    <span className="menu-arrow"></span>
+                                    {/* <span className="menu-arrow"></span> */}
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={"false"} >
                                     <li><Link to="/admin/dashboard/new_marketer">New Marketer</Link></li>
@@ -105,7 +105,7 @@ function Sidebar() {
                                 <Link to="#">
                                     <i > <MdOutlineSavings  /> </i>
                                     <span> Savings Plan </span>
-                                    <span className="menu-arrow"></span>
+                                    {/* <span className="menu-arrow"></span> */}
                                 </Link>
                                 <ul className="nav-second-level" >
                                     <li><Link to="/admin/dashboard/savings">Deposit And WithDrawal</Link></li>
@@ -143,7 +143,7 @@ function Sidebar() {
                                 <Link to="#">
                                     <i > <IoMdBusiness  /> </i>
                                     <span> Esusu Management </span>
-                                    <span className="menu-arrow"></span>
+                                    {/* <span className="menu-arrow"></span> */}
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={"false"}>
                                     <li><Link to="/admin/dashboard/esusu_transaction">Esusu Transaction</Link></li>
@@ -159,7 +159,7 @@ function Sidebar() {
                                 <Link to="#">
                                     <i > <GiMoneyStack  /> </i>
                                     <span> Loan Management </span>
-                                    <span className="menu-arrow"></span>
+                                    {/* <span className="menu-arrow"></span> */}
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={"false"}>
                                     <li><Link to="/admin/dashboard/new_product">New Loan Product</Link></li>
@@ -178,7 +178,7 @@ function Sidebar() {
                                 <Link to="#">
                                     <i > <GiExpense  /> </i>
                                     <span> Expenses </span>
-                                    <span className="menu-arrow"></span>
+                                    {/* <span className="menu-arrow"></span> */}
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={"false"}>
                                     <li><Link to="/admin/dashboard/new_expenses">New Expenses</Link></li>

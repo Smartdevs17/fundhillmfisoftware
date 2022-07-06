@@ -235,7 +235,7 @@ function NewMarketer() {
                                         <option>Select One</option>
                                         <option value="ADMIN" >Admin</option>
                                         <option value="MANAGER" >Manager</option>
-                                        <option value="TELLAR" >Teller</option>
+                                        <option value="TELLER" >Teller</option>
                                         <option value="AGENT" >Agent</option>
                                         </Field>
                                         <ErrorMsg name={'user_role'} />

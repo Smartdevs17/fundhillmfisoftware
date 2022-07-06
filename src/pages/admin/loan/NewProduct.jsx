@@ -87,7 +87,7 @@ function NewProduct() {
         if(api.isSuccessful(response)){
           setTimeout( () => {
             toast.success("Loan Product successfully created!");
-            // navigate("/dashboard/loan-product",{replace: true});
+            navigate("/dashboard/loan-product",{replace: true});
           },0);
         }
         setIsLoading(false);
@@ -162,8 +162,8 @@ function NewProduct() {
                                                                     {
                                                                         data.map((product) => {
                                                                             return(
-                                                                                    <tr>
-                                                                                        <td key={product.id} > {product.id} </td>
+                                                                                    <tr key={product.id} >
+                                                                                        <td > {product.id} </td>
                                                                                         <td> {product.name} </td>
                                                                                         <td> {product.interest} </td>
                                                                                         <td> {product.mgt_charges} </td>
@@ -211,7 +211,7 @@ function NewProduct() {
 
 
                                             <h4 className="header-title mb-4">Product</h4>
-                                                <div className="modal-content">
+                                                <div className="modal-body">
                                                     <Formik
                                                     initialValues={initialFormState()}
                                                     validationSchema={validationSchema}

@@ -122,42 +122,41 @@ function AllCustomer() {
 
 
 
-                        <div className="row">
-                            <div className="col-12">
-                                <div className="card-box">
-                                <div className="responsive-table-plugin">
-                                    <div className="table-rep-plugin">
-                                    <div className="table-responsive" data-pattern="priority-columns">
+                      
+
+                            <div className="row">
+                                <div className="col-12">
+                                    <div className="card-box">
+                                    <h4 className="header-title">Maketers</h4>
 
                                     {
                                         isLoading ? 
                                                         ( 
-                                                                   
                                                             <div className="sweet-loading text-center">
                                                                 <BounceLoader color={color} loading={loading} css={override}  size={150} />
                                                             </div>
-                                                        )
-                                                        : (
-
-                                                            <table id="tech-companies-1" className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                            <th>ID</th>
-                                            <th data-priority={1}>Full Name</th>
-                                            <th data-priority={3}>Account Number</th>
-                                            <th data-priority={3}>Telephone</th>
-                                            <th data-priority={1}>Email</th>
-                                            {/* <th data-priority={3}>Savings Plan</th> */}
-                                            <th data-priority={3}>Marketer</th>
-                                            {/* <th data-priority={6}>Branch</th> */}
-                                            <th data-priority={6}>Add Plan </th>
-                                            <th data-priority={6}>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                      
-
-                                            {
+                                                            
+                                                            )
+                                                        : 
+                                                        (
+                                                            <table id="datatable-buttons" className="table table-bordered table-bordered dt-responsive nowrap" style={{borderCollapse: 'collapse', borderSpacing: 0, width: '100%'}}>
+                                                            <thead>
+                                                                    <tr>
+                                                                    <th>ID</th>
+                                                                    <th data-priority={1}>Full Name</th>
+                                                                    <th data-priority={3}>Account Number</th>
+                                                                    <th data-priority={3}>Telephone</th>
+                                                                    <th data-priority={1}>Email</th>
+                                                                    {/* <th data-priority={3}>Savings Plan</th> */}
+                                                                    <th data-priority={3}>Marketer</th>
+                                                                    {/* <th data-priority={6}>Branch</th> */}
+                                                                    <th data-priority={6}>Add Plan </th>
+                                                                    <th data-priority={6}>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                    <tbody>
+                                                              
+                                                                    {
                                                 data.map((customer) => (
                                                     <Fragment>
                                                     <tr >
@@ -406,26 +405,17 @@ function AllCustomer() {
                                         </div>
                                     </div>
                                     </div>
-                                            
-                                        </tbody>
-                                        </table>
-
+                                                                
+                                                                    </tbody>
+                                                            </table>
                                                         )
                                     }
-                                       
-
-
-
-                                    </div> {/* end .table-responsive */}
-                                    </div> {/* end .table-rep-plugin*/}
-                                </div> {/* end .responsive-table-plugin*/}
-                                </div> {/* end card-box */}
-                            </div> {/* end col */}
-                            </div>
-                            {/* end row */}
-
-
-
+        
+                                   
+                                    </div>
+                                </div>
+                                </div>
+                                {/* end row */}
                  
 
 
