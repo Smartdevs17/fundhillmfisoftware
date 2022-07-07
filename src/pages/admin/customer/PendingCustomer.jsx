@@ -31,7 +31,7 @@ function PendingCustomer() {
         setIsLoading(true)
 
         const allCustomer = async() => {
-          const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER",true);
+          const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=PENDING",true);
           console.log(res.data)
           if(api.isSuccessful(res)){
             setData(res.data.results)
@@ -85,6 +85,29 @@ function PendingCustomer() {
         }
         setLoading(false);
     }
+
+    
+    const activateCustomer = async(id) => {
+        const res = await api.service().fetch(`https://fundhill-api.herokuapp.com/accounts/auth/${id}/activate/`,true);
+        console.log(res.data)
+        if(api.isSuccessful(res)){
+            setTimeout( () => {
+                toast.success("Successfully activated customer!");
+            },0);
+            }
+  
+      }
+    const deactivateCustomer = async(id) => {
+        const res = await api.service().fetch(`https://fundhill-api.herokuapp.com/accounts/auth/${id}/deactivate/`,true);
+        console.log(res.data)
+        if(api.isSuccessful(res)){
+            setTimeout( () => {
+                toast.success("Successfully deactivated customer!");
+            },0);
+            }
+  
+      }
+
 
   return (
     <Fragment>
@@ -145,10 +168,9 @@ function PendingCustomer() {
                                                             <th data-priority={3}>Account Number</th>
                                                             <th data-priority={3}>Telephone</th>
                                                             <th data-priority={1}>Email</th>
-                                                            {/* <th data-priority={3}>Savings Plan</th> */}
                                                             <th data-priority={3}>Marketer</th>
                                                             {/* <th data-priority={6}>Branch</th> */}
-                                                            <th data-priority={6}>Add Plan </th>
+                                                            {/* <th data-priority={6}>Add Plan </th> */}
                                                             <th data-priority={6}>Action</th>
                                                             </tr>
                                                         </thead>
@@ -164,13 +186,13 @@ function PendingCustomer() {
                                                         <td> {customer.phone} </td>
                                                         <td> {customer.email} </td>
                                                         <td> {customer.agent.first_name} </td>
-                                                        <td>
-                                                            {/* Button trigger modal */}
+                                                        {/* <td>
                                                             <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#plan_${customer.id}`} >
                                                             Add Plan
                                                             </button>
-                                                        </td>                                                                <td> 
-                                                            <button type="button" className="btn btn-danger"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}> Approved </Link> </button> </td>
+                                                        </td>                                                               */}
+                                                          <td> 
+                                                            <button type="button" className="btn btn-danger"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}>Not Approved </Link> </button> </td>
                                                         <td>
                                                             {/* Button trigger modal */}
                                                             <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#modal_${customer.id}`} >
@@ -191,7 +213,7 @@ function PendingCustomer() {
                                                         </button>
                                                     </div>
                                                     {/* <div className="modal-body"> */}
-                                                        <div className="modal-content">
+                                                        <div className="modal-body">
 
 
                                                         {/* <div className="card-body">
@@ -202,8 +224,8 @@ function PendingCustomer() {
                                                         </div> */}
                                                         <img className="img-fluid" src={customer.avatar}  alt="Card image cap" />
                                                         <div className="card-body">
-                                                                <button type="button" style={{margin: "10px"}}  className="btn btn-primary"> <Link  style={{color: "#fff"}} to="#" > Activate </Link> </button>     
-                                                                <button type="button" className="btn btn-danger"> <Link to="#" style={{color: "#fff"}}> Delete </Link> </button>
+                                                                <button type="button" onClick={() => activateCustomer(customer.id)} style={{margin: "10px",ccolor: "#fff"}}  className="btn btn-primary">Activate  </button>     
+                                                                <button type="button" onClick={() => deactivateCustomer(customer.id)} style={{color: "#fff"}} className="btn btn-danger"> Delete </button>
                                                         </div>
 
                         
@@ -219,190 +241,12 @@ function PendingCustomer() {
 
 
 
-                                                                             {/* Modal */}
-                        <div className="modal fade" id={`plan_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                        <div className="modal-dialog" role="document">
-                                <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">Customer ID</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-
-                                <div className="modal-body">
-                                <h4 className="header-title mb-4">Deposit</h4>
-                                    <Formik
-                                        initialValues={savingsFormState(customer.id)}
-                                        validationSchema= {savingsValidationSchema}
-                                        onSubmit = { async (values,actions) => {
-                                            await savings(values)
-                                        }}
-                                    >
-                                        {(props) => (
-                                            <Form>
-                                        
-                                            <div className="form-group row">
-                                                    <label
-                                                        htmlFor="example-tel-input"
-                                                        className="col-lg-2 col-form-label"
-                                                    >
-                                                        Frequency
-                                                    </label>
-                                                    <div className="col-lg-10">
-                                                        <Field as="select" name="frequency" className="form-control">
-                                                        <option>Select SavingsType</option>
-                                                        <option value="DAILY">DAILY</option>
-                                                        <option value="WEEKLY">WEEKLY</option>
-                                                        <option value="MONTHLY">MONTHLY</option>
-                                                        <option value="YEARLY">YEARLY</option>
-
-                                                        </Field>
-                                                    </div>
-                                                    <ErrorMsg name={"frequency"} />
-                                                </div>
-
-
-                                            <div className="form-group row">
-                                            <label
-                                                htmlFor="example-text-input"
-                                                className="col-lg-2 col-form-label"
-                                            >
-                                                Amount
-                                            </label>
-                                            <div className="col-lg-10">
-                                                <Field 
-                                                as={"input"}
-                                                name="amount"
-                                                className="form-control"
-                                                type="number"
-                                                placeholder="#10000"
-                                                />
-                                            </div>
-                                            <ErrorMsg name={"amount"} />
-                                            </div>
-
-                                            <div className="form-group row">
-                                            <label
-                                                htmlFor="example-text-input"
-                                                className="col-lg-2 col-form-label"
-                                            >
-                                            Amount Cycle
-                                            </label>
-                                            <div className="col-lg-10">
-                                                <Field
-                                                as = {"input"}
-                                                className="form-control"
-                                                type="number"
-                                                placeholder="10"
-                                                name="amount_per_cycle"
-                                                />
-                                            </div>
-                                            <ErrorMsg name={"amount_per_cycle"} />
-                                            </div>  
-
-                                            <div className="form-group row">
-                                            <label
-                                                htmlFor="example-text-input"
-                                                className="col-lg-2 col-form-label"
-                                            >
-                                            Duration
-                                            </label>
-                                            <div className="col-lg-10">
-                                                <Field
-                                                as = {"input"}
-                                                className="form-control"
-                                                type="number"
-                                                placeholder="1-12"
-                                                name="duration_in_months"
-                                                />
-                                            </div>
-                                            <ErrorMsg name={"duration_in_months"} />
-                                            </div>  
-
-                                                 <div className="form-group row">
-                                                    <label
-                                                        htmlFor="example-tel-input"
-                                                        className="col-lg-2 col-form-label"
-                                                    >
-                                                        Savings Plan
-                                                    </label>
-                                                    <div className="col-lg-10">
-                                                        <Field as="select" name="plan_type" className="form-control">
-                                                        <option>Select SavingsType</option>
-                                                        <option value="FIXED SAVINGS">Fixed Savings</option>
-
-                                                        </Field>
-                                                    </div>
-                                                    <ErrorMsg name={"plan_type"} />
-                                                </div>
-                    
-                                           
-
-                                          
-
-                                            <button
-                                            type="submit"
-                                            className="btn btn-success"
-                                            >
-                                            Submit
-                                            </button>
-                                            </Form>
-                                        )}
-                                    </Formik>
-                                </div>
-
-
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
 
                                             </Fragment>
                                         ))
                                     }
                                   
 
-                    {/* Modal */}
-                            <div className="modal fade" id="modelId" tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                            <div className="modal-dialog" role="document">
-                                <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">Customer ID</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                {/* <div className="modal-body"> */}
-                                    <div className="modal-content">
-
-
-                                    <div className="card">
-                                    {/* <div className="card-body">
-                                        <h5 className="card-title">Acount Number: </h5>
-                                        <h5 className="card-title ">Full Name: </h5>
-                                        <h5 className="card-title">Telephone: </h5>
-                                        <h5 className="card-title">Savings Plan: </h5>
-                                    </div> */}
-                                    <img className="img-fluid" src="/assets/images/users/avatar-11.jpg" alt="Card image cap" />
-                                    <div className="card-body">
-                                            <button type="button" style={{margin: "10px"}}  className="btn btn-primary"> <Link  style={{color: "#fff"}} to="#" > Activate </Link> </button>     
-                                            <button type="button" className="btn btn-danger"> <Link to="#" style={{color: "#fff"}}> Delete </Link> </button>
-                                    </div>
-                                    </div>
-
-       
-
-                                    </div>
-                                {/* </div> */}
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                </div>
-                                </div>
-                            </div>
-                            </div>
                                                         
                                                             </tbody>
                                                     </table>

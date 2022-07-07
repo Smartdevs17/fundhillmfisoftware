@@ -1,8 +1,6 @@
 import { Fragment,useContext } from 'react'
 import { NavLink} from "react-router-dom";
-// import { FaAlignJustify} from "react-icons/fa";
-// import {IoMdNotificationsOutline,IoIosArrowDropdownCircle} from "react-icons/io"
-// import {MdOutlineSearch,MdOutlineEmail,MdArrowDropDownCircle} from "react-icons/md"
+
 import {FiSettings} from "react-icons/fi"
 import {MdOutlineSearch} from "react-icons/md"
 // import {RiArrowDropDownLine} from "react-icons/ri"

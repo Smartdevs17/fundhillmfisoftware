@@ -8,7 +8,6 @@ import {HiOutlineDocumentReport} from "react-icons/hi"
 import {IoMdBusiness} from "react-icons/io" 
 import {MdOutlineDashboard,MdOutlineSavings} from "react-icons/md"
 import "./sidebar.css"
-import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
 function Sidebar() {
@@ -83,6 +82,7 @@ function Sidebar() {
                                 </Link>
                                 <ul className="nav-second-level"  aria-expanded={false} >
                                     <li><Link to="/admin/dashboard/newcustomer">New Customer</Link></li>
+                                    <li><Link to="/admin/dashboard/pendingcustomer">Pending Customer</Link></li>
                                     <li><Link to="/admin/dashboard/quick_customer">Quick Customer</Link></li>
                                     <li><Link to="/admin/dashboard/allcustomer">All Customers</Link></li>
                                 </ul>
