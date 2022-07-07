@@ -182,10 +182,10 @@ function PendingLoan() {
 
                                                                 <Field  as = {"select"} name="status" className="form-control" >
                                                                         <option  className="btn btn-secondary dropdown-toggle" >Action </option>
-                                                                        <option className="dropdown-item btn btn-outline-success waves-effect waves-light" value="ACTIVATE">Activate Loan</option>
-                                                                        <option className="dropdown-item btn btn-outline-success waves-effect waves-light" value="APPROVED">Approve Loan</option>
-                                                                        <option value="PENDING" className=" dropdown-item btn btn-outline-danger waves-effect waves-light" >Reject Loan</option>
-                                                                        <option value="DENIED" className=" dropdown-item btn btn-outline-danger waves-effect waves-light">Delete</option>
+                                                                        {/* <option className="dropdown-item btn btn-outline-success waves-effect waves-light" value="ACTIVATE">Activate Loan</option> */}
+                                                                        <option value="APPROVED" className="dropdown-item btn btn-outline-success waves-effect waves-light" >Approve Loan</option>
+                                                                        <option value="DENIED" className=" dropdown-item btn btn-outline-danger waves-effect waves-light" >Reject Loan</option>
+                                                                        <option  className=" dropdown-item btn btn-outline-danger waves-effect waves-light">Delete</option>
                                                                     </Field >
                                                             
                                                                 

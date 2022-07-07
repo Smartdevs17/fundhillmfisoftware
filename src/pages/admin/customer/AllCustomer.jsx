@@ -33,7 +33,7 @@ function AllCustomer() {
         setIsLoading(true)
 
         const allCustomer = async() => {
-          const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER",true);
+          const res = await api.service().fetch("/accounts/manage/?user_role=CUSTOMER&status=VERIFIED",true);
           console.log(res.data)
           if(api.isSuccessful(res)){
             setData(res.data.results)
@@ -47,11 +47,11 @@ function AllCustomer() {
 
       const savingsFormState = (id) => ({
         user: id,
-        frequency: null,
+        frequency: "",
         amount_per_cycle: null,
         duration_in_months: null,
         amount: null,
-        plan_type: null
+        plan_type: ""
       });
     
     
