@@ -88,7 +88,7 @@ function PendingCustomer() {
 
     
     const activateCustomer = async(id) => {
-        const res = await api.service().fetch(`https://fundhill-api.herokuapp.com/accounts/auth/${id}/activate/`,true);
+        const res = await api.service().fetch(`/accounts/auth/${id}/activate/`,true);
         console.log(res.data)
         if(api.isSuccessful(res)){
             setTimeout( () => {
@@ -98,7 +98,7 @@ function PendingCustomer() {
   
       }
     const deactivateCustomer = async(id) => {
-        const res = await api.service().fetch(`https://fundhill-api.herokuapp.com/accounts/auth/${id}/deactivate/`,true);
+        const res = await api.service().fetch(`/accounts/auth/${id}/deactivate/`,true);
         console.log(res.data)
         if(api.isSuccessful(res)){
             setTimeout( () => {

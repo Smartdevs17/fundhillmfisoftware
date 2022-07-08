@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 import { api } from '../../../services';
 import { css } from "@emotion/react";
-import {DotLoader,ClipLoader,RingLoader,CircleLoader,RotateLoader,SyncLoader,BarLoader,BeatLoader,BounceLoader,ClockLoader,FadeLoader,GridLoader,HashLoader,MoonLoader,PacmanLoader} from "react-spinners";
+import {BounceLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
 
 
@@ -28,6 +28,7 @@ function AllCustomer() {
     let [color, setColor] = useState("#ADD8E6");
     const {user} = useContext(Context)
     const [data,setData] = useState([]);
+    const [marketers,setMarketers] = useState([]);
 
     useEffect(() => {
         setIsLoading(true)
@@ -87,6 +88,86 @@ function AllCustomer() {
         }
         setLoading(false);
     }
+
+    useEffect(() => {
+        setIsLoading(true)
+    
+        const allMarketer = async() => {
+          const res = await api.service().fetch("/accounts/manage/?is_staff=True&user_role=AGENT",true);
+          // console.log(res.data)
+          if(api.isSuccessful(res)){
+            //   console.log(res)
+            setMarketers(res.data.results)
+          }
+    
+          setIsLoading(false);
+    
+        }
+    
+        allMarketer();
+      },[])
+
+
+    //   const initialFormState = (email) => ({
+    //     first_name: "",
+    //     middle_name: "",
+    //     last_name: "",
+    //     email: `${email}`,
+    //     residential_address: "",
+    //     business_address: "",
+    //     phone: "",   
+    //     agent_id: null,
+    //   });
+    
+      const validationSchema = yupObject().shape({
+        title: yupString()
+        .required("The title is required"),
+        first_name: yupString()
+        .required("First name is required"),
+        middle_name: yupString(),
+        last_name: yupString()
+        .required("Last name is required"),
+        gender: yupString()
+        .required("Gender is required"),
+        dob: yupString()
+        .required("Dirth of birth is required"),
+        // avatar: yupString()
+        // .required("Profile Picture is required"),
+        // country: yupString()
+        // .required("Please Select your country"),
+        // state: yupString()
+        // .required("Please select your state"),
+        // city: yupString()
+        // .required("Please select your city")
+      })
+      const edit_customer = async(values,id) => {
+        setLoading(true);
+        console.log(values)
+
+        const response = await api
+            .service()
+            .update(`/accounts/auth/${id}/`,values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            toast.success("Customer profile successfully updated!!");
+            // navigate("/admin/allbranch",{replace: true})
+        },0);
+        }
+        setLoading(false);
+    }
+
+    const deleteCustomer = async(id) => {
+        const res = await api.service().remove(`/accounts/auth/${id}/`,true);
+        console.log(res.data)
+        if(api.isSuccessful(res)){
+            setTimeout( () => {
+                toast.success("Successfully deleted customer!");
+            },0);
+            }
+  
+      }
+
 
     return (
         <Fragment>
@@ -171,18 +252,29 @@ function AllCustomer() {
                                                                     <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#plan_${customer.id}`} >
                                                                     Add Plan
                                                                     </button>
-                                                                </td>                                                                <td> 
-                                                                    <button type="button" className="btn btn-danger"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}> Approved </Link> </button> </td>
+                                                                </td>                                                              
+                                                                  <td> 
+                                                                    <button type="button" style={{color: "#fff"}} className="btn btn-danger">  Approved  </button> </td>
                                                                 <td>
-                                                                    {/* Button trigger modal */}
+
+                                                                    <div className="d-flex align-items-center" style={{ gap: '5px' }} >
+                                                                        {/* Button trigger modal */}
                                                                     <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#modal_${customer.id}`} >
                                                                     View
                                                                     </button>
+
+                                                                    {/* Button trigger modal */}
+                                                                    <button id='branch' type="button" className="btn btn-success" data-toggle="modal" data-target={`#edit_${customer.id}`} >
+                                                                    Edit
+                                                                    </button>
+
+                                                                    </div>
+                                                                   
                                                                 </td>
                                                                 </tr>
 
 
-                                                {/* Modal */}
+                                                {/* View Customer Modal */}
                                                         <div className="modal fade" id={`modal_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                                                         <div className="modal-dialog" role="document">
                                                             <div className="modal-content">
@@ -204,12 +296,11 @@ function AllCustomer() {
                                                                 </div> */}
                                                                 <img className="img-fluid" src={customer.avatar}  alt="Card image cap" />
                                                                 <div className="card-body">
-                                                                        <button type="button" style={{margin: "10px"}}  className="btn btn-primary"> <Link  style={{color: "#fff"}} to="#" > Activate </Link> </button>     
-                                                                        <button type="button" className="btn btn-danger"> <Link to="#" style={{color: "#fff"}}> Delete </Link> </button>
+                                                                        {/* <button type="button" style={{margin: "10px"}}  className="btn btn-primary"> <Link  style={{color: "#fff"}} to="#" > Activate </Link> </button>      */}
+                                                                        <button type="button" onClick={() => deleteCustomer(customer.id)} className="btn btn-danger" style={{color: "#fff"}} > Delete </button>
                                                                 </div>
 
-                                
-
+                            
                                                                 </div>
                                                             {/* </div> */}
                                                             <div className="modal-footer">
@@ -221,7 +312,7 @@ function AllCustomer() {
 
 
 
-                                                                                     {/* Modal */}
+                                                                                     {/* Add Savings Plan Modal */}
                                 <div className="modal fade" id={`plan_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                                 <div className="modal-dialog" role="document">
                                         <div className="modal-content">
@@ -361,6 +452,218 @@ function AllCustomer() {
                                         </div>
                                     </div>
                                     </div>
+
+                            {/* Edit Customer Profile Modal */}
+                             <div className="modal fade" id={`edit_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                <div className="modal-dialog" role="document">
+                                        <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">Customer ID</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+
+                                        <div className="modal-body">
+                                        <h4 className="header-title mb-4">Edit Customer Profile</h4>
+                                            <Formik
+                                                initialValues={{
+                                                            first_name: `${customer.first_name}`,
+                                                            middle_name: `${customer.middle_name}`,
+                                                            last_name: `${customer.last_name}`,
+                                                            email: `${customer.email}`,
+                                                            residential_address: `${customer.residential_address}`,
+                                                            business_address: `${customer.business_address}`,
+                                                            phone: `${customer.phone}`,   
+                                                            agent_id: `${customer.agent.id}`,
+                                                        }}
+                                                // validationSchema= {validationSchema}
+                                                onSubmit = { async (values,actions) => {
+                                                    await edit_customer(values,customer.id)
+                                                }}
+                                            >
+                                                {(props) => (
+                                                    <Form>
+                                                
+                                                    
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    First Name
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder=""
+                                                        name="first_name"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"first_name"} /> */}
+                                                    </div>  
+
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Middle Name
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder=""
+                                                        name="middle_name"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"middle_name"} /> */}
+                                                    </div>  
+                                                   
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Last Name
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder=""
+                                                        name="last_name"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"last_name"} /> */}
+                                                    </div>                                                    
+
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Email 
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="email"
+                                                        placeholder=""
+                                                        name="email"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"email"} /> */}
+                                                    </div>  
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Phone
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="tel"
+                                                        placeholder=""
+                                                        name="phone"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"phone"} /> */}
+                                                    </div>  
+
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Business Address
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder=""
+                                                        name="business_address"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"business_address"} /> */}
+                                                    </div>  
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Residential Address
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder=""
+                                                        name="residential_address"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"residential_address"} /> */}
+                                                    </div>  
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                    htmlFor="example-tel-input"
+                                                    className="col-lg-2 col-form-label"
+                                                    >
+                                                    Marketer
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                    <select  name="agent_id" className="form-control">
+                                                        <option>{customer.agent.first_name} {customer.agent.last_name} </option>
+                                                        {
+                                                        marketers.map((marketer) => (
+                                                            <>
+                                                            <option key={marketer.id} value={marketer.id} > {marketer.first_name} </option>
+                                                            </>
+                                                        ))
+                                                        }
+                                                        </select>
+                                                    </div>
+                                                </div>   
+
+                                                    <button
+                                                    type="submit"
+                                                    className="btn btn-success"
+                                                    >
+                                                    Update
+                                                    </button>
+                                                    </Form>
+                                                )}
+                                            </Formik>
+                                        </div>
+       
+
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                    
 
                                                     </Fragment>
                                                 ))

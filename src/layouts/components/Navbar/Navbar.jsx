@@ -205,7 +205,7 @@ function Navbar() {
                                 <NavLink className="nav-link dropdown-toggle nav-user mr-0 waves-effect waves-light" data-toggle="dropdown" to="#" role="button" aria-haspopup="false" aria-expanded="false">
                                     <img src={PF + user.photo} alt="" className="rounded-circle" />
                                     <span className="d-none d-sm-inline-block ml-1 font-weight-medium"> {user.data.first_name} {user.data.last_name} </span>
-                                    <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
+                                    {/* <i className="mdi mdi-chevron-down d-none d-sm-inline-block"></i> */}
                                     {/* <MdArrowDropDownCircle className="d-none d-lg-inline-block" /> */}
                                 </NavLink>
                             ): 

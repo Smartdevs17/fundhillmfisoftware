@@ -1,10 +1,14 @@
 import { Fragment, useState,useEffect,useContext } from "react";
 import { Link } from "react-router-dom";
-import {api} from "../../../services";
-import { css } from "@emotion/react";
 import {ClipLoader,BounceLoader} from "react-spinners";
-import {Context} from "../../../context/Context";
+import { Formik, Form, Field } from "formik";
+import {object as yupObject,string as yupString,number as yupNumber} from "yup";
+import { ErrorMsg } from "../../../layouts/components";
+import { toast } from "react-toastify";
 
+import { api } from '../../../services';
+import { css } from "@emotion/react";
+import {Context} from "../../../context/Context";
 
 
 
@@ -44,7 +48,34 @@ function AllMarketer() {
       },[])
 
 
+      const edit_marketer = async(values,id) => {
+        setLoading(true);
+        console.log(values)
 
+        const response = await api
+            .service()
+            .update(`/accounts/auth/${id}/`,values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            toast.success("Marketer profile successfully updated!!");
+            // navigate("/admin/allbranch",{replace: true})
+        },0);
+        }
+        setLoading(false);
+    }
+
+
+      const deleteMarketer = async(id) => {
+        const res = await api.service().remove(`/accounts/auth/${id}/`,true);
+        console.log(res.data)
+        if(api.isSuccessful(res)){
+            setTimeout( () => {
+                toast.success("Successfully deleted marketer!");
+            },0);
+            }
+  
+      }
 
 
     return (
@@ -108,20 +139,7 @@ function AllMarketer() {
                                                                 </tr>
                                                                 </thead>
                                                                     <tbody>
-                                                                <tr>
-                                                                    <td> 1 </td>
-                                                                    <td>John Doe</td>
-                                                                    <td>080691235768</td>
-                                                                    <td>johndoe@gmail.com</td>
-                                                                    <td>Agent</td>
-                                                                    <td>
-                                                                    {/* Button trigger modal */}
-                                                                    <button id='marketer' type="button" className="btn btn-primary" data-toggle="modal" data-target="#marketerId">
-                                                                    View
-                                                                    </button>
-                                                                    </td>                                
 
-                                                                </tr>
 
                                                                 {
                                                                     marketers.map((marketer) => (
@@ -135,10 +153,20 @@ function AllMarketer() {
                                                                             <td> {marketer.email} </td>
                                                                             <td> {marketer.user_role} </td>
                                                                             <td>
-                                                                            {/* Button trigger modal */}
-                                                                            <button id='marketer' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#marketer_${marketer.id}`} >
-                                                                            View
-                                                                            </button>
+
+
+                                                                            <div className="d-flex align-items-center" style={{ gap: '5px' }} >
+                                                                                {/* Button trigger modal */}
+                                                                                <button id='marketer' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#marketer_${marketer.id}`} >
+                                                                                View
+                                                                                </button>
+
+                                                                                {/* Button trigger modal */}
+                                                                                <button id='branch' type="button" className="btn btn-success" data-toggle="modal" data-target={`#edit_${marketer.id}`} >
+                                                                                Edit
+                                                                                </button>
+
+                                                                            </div>
                                                                             </td>                                
 
                                                                         </tr>
@@ -154,11 +182,10 @@ function AllMarketer() {
                                                                                 <span aria-hidden="true">×</span>
                                                                                 </button>
                                                                             </div>
-                                                                            {/* <div className="modal-body"> */}
-                                                                                <div className="modal-content">
+                                                                            <div className="modal-body">
+                                                                                {/* <div className="modal-content"> */}
 
 
-                                                                                <div className="card">
                                                                                 {/* <div className="card-body">
                                                                                     <h5 className="card-title ">Full Name: </h5>
                                                                                     <h5 className="card-title">Telephone: </h5>
@@ -169,9 +196,9 @@ function AllMarketer() {
                                                                                 </div> */}
                                                                                 <img className="img-fluid" src="/assets/images/users/avatar-11.jpg" alt="Card image cap" />
                                                                                 <div className="card-body">
-                                                                                        <button type="button" style={{margin: "10px"}}  className="btn btn-primary"> <Link  style={{color: "#fff"}} to="#" > Update </Link> </button>     
-                                                                                        <button type="button" className="btn btn-danger"> <Link to="#" style={{color: "#fff"}}> Delete </Link> </button>
-                                                                                </div>
+                                                                                        {/* <button type="button" style={{margin: "10px"}}  className="btn btn-primary"> <Link  style={{color: "#fff"}} to="#" > Update </Link> </button>      */}
+                                                                                        {/* <button type="button" className="btn btn-danger"> <Link to="#" style={{color: "#fff"}}> Delete </Link> </button> */}
+                                                                                        <button type="button" onClick={() => deleteMarketer(marketer.id)} className="btn btn-danger" style={{color: "#fff"}} > Delete </button>
                                                                                 </div>
 
 
@@ -183,6 +210,177 @@ function AllMarketer() {
                                                                             </div>
                                                                         </div>
                                                                         </div>
+
+
+                                                                                                    {/* Edit Marketer Profile Modal */}
+                             <div className="modal fade" id={`edit_${marketer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                <div className="modal-dialog" role="document">
+                                        <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">Marketer ID</h5>
+                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                            </button>
+                                        </div>
+
+                                        <div className="modal-body">
+                                        <h4 className="header-title mb-4">Edit marketer Profile</h4>
+                                            <Formik
+                                                initialValues={{
+                                                            first_name: `${marketer.first_name}`,
+                                                            middle_name: `${marketer.middle_name}`,
+                                                            last_name: `${marketer.last_name}`,
+                                                            email: `${marketer.email}`,
+                                                            phone: `${marketer.phone}`,   
+                                                            agent_id: `${marketer.user_role}`,
+                                                        }}
+                                                // validationSchema= {validationSchema}
+                                                onSubmit = { async (values,actions) => {
+                                                    await edit_marketer(values,marketer.id)
+                                                }}
+                                            >
+                                                {(props) => (
+                                                    <Form>
+                                                
+                                                    
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    First Name
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder=""
+                                                        name="first_name"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"first_name"} /> */}
+                                                    </div>  
+
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Middle Name
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder=""
+                                                        name="middle_name"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"middle_name"} /> */}
+                                                    </div>  
+                                                   
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Last Name
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="text"
+                                                        placeholder=""
+                                                        name="last_name"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"last_name"} /> */}
+                                                    </div>                                                    
+
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Email 
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="email"
+                                                        placeholder=""
+                                                        name="email"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"email"} /> */}
+                                                    </div>  
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                        htmlFor="example-text-input"
+                                                        className="col-lg-2 col-form-label"
+                                                    >
+                                                    Phone
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                        <Field
+                                                        as = {"input"}
+                                                        className="form-control"
+                                                        type="tel"
+                                                        placeholder=""
+                                                        name="phone"
+                                                        />
+                                                    </div>
+                                                    {/* <ErrorMsg name={"phone"} /> */}
+                                                    </div>  
+
+
+
+                                                    <div className="form-group row">
+                                                    <label
+                                                    htmlFor="example-tel-input"
+                                                    className="col-lg-2 col-form-label"
+                                                    >
+                                                    Marketer
+                                                    </label>
+                                                    <div className="col-lg-10">
+                                                    <Field as="select" name="user_role" className="form-control">
+                                                        <option> {marketer.user_role} </option>
+                                                        <option value="ADMIN" >Admin</option>
+                                                        <option value="MANAGER" >Manager</option>
+                                                        <option value="TELLER" >Teller</option>
+                                                        <option value="AGENT" >Agent</option>
+                                                        </Field>
+                                                    </div>
+                                                </div>   
+
+                                                    <button
+                                                    type="submit"
+                                                    className="btn btn-success"
+                                                    >
+                                                    Update
+                                                    </button>
+                                                    </Form>
+                                                )}
+                                            </Formik>
+                                        </div>
+       
+
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+
                                                                          </Fragment>
 
                                                                       
