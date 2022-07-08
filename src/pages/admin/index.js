@@ -46,6 +46,7 @@ import NewExpenses from "./expenses/NewExpenses"
 import AllExpenses from "./expenses/AllExpenses"
 import Profile from "./profile/Profile";
 import PendingCustomer from "./customer/PendingCustomer";
+import DeletedCustomer from "./customer/DeletedCustomer";
 
 export {
     Login,
@@ -96,5 +97,6 @@ export {
     NewExpenses,
     Profile,
     PendingCustomer,
+    DeletedCustomer,
 }
 

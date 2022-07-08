@@ -84,7 +84,8 @@ function Sidebar() {
                                     <li><Link to="/admin/dashboard/newcustomer">New Customer</Link></li>
                                     <li><Link to="/admin/dashboard/pendingcustomer">Pending Customer</Link></li>
                                     <li><Link to="/admin/dashboard/quick_customer">Quick Customer</Link></li>
-                                    <li><Link to="/admin/dashboard/allcustomer">All Customers</Link></li>
+                                    <li><Link to="/admin/dashboard/allcustomer">Active Customers</Link></li>
+                                    <li><Link to="/admin/dashboard/deletedcustomer">Deactivated Customers</Link></li>
                                 </ul>
                             </li>
 
