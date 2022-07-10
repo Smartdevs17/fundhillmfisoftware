@@ -168,6 +168,17 @@ function AllCustomer() {
   
       }
 
+      const fundCustomer = async(id) => {
+        const res = await api.service().get(`/accounts/auth/${id}/`,true);
+        console.log(res.data)
+        if(api.isSuccessful(res)){
+            setTimeout( () => {
+                toast.success("Transaction successfully");
+            },0);
+            }
+  
+      }
+
 
     return (
         <Fragment>
@@ -231,7 +242,7 @@ function AllCustomer() {
                                                                     {/* <th data-priority={3}>Savings Plan</th> */}
                                                                     <th data-priority={3}>Marketer</th>
                                                                     {/* <th data-priority={6}>Branch</th> */}
-                                                                    <th data-priority={6}>Add Plan </th>
+                                                                    <th data-priority={6}>Status </th>
                                                                     <th data-priority={6}>Action</th>
                                                                     </tr>
                                                                 </thead>
@@ -247,35 +258,28 @@ function AllCustomer() {
                                                                 <td> {customer.phone} </td>
                                                                 <td> {customer.email} </td>
                                                                 <td> {customer.agent.first_name} </td>
-                                                                <td>
-                                                                    {/* Button trigger modal */}
-                                                                    <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#plan_${customer.id}`} >
-                                                                    Add Plan
-                                                                    </button>
-                                                                </td>                                                              
                                                                   <td> 
-                                                                    <button type="button" style={{color: "#fff"}} className="btn btn-danger">  Approved  </button> </td>
-                                                                <td>
+                                                                    <button type="button" style={{color: "#fff"}} className="btn btn-success">  Approved  </button> </td>
+                                                                <td>   
+                                                                <div className="btn-group">
+                                                                <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    Action
+                                                                </button>
+                                                                <div className="dropdown-menu dropdown-menu-right">
+                                                                    <button className="dropdown-item" type="button" data-toggle="modal" data-target={`#view_${customer.id}`} >View Profile</button>
+                                                                    <button className="dropdown-item" type="button" data-toggle="modal" data-target={`#edit_${customer.id}`} >Edit Profile</button>
+                                                                    <button className="dropdown-item" type="button" data-toggle="modal" data-target={`#plan_${customer.id}`} > Add Plan </button>
+                                                                    <button className="dropdown-item" type="button" data-toggle="modal" data-target={`#fund_${customer.id}`}  >Fund Wallet</button>
 
-                                                                    <div className="d-flex align-items-center" style={{ gap: '5px' }} >
-                                                                        {/* Button trigger modal */}
-                                                                    <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#modal_${customer.id}`} >
-                                                                    View
-                                                                    </button>
+                                                                </div>
+                                                                </div>
 
-                                                                    {/* Button trigger modal */}
-                                                                    <button id='branch' type="button" className="btn btn-success" data-toggle="modal" data-target={`#edit_${customer.id}`} >
-                                                                    Edit
-                                                                    </button>
-
-                                                                    </div>
-                                                                   
-                                                                </td>
+                                                             </td> 
                                                                 </tr>
 
 
                                                 {/* View Customer Modal */}
-                                                        <div className="modal fade" id={`modal_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                                                        <div className="modal fade" id={`view_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                                                         <div className="modal-dialog" role="document">
                                                             <div className="modal-content">
                                                             <div className="modal-header">
@@ -287,6 +291,11 @@ function AllCustomer() {
                                                             {/* <div className="modal-body"> */}
                                                                 <div className="modal-content">
 
+                                                                <div className="d-flex align-items-center justify-content-center" >
+                                                                <img className="img-fluid" src={customer.avatar}  alt="Card image cap" />
+
+                                                                </div>
+
 
                                                                 {/* <div className="card-body">
                                                                     <h5 className="card-title">Acount Number: </h5>
@@ -294,8 +303,7 @@ function AllCustomer() {
                                                                     <h5 className="card-title">Telephone: </h5>
                                                                     <h5 className="card-title">Savings Plan: </h5>
                                                                 </div> */}
-                                                                <img className="img-fluid" src={customer.avatar}  alt="Card image cap" />
-                                                                <div className="card-body">
+                                                                <div className="d-flex align-items-center justify-content-center">
                                                                         {/* <button type="button" style={{margin: "10px"}}  className="btn btn-primary"> <Link  style={{color: "#fff"}} to="#" > Activate </Link> </button>      */}
                                                                         <button type="button" onClick={() => deleteCustomer(customer.id)} className="btn btn-danger" style={{color: "#fff"}} > Delete </button>
                                                                 </div>
@@ -344,7 +352,7 @@ function AllCustomer() {
                                                             </label>
                                                             <div className="col-lg-10">
                                                                 <Field as="select" name="frequency" className="form-control">
-                                                                <option>Select SavingsType</option>
+                                                                <option>Choose Frequency</option>
                                                                 <option value="DAILY">DAILY</option>
                                                                 <option value="WEEKLY">WEEKLY</option>
                                                                 <option value="MONTHLY">MONTHLY</option>
@@ -436,7 +444,7 @@ function AllCustomer() {
 
                                                     <button
                                                     type="submit"
-                                                    className="btn btn-success"
+                                                    className="btn btn-primary"
                                                     >
                                                     Submit
                                                     </button>
@@ -646,7 +654,7 @@ function AllCustomer() {
 
                                                     <button
                                                     type="submit"
-                                                    className="btn btn-success"
+                                                    className="btn btn-primary"
                                                     >
                                                     Update
                                                     </button>
@@ -663,6 +671,49 @@ function AllCustomer() {
                                     </div>
                                     </div>
 
+
+                                                                                    <div>
+                                                                                       
+                                                                                       {/* Fund Customer Wallet Modal */}
+                                                                                       <div className="modal fade" id={`fund_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                           <div className="modal-dialog" role="document">
+                                                                                           <div className="modal-content">
+                                                                                               <div className="modal-header">
+                                                                                               <h5 className="modal-title" id="exampleModalLabel"> Fund {customer.first_name} {customer.last_name} Wallet </h5>
+                                                                                               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                                                   <span aria-hidden="true">×</span>
+                                                                                               </button>
+                                                                                               </div>
+                                                                                               <div className="modal-body">
+                                                                                               <h4> Are you sure you want to fund this account </h4>
+                                                                                                   
+
+                                                                                                   <div className="form-group row">
+                                                                                                    <label
+                                                                                                        htmlFor="example-tel-input"
+                                                                                                        className="col-lg-2 col-form-label"
+                                                                                                    >
+                                                                                                        Savings Plan
+                                                                                                    </label>
+                                                                                                    <div className="col-lg-10">
+                                                                                                        <select  name="transaction_type" className="form-control">
+                                                                                                        <option>Select SavingsType</option>
+                                                                                                        <option value="Savings">Fixed Deposit</option>
+                                                                                                        <option value="fixed">Targeted Savings</option>
+                                                                                                        <option value="loan">Regular Savings </option>
+                                                                                                        <option value="loan">Esusu Savings </option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                               </div>
+                                                                                               <div className="modal-footer">
+                                                                                               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                               <button type="button" onClick={() => fundCustomer(customer.id)} className="btn btn-primary" style={{color: "#fff"}} > Delete </button>
+                                                                                               </div>
+                                                                                           </div>
+                                                                                           </div>
+                                                                                       </div>
+                                                                                       </div>
                                     
 
                                                     </Fragment>

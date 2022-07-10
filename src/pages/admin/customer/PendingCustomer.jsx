@@ -108,6 +108,17 @@ function PendingCustomer() {
   
       }
 
+      const deleteCustomer = async(id) => {
+        const res = await api.service().remove(`/accounts/auth/${id}/`,true);
+        console.log(res.data)
+        if(api.isSuccessful(res)){
+            setTimeout( () => {
+                toast.success("Successfully deleted customer!");
+            },0);
+            }
+  
+      }
+
 
   return (
     <Fragment>
@@ -179,32 +190,33 @@ function PendingCustomer() {
                                                             {
                                         data.map((customer) => (
                                             <Fragment>
-                                            <tr >
-                                                        <th key={customer.id} ><span className="co-name"> {customer.id} </span></th>
+                                            <tr  key={customer.id} >
+                                                        <th ><span className="co-name"> {customer.id} </span></th>
                                                         <td >{customer.first_name} {customer.last_name} </td>
                                                         <td> {customer.account_number} </td>
                                                         <td> {customer.phone} </td>
                                                         <td> {customer.email} </td>
                                                         <td> {customer.agent.first_name} </td>
-                                                        {/* <td>
-                                                            <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#plan_${customer.id}`} >
-                                                            Add Plan
-                                                            </button>
-                                                        </td>                                                               */}
                                                           <td> 
-                                                            <button type="button" className="btn btn-danger"> <Link to="/admin/dashboard/updatecustomer" style={{color: "#fff"}}>Not Approved </Link> </button> </td>
+                                                            <button type="button" className="btn btn-danger" style={{color: "#fff"}} >Not Approved</button> </td>
                                                         <td>
                                                             {/* Button trigger modal */}
                                                             <button id='branch' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#modal_${customer.id}`} >
                                                             View
                                                             </button>
+
+
                                                         </td>
                                                         </tr>
 
 
+                                                        <div>
+
+                                                        </div>
+
                                         {/* Modal */}
                                                 <div className="modal fade" id={`modal_${customer.id}`} tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-                                                <div className="modal-dialog" role="document">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div className="modal-content">
                                                     <div className="modal-header">
                                                         <h5 className="modal-title">Customer ID</h5>
@@ -213,8 +225,11 @@ function PendingCustomer() {
                                                         </button>
                                                     </div>
                                                     {/* <div className="modal-body"> */}
-                                                        <div className="modal-body">
+                                                        <div className="modal-body ">
+                                                        <div className="d-flex align-items-center justify-content-center" >
+                                                             <img className="img-fluid" src={customer.avatar}  alt="Card image cap" />
 
+                                                        </div>
 
                                                         {/* <div className="card-body">
                                                             <h5 className="card-title">Acount Number: </h5>
@@ -222,10 +237,11 @@ function PendingCustomer() {
                                                             <h5 className="card-title">Telephone: </h5>
                                                             <h5 className="card-title">Savings Plan: </h5>
                                                         </div> */}
-                                                        <img className="img-fluid" src={customer.avatar}  alt="Card image cap" />
-                                                        <div className="card-body">
+                                                        <div className="d-flex align-items-center justify-content-center">
                                                                 <button type="button" onClick={() => activateCustomer(customer.id)} style={{margin: "10px",ccolor: "#fff"}}  className="btn btn-primary">Activate  </button>     
-                                                                <button type="button" onClick={() => deactivateCustomer(customer.id)} style={{color: "#fff"}} className="btn btn-danger"> Delete </button>
+                                                                <button type="button" onClick={() => deactivateCustomer(customer.id)} style={{color: "#fff"}} className="btn btn-danger"> Deactivate </button>
+                                                                <button type="button" onClick={() => deleteCustomer(customer.id)} style={{color: "#fff"}} className="btn btn-danger"> Delete </button>
+
                                                         </div>
 
                         

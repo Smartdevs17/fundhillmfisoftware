@@ -237,9 +237,8 @@ function Transactions() {
                                         <th>Full Name</th>
                                         <th>Marketer</th>
                                         <th>Account Number</th>
-                                        <th>Savings Plan</th>
+                                        <th>Balance</th>
                                         <th>Telephone</th>
-                                        {/* <th>Balance</th> */}
                                         <th>Transaction</th>
                                     </tr>
                                     </thead>
@@ -252,9 +251,8 @@ function Transactions() {
                                                     <td> {customer.last_name} {customer.first_name} </td>
                                                     <td> {customer.agent.last_name} {customer.agent.first_name} </td>
                                                     <td> {customer.account_number} </td>
-                                                    <td> {customer.status} </td>
+                                                    <td>   </td>
                                                     <td> {customer.phone} </td>
-                                                    {/* <td> {customer.bals } </td> */}
                                                     <td> 
                                                         <button id='withdraw' type="button" className="btn btn-outline-primary waves-effect waves-light" data-toggle="modal" data-target="#withdrawId">
                                                         Withdraw

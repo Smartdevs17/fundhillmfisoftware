@@ -1,8 +1,13 @@
 import {Fragment,useState,useEffect,useContext} from 'react'
-import { Link } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
+import { Formik, Form, Field } from "formik";
+import {object as yupObject,string as yupString,number as yupNumber} from "yup";
+import { ErrorMsg } from "../../../layouts/components";
+import { toast } from "react-toastify";
+
 import { api } from '../../../services';
 import { css } from "@emotion/react";
-import {DotLoader,ClipLoader,RingLoader,CircleLoader,RotateLoader,SyncLoader,BarLoader,BeatLoader,BounceLoader,ClockLoader,FadeLoader,GridLoader,HashLoader,MoonLoader,PacmanLoader} from "react-spinners";
+import {BounceLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
 
 
@@ -24,6 +29,7 @@ function AllBranch() {
     const {user} = useContext(Context);
     const [data,setData] = useState([]);
     const [marketers,setMarketers] = useState([]);
+    const navigate = useNavigate();
 
 
 
@@ -32,7 +38,7 @@ function AllBranch() {
         setIsLoading(true)
 
         const allBranches = async() => {
-          const res = await api.service().fetch("https://fundhill-api.herokuapp.com/dashboard/branches/",true);
+          const res = await api.service().fetch("/dashboard/branches/",true);
           console.log(res.data)
           if(api.isSuccessful(res)){
             setData(res.data.results)
@@ -45,6 +51,86 @@ function AllBranch() {
         allBranches();
       },[]) 
 
+
+            
+                    const allBranches = async() => {
+                        setIsLoading(true)
+                      const res = await api.service().fetch("/dashboard/branches/",true);
+                      console.log(res.data)
+                      if(api.isSuccessful(res)){
+                        setData(res.data.results)
+                      }
+                
+                      setIsLoading(false);
+                
+                    }
+            
+
+      const deleteBranch = async(id) => {
+        const res = await api.service().remove(`/dashboard/branches/${id}/`,true);
+        console.log(res.data)
+        if(api.isSuccessful(res)){
+            setTimeout( () => {
+                toast.success("Successfully deleted branch!");
+                allBranches();
+                    // setIsLoading(true)
+            
+                    // const allBranches = async() => {
+                    //   const res = await api.service().fetch("/dashboard/branches/",true);
+                    //   console.log(res.data)
+                    //   if(api.isSuccessful(res)){
+                    //     setData(res.data.results)
+                    //   }
+                
+                    //   setIsLoading(false);
+                
+                    // }
+            
+                    // allBranches();
+             
+
+            },0);
+            }
+  
+      }
+
+      const edit_branch = async(values,id) => {
+        setLoading(true);
+        console.log(values)
+
+        const response = await api
+            .service()
+            .update(`/dashboard/branches/${id}/`,values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            toast.success("branch successfully updated!!");
+            // navigate("/admin/dashboard/allbranch",{replace: true})
+            // history("/admin/dashboard/allbranch")
+            allBranches();
+        },0);
+        }
+        setLoading(false);
+    }
+
+    
+    useEffect(() => {
+        setIsLoading(true)
+    
+        const allMarketer = async() => {
+          const res = await api.service().fetch("/accounts/manage/?is_staff=True&user_role=AGENT",true);
+          // console.log(res.data)
+          if(api.isSuccessful(res)){
+            //   console.log(res)
+            setMarketers(res.data.results)
+          }
+    
+          setIsLoading(false);
+    
+        }
+    
+        allMarketer();
+      },[])
 
 
     return (
@@ -117,18 +203,162 @@ function AllBranch() {
                                                                      {
                                                                         data.map((branch) => {
                                                                             return(
-                                                                                <tr>
-                                                                                <td key={branch.id}> {branch.id} </td>
+                                                                                <tr key={branch.id} >
+                                                                                <td > {branch.id} </td>
                                                                                 <td> {branch.name} </td>
                                                                                 <td> {branch.branch_address} </td>
                                                                                 <td> {branch.branch_head.first_name} {branch.branch_head.last_name} </td>
                                                                                 <td>
-                                                                                    <div className="d-flex align-items-center" style={{ gap: '10px' }}>
-                                                                                        <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
-                                                                                        <button type="button" style={{margin: "10px"}}  className="btn btn-danger"> <Link  style={{color: "#fff"}} to={`/admin/dashboard/deletebranch?branch_id=${1}`} > Delete </Link> </button>     
-                
+                                                                                    <div className="d-flex align-items-center" style={{ gap: '10px' }} > 
+                                                                                        {/* <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button> */}
+                                                                                        <button type="button" className="btn btn-primary"  style={{color: "#fff"}} data-toggle="modal" data-target ={`#edit_${branch.id}`}>  Update </button>
+
+                                                                                         {/* Button trigger modal */}
+                                                                                         <button type="button" className="btn btn-secondary" data-toggle="modal" data-target ={`#modal_${branch.id}`}>
+                                                                                            Delete 
+                                                                                        </button>
                                                                                     </div>
                 
+                                                                                 
+                                                                                    <div>
+                                                                                       
+                                                                                        {/* Delete Branch Modal */}
+                                                                                        <div className="modal fade" id={`modal_${branch.id}`} tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                            <div className="modal-dialog" role="document">
+                                                                                            <div className="modal-content">
+                                                                                                <div className="modal-header">
+                                                                                                <h5 className="modal-title" id="exampleModalLabel">Confirm Delete of {branch.name} </h5>
+                                                                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                                                    <span aria-hidden="true">×</span>
+                                                                                                </button>
+                                                                                                </div>
+                                                                                                <div className="modal-body">
+                                                                                                    Are you sure you want to delete this branch?
+                                                                                                </div>
+                                                                                                <div className="modal-footer">
+                                                                                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                                <button type="button" onClick={() => deleteBranch(branch.id)} className="btn btn-danger" style={{color: "#fff"}} > Delete </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        </div>
+
+                                                                                <div className="
+                                                                                ">
+
+
+                                                                                                                    {/* Edit Branch Profile Modal */}
+                                                                                <div className="modal fade" id={`edit_${branch.id}`} tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                    <div className="modal-dialog" role="document">
+                                                                                            <div className="modal-content">
+                                                                                            <div className="modal-header">
+                                                                                                <h5 className="modal-title">branch ID</h5>
+                                                                                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                                                <span aria-hidden="true">×</span>
+                                                                                                </button>
+                                                                                            </div>
+
+                                                                                            <div className="modal-body">
+                                                                                            <h4 className="header-title mb-4">Edit branch Profile</h4>
+                                                                                                <Formik
+                                                                                                    initialValues={{
+                                                                                                                name: `${branch.name}`,
+                                                                                                                branch_address: `${branch.branch_address}`,
+                                                                                                                branch_head_id: `${branch.branch_head_id}`,
+                                                                                                          
+                                                                                                            }}
+                                                                                                    // validationSchema= {validationSchema}
+                                                                                                    onSubmit = { async (values,actions) => {
+                                                                                                        await edit_branch(values,branch.id)
+                                                                                                    }}
+                                                                                                >
+                                                                                                    {(props) => (
+                                                                                                        <Form>
+                                                                                                    
+                                                                                                        
+                                                                                                        <div className="form-group row">
+                                                                                                        <label
+                                                                                                            htmlFor="example-text-input"
+                                                                                                            className="col-lg-2 col-form-label"
+                                                                                                        >
+                                                                                                        Name
+                                                                                                        </label>
+                                                                                                        <div className="col-lg-10">
+                                                                                                            <Field
+                                                                                                            as = {"input"}
+                                                                                                            className="form-control"
+                                                                                                            type="text"
+                                                                                                            placeholder=""
+                                                                                                            name="name"
+                                                                                                            />
+                                                                                                        </div>
+                                                                                                        {/* <ErrorMsg name={"first_name"} /> */}
+                                                                                                        </div>  
+ 
+
+                                                                                                        <div className="form-group row">
+                                                                                                        <label
+                                                                                                            htmlFor="example-text-input"
+                                                                                                            className="col-lg-2 col-form-label"
+                                                                                                        >
+                                                                                                        Branch Address
+                                                                                                        </label>
+                                                                                                        <div className="col-lg-10">
+                                                                                                            <Field
+                                                                                                            as = {"input"}
+                                                                                                            className="form-control"
+                                                                                                            type="text"
+                                                                                                            placeholder=""
+                                                                                                            name="branch_address"
+                                                                                                            />
+                                                                                                        </div>
+                                                                                                        {/* <ErrorMsg name={"first_name"} /> */}
+                                                                                                        </div>
+
+                                                                                                        <div className="form-group row">
+                                                                                                        <label
+                                                                                                        htmlFor="example-tel-input"
+                                                                                                        className="col-lg-2 col-form-label"
+                                                                                                        >
+                                                                                                        Marketer
+                                                                                                        </label>
+                                                                                                        <div className="col-lg-10">
+                                                                                                        <select  name="branch_head_id" className="form-control">
+                                                                                                            <option>{branch.branch_head.first_name} {branch.branch_head.last_name} </option>
+                                                                                                            {
+                                                                                                            marketers.map((marketer) => (
+                                                                                                                <>
+                                                                                                                <option key={marketer.id} value={marketer.id} > {marketer.first_name} </option>
+                                                                                                                </>
+                                                                                                            ))
+                                                                                                            }
+                                                                                                            </select>
+                                                                                                        </div>
+                                                                                                    </div>   
+
+                                                                                                        <button
+                                                                                                        type="submit"
+                                                                                                        className="btn btn-success"
+                                                                                                        >
+                                                                                                        Update
+                                                                                                        </button>
+                                                                                                        </Form>
+                                                                                                    )}
+                                                                                                </Formik>
+                                                                                            </div>
+                                                        
+
+                                                                                            <div className="modal-footer">
+                                                                                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                            </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        </div>
+
+                                                                                        </div>
+
+
                                                                                 </td>
                                                                                 </tr>
                                                                             )
