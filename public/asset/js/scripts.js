@@ -123,3 +123,24 @@ $('#expenses').on('show.bs.modal', event => {
 });
 
 
+var modalConfirm = function(callback){
+  
+  $("#btn-confirm").on("click", function(){
+    $("#mi-modal").modal('show');
+  });
+
+  $("#modal-btn-si").on("click", function(){
+    callback(true);
+    $("#mi-modal").modal('hide');
+  });
+  
+  $("#modal-btn-no").on("click", function(){
+    callback(false);
+    $("#mi-modal").modal('hide');
+  });
+};
+
+
+$('#myModal').on('shown.bs.modal', function () {
+  $('#myInput').trigger('focus')
+})

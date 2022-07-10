@@ -74,7 +74,8 @@ function OngoingLoan() {
 
                                     <div className="btn-group">
                                     <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Action <i className="mdi mdi-chevron-down" />
+                                        Action 
+                                        {/* <i className="mdi mdi-chevron-down" /> */}
                                     </button>
                                     <div className="dropdown-menu" x-placement="bottom-start" style={{position: 'absolute', willChange: 'transform', top: 0, left: 0, transform: 'translate3d(0px, 38px, 0px)'}}>
                                        
@@ -89,6 +90,7 @@ function OngoingLoan() {
                                     </div>
                                     </div>
                                     </td>
+                                    
                                     </tr>
                                 </tbody>
                                 </table>

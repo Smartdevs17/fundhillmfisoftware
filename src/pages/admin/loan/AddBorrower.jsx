@@ -65,7 +65,7 @@ useEffect(() => {
       allMarketer();
 
     const allBranches = async() => {
-        const res = await api.service().fetch("https://fundhill-api.herokuapp.com/dashboard/branches/",true);
+        const res = await api.service().fetch("/dashboard/branches/",true);
         console.log(res.data)
         if(api.isSuccessful(res)){
           setBranches(res.data.results)
@@ -404,18 +404,16 @@ useEffect(() => {
                                                             </div>
 
                                                             <div className="form-group row">
-                                                            <label htmlFor="example-tel-input" className="col-lg-5 col-form-label">Loan Period</label>
+                                                            <label htmlFor="example-tel-input" className="col-lg-5 col-form-label">Loan Period in Months</label>
                                                             <div className="col-lg-10">
-                                                                <Field  as = {"select"} name="loan_period_in_months" className="form-control" >
-                                                                        <option>Select One</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>               
-                                                                            <option value="5">5</option>
-                                                                    
-
-                                                                    </Field >
+                                                                <Field
+                                                                className="form-control"
+                                                                type="number"
+                                                                placeholder="1"
+                                                                id="example-search-input"
+                                                                name="loan_period_in_months"
+                    
+                                                                />
                                                             </div>
                                                             <ErrorMsg name="loan_period_in_years" />
                                                             </div>

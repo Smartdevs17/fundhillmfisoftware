@@ -64,6 +64,23 @@ function AllMarketer() {
         }
         setLoading(false);
     }
+    const fund_marketer = async(values,id) => {
+        setLoading(true);
+        console.log(values)
+
+        const response = await api
+            .service()
+            .push(`/wallet/marketer/${id}/fund-wallet/`,values,true)
+
+        if(api.isSuccessful(response)){
+        setTimeout( () => {
+            toast.success("Transaction successful");
+            // navigate("/admin/allbranch",{replace: true})
+        },0);
+        }
+        setLoading(false);
+    }
+
 
 
       const deleteMarketer = async(id) => {
@@ -151,23 +168,22 @@ function AllMarketer() {
                                                                             <td> {marketer.first_name} {marketer.last_name} </td>
                                                                             <td> {marketer.phone} </td>
                                                                             <td> {marketer.email} </td>
-                                                                            <td> {marketer.user_role} </td>
-                                                                            <td>
+                                                                            <td> {marketer.user_role} </td>  
 
 
-                                                                            <div className="d-flex align-items-center" style={{ gap: '5px' }} >
-                                                                                {/* Button trigger modal */}
-                                                                                <button id='marketer' type="button" className="btn btn-primary" data-toggle="modal" data-target={`#marketer_${marketer.id}`} >
-                                                                                View
+                                                                             <td>   
+                                                                             <div className="btn-group">
+                                                                                <button type="button" className="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    Action
                                                                                 </button>
+                                                                                <div className="dropdown-menu dropdown-menu-right">
+                                                                                    <button className="dropdown-item" type="button" data-toggle="modal" data-target={`#marketer_${marketer.id}`} >Action</button>
+                                                                                    <button className="dropdown-item" type="button" data-toggle="modal" data-target={`#edit_${marketer.id}`} >Edit Profile</button>
+                                                                                    <button className="dropdown-item" type="button" data-toggle="modal" data-target={`#fund_${marketer.id}`}  >Fund Wallet</button>
+                                                                                </div>
+                                                                                </div>
 
-                                                                                {/* Button trigger modal */}
-                                                                                <button id='branch' type="button" className="btn btn-success" data-toggle="modal" data-target={`#edit_${marketer.id}`} >
-                                                                                Edit
-                                                                                </button>
-
-                                                                            </div>
-                                                                            </td>                                
+                                                                            </td>                             
 
                                                                         </tr>
 
@@ -379,6 +395,72 @@ function AllMarketer() {
                                         </div>
                                     </div>
                                     </div>
+
+
+                                    <div>
+                                                                                       
+                                                                                       {/* Fund marketer Wallet Modal */}
+                                                                                       <div className="modal fade" id={`fund_${marketer.id}`} tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                                           <div className="modal-dialog" role="document">
+                                                                                           <div className="modal-content">
+                                                                                               <div className="modal-header">
+                                                                                               <h5 className="modal-title" id="exampleModalLabel"> Fund {marketer.first_name} {marketer.last_name} Wallet </h5>
+                                                                                               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                                                                                   <span aria-hidden="true">×</span>
+                                                                                               </button>
+                                                                                               </div>
+                                                                                               <div className="modal-body">
+                                                                                        <h4 className="header-title mb-4">Edit marketer Profile</h4>
+                                                                                            <Formik
+                                                                                                initialValues={{
+                                                                                                            amount: null,
+                                                                                                        }}
+                                                                                                // validationSchema= {validationSchema}
+                                                                                                onSubmit = { async (values,actions) => {
+                                                                                                    await fund_marketer(values,marketer.id)
+                                                                                                }}
+                                                                                            >
+                                                                                                {(props) => (
+                                                                                                    <Form>
+                                                                                                
+                                                                                                    
+                                                                                                    <div className="form-group row">
+                                                                                                    <label
+                                                                                                        htmlFor="example-text-input"
+                                                                                                        className="col-lg-2 col-form-label"
+                                                                                                    >
+                                                                                                    Amount
+                                                                                                    </label>
+                                                                                                    <div className="col-lg-10">
+                                                                                                        <Field
+                                                                                                        as = {"input"}
+                                                                                                        className="form-control"
+                                                                                                        type="text"
+                                                                                                        placeholder=""
+                                                                                                        name="amount"
+                                                                                                        />
+                                                                                                    </div>
+                                                                                                    {/* <ErrorMsg name={"first_name"} /> */}
+                                                                                                    </div>  
+     
+
+                                                                                                    <button
+                                                                                                    type="submit"
+                                                                                                    className="btn btn-success"
+                                                                                                    >
+                                                                                                    Fund
+                                                                                                    </button>
+                                                                                                    </Form>
+                                                                                                )}
+                                                                                            </Formik>
+                                                                                        </div>
+                                                                                               <div className="modal-footer">
+                                                                                               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                               </div>
+                                                                                           </div>
+                                                                                           </div>
+                                                                                       </div>
+                                                                                       </div>
 
 
                                                                          </Fragment>
