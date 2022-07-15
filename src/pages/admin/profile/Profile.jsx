@@ -1,13 +1,31 @@
-// STYLES
-import { Formik, Form, Field } from "formik";
-import { object as yupObject, string as yupString } from 'yup';
-import { Fragment, useState } from "react";
-import { api } from "../../../services";
-import { ErrorMsg } from "../../../layouts/components";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { Fragment, useState,useEffect,useContext } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import { Country, State, City }  from 'country-state-city';
+import { ICountry, IState, ICity } from 'country-state-city'
+import {Formik,Form,Field} from "formik";
+import {object as yupObject, string as yupString} from "yup";
+import {ErrorMsg} from "../../../layouts/components"
+import {api} from "../../../services";
+import { toast } from "react-toastify";
 import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
+import {Context} from "../../../context/Context";
+// import "./newcustomer.css";
+
+
+
+
+function genPassword() {
+  let chars = "0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*()ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let passwordLength = 12;
+  let password = "";
+for (let i = 0; i <= passwordLength; i++) {
+ let randomNumber = Math.floor(Math.random() * chars.length);
+ password += chars.substring(randomNumber, randomNumber +1);
+}
+      return password;
+}
+
 
 // CONTEXT
 const override = css`
@@ -16,54 +34,108 @@ const override = css`
   border-color: red;
 `;
 
-const initialFormState = () => ({
-  first_name: "",
-  last_name: "",
-  dob: "",
-  phone: "",
-  country: "",
-  avatar: "",
-  currency: "",
-
-});
-
-const validationSchema = yupObject().shape({
-  first_name: yupString(),
-  last_name: yupString(),
-  dob: yupString(),
-  phone: yupString(),
-  country: yupString(),
-  avatar: yupString(),
-  currency: yupString()
-})
-
 
 function Profile() {
-    const [isLoading, setIsLoading] = useState(false);
-    let [loading, setLoading] = useState(true);
-    let [color, setColor] = useState("#ADD8E6");
-    // #90EE90
-    const navigate = useNavigate();
+
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading,setLoading] = useState(true)
+  const [color,setColor] = useState("#ADD8E6");
+  const navigate = useNavigate();
+  const {user} = useContext(Context);
+  const [marketers,setMarketers] = useState([]);
+
+
+
+
+  const [avatar, setAvatar] = useState(null);
+  const [id_document, setIdDocument] = useState(null);
+  const [utility_bill, setUtilityBill] = useState(null);
+ 
+  const [bvn, setBvn] = useState("");
+  // const [BvnError,setBvnError] = useState("");    
+
+
+  // console.log(Country.getAllCountries())
+  // console.log(State.getAllStates())
+  const countries = Country.getAllCountries();
+  const states = State.getAllStates()
+  // console.log(states);
+  useEffect(() => {
+    setIsLoading(true)
+
+    const allMarketer = async() => {
+      const res = await api.service().fetch("/accounts/manage/?is_staff=True&user_role=AGENT",true);
+      // console.log(res.data)
+      if(api.isSuccessful(res)){
+        //   console.log(res)
+        setMarketers(res.data.results)
+      }
+
+      setIsLoading(false);
+
+    }
+
+    allMarketer();
+  },[])
   
-    
-  
-    const updateProfile = async(values) => {
-          setIsLoading(true);
-          console.log(values)
-          // let data = [values];
-          //     data = [...data,{"user_role":"admin"}]
-          //     console.log(data);
-          const response = await api
-                .service()
-                .push("/accounts/manage/signup/",values,true,true)
-  
-          if(api.isSuccessful(response)){
-            setTimeout(() => {
-              toast.success('Profile update was successfull!');
-              navigate("/auth/login",{replace: true})
-            }, 0);
-          }
-          setIsLoading(false);
+
+
+  const handleAvatarOnChange = (file) => {
+    setAvatar(file[0])
+  }
+
+
+  const handleUtilityOnChange = (file) => {
+    setUtilityBill(file[0])
+  }
+
+
+  const handleDocOnChange = (file) => {
+    setIdDocument(file[0])
+  }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        setIsLoading(true)
+        // setLoading(false)
+        let data = new FormData(e.target);
+        data.append("user_role","CUSTOMER");
+        data.append("password",genPassword());
+        data.append("avatar",avatar);
+        data.append("id_document",id_document);
+        data.append("utility_bill",utility_bill);
+        data.append("country","Nigeria");
+        console.log(data)
+
+
+
+        let values = Object.fromEntries(data.entries())
+        // let remains = {
+        //   user_role: "CUSTOMER",
+        //   password: genPassword()
+        // }
+        // let values = Object.assign(data,remains)
+        // values.append("user_role","CUSTOMER");
+        // values.append("password",genPassword());
+
+        console.log(values);
+
+    const response = await api.service().push(`/accounts/manage/signup/?org_id=${user.data.organisation}`,data,true,true);
+
+    if(api.isSuccessful(response)){
+      setTimeout(() => {
+        
+        toast.success("Customer registration was successfully");
+        navigate("/admin/dashboard/newcustomer",{replace: true})
+        setIsLoading(false)
+
+      },0);
+    }
+
+        setIsLoading(false)
+        // setLoading(false)
+
     }
 
     return (
@@ -93,167 +165,429 @@ function Profile() {
             </div>
             {/* end page title */}
 
+
+
             <div className="row">
               <div className="col-12">
                 <div className="card-box">
-                  <h4 className="header-title mb-4">Update Profile</h4>
-                  <Formik 
-                    enableReinitialize={true}
-                    initialValues={initialFormState()}
-                    validationSchema={validationSchema}
-                    onSubmit={async (values,actions) => {
-                      await updateProfile(values)
-                    }}
-                  >
+                  <h4 className="header-title mb-4">New Customer</h4>
+                  <form action="" onSubmit={handleSubmit} >
 
-                      {(props) => (
-                        <Form >
-                        <div className="form-group row">
-                          <label
-                            htmlFor="example-text-input"
-                            className="col-lg-2 col-form-label"
-                          >
-                            First Name
-                          </label>
-                          <div className="col-lg-10">
-                            <Field
-                              as={'input'}
-                              name="first_name"
-                              type="text"
-                              className="form-control"
-                             />
-                        
-                          </div>
-                        </div>
-
-                        <div className="form-group row">
-                          <label
-                            htmlFor="example-text-input"
-                            className="col-lg-2 col-form-label"
-                          >
-                            Last Name
-                          </label>
-                          <div className="col-lg-10">
-                            <Field
-                              as={"input"}
-                              name="last_name"
-                              type="text"
-                              className="form-control"
-                             />
-                            
-                          </div>
-                        </div>
-
-                        <div className="form-group row">
-                          <label
-                            htmlFor="example-tel-input"
-                            className="col-lg-2 col-form-label"
-                          >
-                            Date of Birth
-                          </label>
-                          <div className="col-lg-10">
-                          <Field 
-                            as={"input"}
-                            name="dob"
-                            type="date"
-                            className="form-control"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-group row">
-                          <label
-                            htmlFor="example-text-input"
-                            className="col-lg-2 col-form-label"
-                          >
-                            Phone
-                          </label>
-                          <div className="col-lg-10">
-                            <Field
-                              className="form-control"
-                              type="text"
-                              as={"input"}
-                              name="phone"
-
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-group row">
-                          <label
-                            htmlFor="example-text-input"
-                            className="col-lg-2 col-form-label"
-                          >
-                            Country
-                          </label>
-                          <div className="col-lg-10">
-                            <Field
-                              className="form-control"
-                              type="text"
-                              as={"input"}
-                              name="country"
-                            />
-                          </div>
-                        </div>
-
-                        <div className="form-group row">
-                          <label htmlFor="text-input" className="col-lg-2">
-                            Profile Picture
-                          </label>
-                          <div className="col-lg-10">
-                            <Field 
-                              as={"input"}
-                              name="avatar"
-                              type = "file"
-                              className="form-control"
-                            />
-                          </div>
-                        </div>
-                       
-                       <div className="form-group row">
-                        <label htmlFor="text-input" className="col-lg-2">
-                          Currency
-                        </label>
-                    <div className="col-lg-10">
-                      <Field
-                        as={"input"}
-                        name="currency"
-                        type="text"
-                        className="form-control"
-                       />
-                    </div>
-                       </div>
-
-
-
-                      <div className="form-group text-center">
-                          {
-                            isLoading ? 
-                              ( <div className="sweet-loading">
-                                  <DotLoader color={color} loading={loading} css={override}  size={80} />
-                                </div>)
-                              : (
-                                <button type="submit" className="btn btn-primary btn-lg btn-block">
-                                  Update Profile
-                                </button>
-                              )
-                          }
-                        </div>
-                      </Form>
-                      )}
-                  </Formik>
-                 
 
                   <div className="form-group row">
-                  
-                  </div>
+                      <label
+                        htmlFor="example-text-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Title
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name = "title"
+                          type="text"
+                          placeholder="Mr"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-text-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        First Name
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name="first_name"
+                          type="text"
+                          placeholder="John"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Middle Name
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name="middle_name"
+                          type="text"
+                          placeholder="Mikel"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Last Name
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name="last_name"
+                          type="text"
+                          placeholder="Doe"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                            <label
+                              htmlFor="example-tel-input"
+                              className="col-lg-2 col-form-label"
+                            >
+                              Gender
+                            </label>
+                            <div className="col-lg-10">
+                                <select  name="gender" className="form-control">
+                                <option>Select One</option>
+                                <option value={"M"} >Male</option>
+                                <option value={"F"} >Female</option>
+                                </select>
+                            </div>
+                          </div>
+
+
+                          <div className="form-group row">
+                              <label
+                                htmlFor="example-text-input"
+                                className="col-lg-2 col-form-label"
+                              >
+                              Date of Birth
+                              </label>
+                              <div className="col-lg-10">
+                                <input
+                                  className="form-control"
+                                  type="date"
+                                  name = "dob"
+                                />
+                              </div>
+                            </div>
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Profile Photo
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          type="file"
+                          className="dropify"
+                          // name='avatar'
+                          onChange={(e)  => handleAvatarOnChange(e.target.files)}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        ID
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          type="file"
+                          className="dropify"
+                          // name="id_document"
+                          onChange={(e)  => handleDocOnChange(e.target.files)}
+
+                            />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Utility Bill
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          type="file"
+                          className="dropify"
+                          // name = "utitity_bill"
+                          onChange={(e)  => handleUtilityOnChange(e.target.files)}
+                           />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-search-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        BVN
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          type="number"
+                          placeholder="10 digit number"
+                          name="bvn"
+                        />
+                      </div>
+                    </div>
+
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-email-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Email
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          name="email"
+                          type="email"
+                          placeholder="smartdeveloper@yahoo.com"
+         
+                        />
+                      </div>
+                    </div>
+
+
+                    <div className="form-group row">
+                            <label
+                              htmlFor="example-tel-input"
+                              className="col-lg-2 col-form-label"
+                            >
+                              Currency
+                            </label>
+                            <div className="col-lg-10">
+                                <select  name="currency" className="form-control">
+                                <option>Select One</option>
+                                <option value={"NGN"} >NGN</option>
+                                <option value={"USD"} >USD</option>
+                                </select>
+                            </div>
+                          </div>
+
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-url-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Residential Address
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Tudun Wada"
+                          name = "residential_address"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-url-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Business Address
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          type="text"
+                          placeholder="Hwolshe"
+                          name = "business_address"                        />
+                      </div>
+                    </div>
+
+                    
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-tel-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Telephone Number
+                      </label>
+                      <div className="col-lg-10">
+                        <input
+                          className="form-control"
+                          type="tel"
+                          placeholder="234-(222)-333-4445"
+                          name = "phone"
+                        />
+                      </div>
+                    </div>
+
+                    {/* <div className="form-group row">
+                            <label
+                              htmlFor="example-tel-input"
+                              className="col-lg-2 col-form-label"
+                            >
+                              Country
+                            </label>
+                            <div className="col-lg-10">
+                                <select  name="country" className="form-control">
+                                <option>Select One</option>
+                                {
+                                  countries.map((country) => (
+                                    <>
+                                    <option key={country.isoCode} value={country.name} > {country.name} </option>
+                                    </>
+                                  ))
+                                }
+                                </select>
+                            </div>
+                          </div> */}
+
+                          {/* <div className="form-group row">
+                            <label
+                              htmlFor="example-tel-input"
+                              className="col-lg-2 col-form-label"
+                            >
+                              State
+                            </label>
+                            <div className="col-lg-10">
+                                <select  name="state" className="form-control">
+                                <option>Select One</option>
+                                {
+                                  states.map((state) => (
+                                    <>
+                                    <option key={state.isoCode} value={state.countryCode} > {state.name} </option>
+                                    </>
+                                  ))
+                                }
+                                </select>
+                            </div>
+                          </div> */}
+
+                          <div className="form-group row">
+                          <label
+                            htmlFor="example-url-input"
+                            className="col-lg-2 col-form-label"
+                          >
+                            State
+                          </label>
+                          <div className="col-lg-10">
+                            <input
+                              className="form-control"
+                              type="text"
+                              placeholder="Plateau"
+                              name = "state"  />
+                          </div>
+                        </div>
+
+                          {/* <div className="form-group row">
+                            <label
+                              htmlFor="example-tel-input"
+                              className="col-lg-2 col-form-label"
+                            >
+                              City
+                            </label>
+                            <div className="col-lg-10">
+                                <select  name="city" className="form-control">
+                                <option>Select One</option>
+                                <option value={"jos"} >Jos</option>
+                                <option value={"bukuru"} >Bukuru</option>
+                                </select>
+                            </div>
+                          </div> */}
+
+                          <div className="form-group row">
+                          <label
+                            htmlFor="example-url-input"
+                            className="col-lg-2 col-form-label"
+                          >
+                            City
+                          </label>
+                          <div className="col-lg-10">
+                            <input
+                              className="form-control"
+                              type="text"
+                              placeholder="Plateau"
+                              name = "city"  />
+                          </div>
+                        </div>
+
+                          <div className="form-group row">
+                            <label
+                              htmlFor="example-tel-input"
+                              className="col-lg-2 col-form-label"
+                            >
+                              Marketer
+                            </label>
+                            <div className="col-lg-10">
+                            <select  name="agent_id" className="form-control">
+                                <option>Select One</option>
+                                {
+                                  marketers.map((marketer) => (
+                                    <>
+                                    <option key={marketer.id} value={marketer.id} > {marketer.first_name} </option>
+                                    </>
+                                  ))
+                                }
+                                </select>
+                            </div>
+                          </div>            
+
+               
+{/* 
+                    <div className="form-group row">
+                      <label
+                        htmlFor="example-tel-input"
+                        className="col-lg-2 col-form-label"
+                      >
+                        Choose Staff
+                      </label>
+                      <div className="col-lg-10">
+                        <select className="form-control" data-toggle="select2" value = {Staff} onChange={(e)  => setStaff(e.target.value)}>
+                          <option>Select One</option>
+                          <option value={"Marketer One"}>Staff 1</option>
+                          <option value={"Marketer Two"}>Staff 2</option>
+                          <option value={"Marketer Three"}>Staff 3</option>
+                        </select>
+                      </div>
+                    </div> */}
+
+                    {/* <button type="submit" className="btn btn-primary btn-block">
+                      Create Account
+                    </button> */}
+
+                    <div className="form-group text-center">
+                                    {
+                                        isLoading ? 
+                                        ( <div className="sweet-loading">
+                                            <DotLoader color={color} loading={loading} css={override}  size={80} />
+                                            </div>)
+                                        : (
+                                            <button type="submit" className="btn btn-primary btn-lg btn-block">
+                                            Create Account
+                                            </button>
+                                        )
+                                    }
+                      </div>
+                  </form>
+
+                  <div className="form-group row"></div>
                 </div>
               </div>
             </div>
-
-            {/* end row */}
           </div>
           {/* end container-fluid */}
+          
         </div>
       </div>
     </Fragment>

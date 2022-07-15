@@ -65,21 +65,24 @@ function AllMarketer() {
         setLoading(false);
     }
     const fund_marketer = async(values,id) => {
-        setLoading(true);
-        console.log(values)
+            try {
+                setLoading(true);
+                console.log(values)
 
-        const response = await api
-            .service()
-            .push(`/wallet/marketer/${id}/fund-wallet/`,values,true)
-
-        if(api.isSuccessful(response)){
-        setTimeout( () => {
-            toast.success("Transaction successful");
-            // navigate("/admin/allbranch",{replace: true})
-        },0);
-        }
-        setLoading(false);
-    }
+                const response = await api
+                    .service()
+                    .push(`/wallets/marketers/${id}/fund-wallet/`,values,true)
+                if(api.isSuccessful(response)){
+                setTimeout( () => {
+                    toast.success("Transaction successful");
+                    // navigate("/admin/allbranch",{replace: true})
+                },0);
+                }
+                setLoading(false);
+            } catch (error) {
+                console.log(error)
+            }
+                }
 
 
 
@@ -410,14 +413,14 @@ function AllMarketer() {
                                                                                                </button>
                                                                                                </div>
                                                                                                <div className="modal-body">
-                                                                                        <h4 className="header-title mb-4">Edit marketer Profile</h4>
+                                                                                        <h4 className="header-title mb-4">Fund Marketer</h4>
                                                                                             <Formik
                                                                                                 initialValues={{
-                                                                                                            amount: null,
+                                                                                                            amount: 0,
                                                                                                         }}
                                                                                                 // validationSchema= {validationSchema}
                                                                                                 onSubmit = { async (values,actions) => {
-                                                                                                    await fund_marketer(values,marketer.id)
+                                                                                                    await fund_marketer(values,marketer.wallet.id)
                                                                                                 }}
                                                                                             >
                                                                                                 {(props) => (
@@ -435,7 +438,7 @@ function AllMarketer() {
                                                                                                         <Field
                                                                                                         as = {"input"}
                                                                                                         className="form-control"
-                                                                                                        type="text"
+                                                                                                        type="number"
                                                                                                         placeholder=""
                                                                                                         name="amount"
                                                                                                         />

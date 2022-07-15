@@ -30,7 +30,10 @@ import {NewBranch,AllBranch, UpdateBranch,NewCustomer,AllCustomer,EditCustomer,
         AllExpenses,
         Profile,
         PendingCustomer,
-        DeletedCustomer
+        DeletedCustomer,
+        InterestRate,
+        SavingsPlan,
+        Fees,
       } from "../../pages/admin/"
 import { AdminLayout } from '../../layouts'
 
@@ -55,6 +58,13 @@ function AdminRoute() {
         <Route path="dashboard/allcustomer" element={<AllCustomer />} />
         <Route path="dashboard/updatecustomer" element={<EditCustomer />} />
         <Route path="dashboard/quick_customer" element={<QuickCustomer />} />
+       
+        {/* Savings Plan */}
+        <Route path="dashboard/customer/interest_rate" element={<InterestRate />} />
+        <Route path="dashboard/customer/savings_plan" element={<SavingsPlan />} />
+        <Route path="dashboard/customer/fees" element={<Fees />} />
+
+
 
 
           {/* Savings */}
