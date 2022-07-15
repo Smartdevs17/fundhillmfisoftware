@@ -47,6 +47,9 @@ import AllExpenses from "./expenses/AllExpenses"
 import Profile from "./profile/Profile";
 import PendingCustomer from "./customer/PendingCustomer";
 import DeletedCustomer from "./customer/DeletedCustomer";
+import SavingsPlan from "./customer/SavingsPlan";
+import InterestRate from "./interest/InterestRate";
+import Fees from "./interest/Fees";
 
 export {
     Login,
@@ -98,5 +101,8 @@ export {
     Profile,
     PendingCustomer,
     DeletedCustomer,
+    SavingsPlan,
+    InterestRate,
+    Fees,
 }
 

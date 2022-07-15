@@ -86,8 +86,24 @@ function Sidebar() {
                                     <li><Link to="/admin/dashboard/quick_customer">Quick Customer</Link></li>
                                     <li><Link to="/admin/dashboard/allcustomer">Active Customers</Link></li>
                                     <li><Link to="/admin/dashboard/deletedcustomer">Deactivated Customers</Link></li>
+                                    
+
                                 </ul>
                             </li>
+
+                            <li>
+                                <Link to="#">
+                                    <i > <MdOutlineSavings  /> </i>
+                                    <span> Interest Rate and Fees </span>
+                                </Link>
+                                <ul className="nav-second-level" >
+                                    <li><Link to="/admin/dashboard/customer/interest_rate">Interest Rate</Link></li>
+                                    <li><Link to="/admin/dashboard/customer/savings_plan">Savings Plan</Link></li>
+                                    <li><Link to="/admin/dashboard/customer/fees">Fees</Link></li>
+
+                                </ul>
+                            </li>
+
 
                             <li>
                                 <Link to="#">
@@ -105,7 +121,7 @@ function Sidebar() {
                             <li>
                                 <Link to="#">
                                     <i > <MdOutlineSavings  /> </i>
-                                    <span> Savings Plan </span>
+                                    <span> Transaction </span>
                                     {/* <span className="menu-arrow"></span> */}
                                 </Link>
                                 <ul className="nav-second-level" >

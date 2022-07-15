@@ -11,6 +11,7 @@ import {Context} from "../../../context/Context";
 
 
 
+
 const override = css`
   display: block;
   margin: 0 auto;
@@ -19,7 +20,8 @@ const override = css`
 `;
 
 
-function NewProduct() {
+
+function InterestRate() {
     const [isLoading, setIsLoading] = useState(false);
     let [loading, setLoading] = useState(true);
     let [color, setColor] = useState("#ADD8E6");
@@ -33,64 +35,67 @@ function NewProduct() {
     useEffect(  () => {
         setIsLoading(true)
 
-            const newProduct = async() => {
-              
-                // console.log(isLoading);
-            // if(api.isSuccessful(branches)){
-            //     setData(branches.data.results);
-            //     setIsLoading(false)
-            // }
-            // else{
-            //     setIsLoading(true)
-            // }
-
-
-        const products = await api
-        .service()
-        .fetch("/dashboard/loan-product",true);
-        console.log(products.data.results)
-        
-    if((api.isSuccessful(products))){
-        setData(products.data.results);
-        setIsLoading(false)
-    }else{
-        setIsLoading(true)
-    }
+            const interestRate = async() => {
+             try {
+                    const interests = await api
+                    .service()
+                    .fetch("/dashboard/interest-rates/",true);
+                    console.log(interests.data.results)
+                    
+                if((api.isSuccessful(interests))){
+                    setData(interests.data.results);
+                    setIsLoading(false)
+                }else{
+                    setIsLoading(true)
+                }
+             } catch (error) {
+                console.log(error.message)
+             }
+    
             }
 
-            newProduct();
+            interestRate();
     }, [])
 
     const initialFormState = () => ({
         name: "",
-        mgt_charges: null,
-        interest: null,
+        percentage: 0,
+        minimum_time_in_months: 0,
+        maximum_time_in_months: 0
       });
 
       const validationSchema = yupObject().shape({
         name: yupString()
-        .required("Product name is required"),
-        mgt_charges: yupNumber()
-        .required("Managment Charges is required"),
-        interest: yupNumber()
-        .required("interest rate is required"),
+        .required("What type of interest rate is this"),
+        percentage: yupNumber()
+        .required("Enter a percentage"),
+        minimum_time_in_months: yupNumber()
+        .required("minimum time in months"),
+        maximum_time_in_months: yupNumber()
+        .required("maximum time in months"),
       });
 
-      const add_product = async(values) => {
+      const add_interest = async(values) => {
         setIsLoading(true);
-        console.log(values)
 
-        const response = await api
-              .service()
-              .push("dashboard/loan-product/add/",values,true)
+        try {
+            console.log(values)
 
-        if(api.isSuccessful(response)){
-          setTimeout( () => {
-            toast.success("Loan Product successfully created!");
-            // navigate("/dashboard/loan-product",{replace: true});
-          },0);
+            const response = await api
+                  .service()
+                  .push("/dashboard/interest-rates/add/",values,true)
+    
+            if(api.isSuccessful(response)){
+              setTimeout( () => {
+                toast.success("Interest rate successfully created!");
+                // navigate("/dashboard/interest-rates/",{replace: true});
+              },0);
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error.message)
         }
-        setIsLoading(false);
+   
   }
 
     return (
@@ -113,10 +118,10 @@ function NewProduct() {
                                 <ol className="breadcrumb m-0">
                                     <li className="breadcrumb-item"><Link to="#">FundHill</Link></li>
                                     <li className="breadcrumb-item"><Link to="#">Admin</Link></li>
-                                    <li className="breadcrumb-item active">Loan</li>
+                                    <li className="breadcrumb-item active">Interest Rate</li>
                                 </ol>
                                 </div>
-                                <h4 className="page-title">Loan Product</h4>
+                                <h4 className="page-title">Customers Interest Rate</h4>
                             
                             </div>
                             </div>
@@ -127,10 +132,10 @@ function NewProduct() {
                         <div className="row">
                             <div className="col-12">
                             <div className="card-box">
-                                <h4 className="header-title">All Loan Products</h4>
+                                <h4 className="header-title">All Interest Rate</h4>
                                
-                                <button id='product' type="button" className="btn btn-primary sub-header" data-toggle="modal" data-target="#productId">
-                                    Add Product
+                                <button id='interest' type="button" className="btn btn-primary sub-header" data-toggle="modal" data-target="#interestId">
+                                    Add Interest
                                 </button>
 
                                                  
@@ -145,9 +150,10 @@ function NewProduct() {
                                                                 <thead>
                                                                     <tr>
                                                                     <th> ID </th>
-                                                                    <th> Product </th>
-                                                                    <th> Interest (%) </th>
-                                                                    <th> MGT Charges (%) </th>
+                                                                    <th> Name </th>
+                                                                    <th> Percentage (%) </th>
+                                                                    <th> Minimum Time  </th>
+                                                                    <th> Maximum Time  </th>
                                                                     <th> Action </th>
                                                                     {/* <th></th> */}
                                                                     </tr>
@@ -160,13 +166,14 @@ function NewProduct() {
 
 
                                                                     {
-                                                                        data.map((product) => {
+                                                                        data.map((interest) => {
                                                                             return(
-                                                                                    <tr key={product.id} >
-                                                                                        <td > {product.id} </td>
-                                                                                        <td> {product.name} </td>
-                                                                                        <td> {product.interest} </td>
-                                                                                        <td> {product.mgt_charges} </td>
+                                                                                    <tr key={interest.id} >
+                                                                                        <td > {interest.id} </td>
+                                                                                        <td> {interest.name} </td>
+                                                                                        <td> {interest.percentage} </td>
+                                                                                        <td> {interest.minimum_time_in_months} </td>
+                                                                                        <td> {interest.maximum_time_in_months} </td>
                                                                                         <td>
                                                                                             <div className="d-flex align-items-center" style={{ gap: '10px' }}>
                                                                                                 <button type="button" className="btn btn-primary"> <Link to={`/admin/dashboard/updatebranch?branch_id=${1}`} style={{color: "#fff"}}> Update </Link> </button>
@@ -188,12 +195,12 @@ function NewProduct() {
                                
 
 
-                              {/* Add Loan Product Modal */}
-                              <div className="modal fade" id="productId" tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                              {/* Add Loan interest Modal */}
+                              <div className="modal fade" id="interestId" tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                                 <div className="modal-dialog" role="document">
                                         <div className="modal-content card-box">
                                         <div className="modal-header">
-                                        <h4 className="header-title mb-4">Add New Product</h4>
+                                        <h4 className="header-title mb-4">Add New interest</h4>
                                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span>
                                             </button>
@@ -210,13 +217,13 @@ function NewProduct() {
                                             </div> */}
 
 
-                                            <h4 className="header-title mb-4">Product</h4>
+                                            <h4 className="header-title mb-4">Interest Rate</h4>
                                                 <div className="modal-body">
                                                     <Formik
                                                     initialValues={initialFormState()}
                                                     validationSchema={validationSchema}
                                                     onSubmit={async (values,actions) => {
-                                                        await add_product(values)
+                                                        await add_interest(values)
                                                     }}
                                                     >
                                                         {(props) => (
@@ -226,9 +233,9 @@ function NewProduct() {
                                                                     htmlFor="example-text-input"
                                                                     className="col-lg-5"
                                                                 >
-                                                                    Product Name
+                                                                    Interest Name
                                                                 </label>
-                                                                <div className="col-lg-9">
+                                                                <div className="col-lg-10">
                                                                 <Field 
                                                                     as={"input"}
                                                                     className="form-control"
@@ -247,18 +254,18 @@ function NewProduct() {
                                                                     htmlFor="example-text-input"
                                                                     className="col-lg-5"
                                                                 >
-                                                                    Product Interest (%)
+                                                                    Percentage (%)
                                                                 </label>
-                                                                <div className="col-lg-9">
+                                                                <div className="col-lg-10">
                                                                     <Field 
                                                                     as={"input"}
                                                                     className="form-control"
-                                                                    type="text"
+                                                                    type="number"
                                                                     // placeholder="10"
-                                                                    name="interest"
+                                                                    name="percentage"
                                                                     />
                                                                 </div>
-                                                                <ErrorMsg name={"interest"} />
+                                                                <ErrorMsg name={"percentage"} />
                                                                 </div>
 
                                                                 <div className="form-group row">
@@ -266,20 +273,39 @@ function NewProduct() {
                                                                     htmlFor="example-text-input"
                                                                     className="col-lg-5"
                                                                 >
-                                                                    Mgt Charges (%)
+                                                                    Minimum Time (%)
                                                                 </label>
-                                                                <div className="col-lg-9">
+                                                                <div className="col-lg-10">
                                                                     <Field 
                                                                     as={"input"}
                                                                     className="form-control"
-                                                                    type="text"
+                                                                    type="number"
                                                                     // placeholder="10"
-                                                                    name="mgt_charges"
+                                                                    name="minimum_time_in_months"
                                                                     />
                                                                 </div>
-                                                                <ErrorMsg name={"mgt_charges"} />
+                                                                <ErrorMsg name={"minimum_time_in_months"} />
                                                                 </div>
 
+
+                                                                <div className="form-group row">
+                                                                <label
+                                                                    htmlFor="example-text-input"
+                                                                    className="col-lg-5"
+                                                                >
+                                                                    Maximum Time (%)
+                                                                </label>
+                                                                <div className="col-lg-10">
+                                                                    <Field 
+                                                                    as={"input"}
+                                                                    className="form-control"
+                                                                    type="number"
+                                                                    // placeholder="10"
+                                                                    name="maximum_time_in_months"
+                                                                    />
+                                                                </div>
+                                                                <ErrorMsg name={"maximum_time_in_months"} />
+                                                                </div>
 
 
                                                                 {/* <button
@@ -319,12 +345,12 @@ function NewProduct() {
                                     </div>
 
 
-                              {/* Edit Product Modal */}
-                              <div className="modal fade" id="editproductId" tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                              {/* Edit interest Modal */}
+                              <div className="modal fade" id="editinterestId" tabIndex={-1} role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                                 <div className="modal-dialog" role="document">
                                         <div className="modal-content card-box">
                                         <div className="modal-header">
-                                        <h4 className="header-title mb-4">Edit Product</h4>
+                                        <h4 className="header-title mb-4">Edit interest</h4>
                                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">×</span>
                                             </button>
@@ -334,17 +360,17 @@ function NewProduct() {
                                         <div className="row">
                                             <div className="col-12">
                                                 <div className="">
-                                                <h4 className="header-title mb-4">Product</h4>
+                                                <h4 className="header-title mb-4">interest</h4>
                                                 <form action="">
                                             
                                                     <div className="form-group row">
                                                     <label
                                                         htmlFor="example-text-input"
-                                                        className="col-lg-3 col-form-label"
+                                                        className="col-lg-2 col-form-label"
                                                     >
-                                                        Product Name
+                                                        interest Name
                                                     </label>
-                                                    <div className="col-lg-9">
+                                                    <div className="col-lg-10">
                                                         <input
                                                         className="form-control"
                                                         type="text"
@@ -357,11 +383,11 @@ function NewProduct() {
                                                     <div className="form-group row">
                                                     <label
                                                         htmlFor="example-text-input"
-                                                        className="col-lg-3 col-form-label"
+                                                        className="col-lg-2 col-form-label"
                                                     >
-                                                        Product Interest (%)
+                                                        interest Interest (%)
                                                     </label>
-                                                    <div className="col-lg-9">
+                                                    <div className="col-lg-10">
                                                         <input
                                                         className="form-control"
                                                         type="number"
@@ -374,11 +400,11 @@ function NewProduct() {
                                                     <div className="form-group row">
                                                     <label
                                                         htmlFor="example-text-input"
-                                                        className="col-lg-3 col-form-label"
+                                                        className="col-lg-2 col-form-label"
                                                     >
                                                         Mgt Charges (%)
                                                     </label>
-                                                    <div className="col-lg-9">
+                                                    <div className="col-lg-10">
                                                         <input
                                                         className="form-control"
                                                         type="number"
@@ -425,4 +451,4 @@ function NewProduct() {
       )
 }
 
-export default NewProduct
+export default InterestRate

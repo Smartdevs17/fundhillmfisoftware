@@ -11,7 +11,6 @@ import { css } from "@emotion/react";
 import {DotLoader} from "react-spinners";
 import {Context} from "../../../context/Context";
 // import "./newcustomer.css";
-import '../../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -90,22 +89,7 @@ function NewCustomer() {
     allMarketer();
   },[])
   
-  
-  const new_customer = async(values) => {
-    setIsLoading(true);
-    console.log(values);
 
-    // const response = await api.service().push(`/accounts/manage/signup/?org_id=${user.data.organisation}`,values,true,true);
-
-    // if(api.isSuccessful(response)){
-    //   setTimeout(() => {
-    //     toast.success("Customer registration was successfully");
-    //     navigate("/admin/dashboard/quick_customer",{replace: true});
-    //   },0);
-    // }
-    // setIsLoading(false);
-
-  }
 
   const handleAvatarOnChange = (file) => {
     setAvatar(file[0])
