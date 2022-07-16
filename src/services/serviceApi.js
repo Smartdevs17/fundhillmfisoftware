@@ -105,7 +105,7 @@ class ServiceApi {
         const toastOptions = {
             autoClose: false,
         };
-        toast.error(`An error occured ${err.response.data.error}, please reload again`, toastOptions);
+        toast.error(`An error occured ${err.response.data.error}.Please reload again`, toastOptions);
         console.error('API ERROR:', err.response.data);
         return err;
     }
