@@ -682,15 +682,13 @@ const withdrawCustomerFormState = () => ({
                                                                                             </Field>
                                                                                         </div>
                                                                                     </div> 
-                                        
-                                        
-                                                                            
+                                                                        
 
                                                                                 <button
                                                                                 type="submit"
                                                                                 className="btn btn-primary"
                                                                                 >
-                                                                                Submit
+                                                                                Fund
                                                                                 </button>
                                                                                 </Form>
                                                                             )}
@@ -733,87 +731,85 @@ const withdrawCustomerFormState = () => ({
                                                                                                 {(props) => (
                                                                                                     <Form>
                                                                                                 
-                                                                                                    
-                                                                           
+                                                                                                
 
-
-                                                                                <div className="form-group row">
-                                                                                <label
-                                                                                    htmlFor="example-text-input"
-                                                                                    className="col-lg-3 col-form-label"
-                                                                                >
-                                                                                    Amount
-                                                                                </label>
-                                                                                <div className="col-lg-9">
-                                                                                    <Field 
-                                                                                    as={"input"}
-                                                                                    name="amount"
-                                                                                    className="form-control"
-                                                                                    type="number"
-                                                                                    placeholder="#10000"
-                                                                                    />
-                                                                                </div>
-                                                                                {/* <ErrorMsg name={"amount"} /> */}
-                                                                                </div>  
-
-                                                                                <div className="form-group row">
+                                                                                        <div className="form-group row">
                                                                                         <label
-                                                                                        htmlFor="example-tel-input"
-                                                                                        className="col-lg-3 col-form-label"
+                                                                                            htmlFor="example-text-input"
+                                                                                            className="col-lg-3 col-form-label"
                                                                                         >
-                                                                                        Savings Plan
+                                                                                            Amount
                                                                                         </label>
                                                                                         <div className="col-lg-9">
-                                                                                        <Field as="select"  name="plan_id" className="form-control">
-                                                                                            <option>Select One</option>
-                                                                                            {
-                                                                                            plan(customer.id).map((customer) => (
-                                                                                                <>
-                                                                                                <option key={customer.id} value={customer.id} > {customer.plan_type} </option>
-                                                                                                </>
-                                                                                            ))
-                                                                                            }
-                                                                                            </Field>
+                                                                                            <Field 
+                                                                                            as={"input"}
+                                                                                            name="amount"
+                                                                                            className="form-control"
+                                                                                            type="number"
+                                                                                            placeholder="#10000"
+                                                                                            />
                                                                                         </div>
-                                                                                    </div>  
+                                                                                        {/* <ErrorMsg name={"amount"} /> */}
+                                                                                        </div>  
+
+                                                                                        <div className="form-group row">
+                                                                                                <label
+                                                                                                htmlFor="example-tel-input"
+                                                                                                className="col-lg-3 col-form-label"
+                                                                                                >
+                                                                                                Savings Plan
+                                                                                                </label>
+                                                                                                <div className="col-lg-9">
+                                                                                                <Field as="select"  name="plan_id" className="form-control">
+                                                                                                    <option>Select One</option>
+                                                                                                    {
+                                                                                                    plan(customer.id).map((customer) => (
+                                                                                                        <>
+                                                                                                        <option key={customer.id} value={customer.id} > {customer.plan_type} </option>
+                                                                                                        </>
+                                                                                                    ))
+                                                                                                    }
+                                                                                                    </Field>
+                                                                                                </div>
+                                                                                            </div>  
 
 
-                                                                                    <div className="form-group row">
-                                                                                <label
-                                                                                    htmlFor="example-text-input"
-                                                                                    className="col-lg-3 col-form-label"
-                                                                                >
-                                                                                    Reason
-                                                                                </label>
-                                                                                <div className="col-lg-9">
-                                                                                    <Field 
-                                                                                    as={"input"}
-                                                                                    name="reason"
-                                                                                    className="form-control"
-                                                                                    type="text"
-                                                                                    placeholder=""
-                                                                                    />
-                                                                                </div>
-                                                                                {/* <ErrorMsg name={"reason"} /> */}
-                                                                                </div>  
-     
-
-                                                                                                    <button
-                                                                                                    type="submit"
-                                                                                                    className="btn btn-success"
-                                                                                                    >
-                                                                                                    Withdraw
-                                                                                                    </button>
-                                                                                                    </Form>
-                                                                                                )}
-                                                                                            </Formik>
+                                                                                            <div className="form-group row">
+                                                                                        <label
+                                                                                            htmlFor="example-text-input"
+                                                                                            className="col-lg-3 col-form-label"
+                                                                                        >
+                                                                                            Reason
+                                                                                        </label>
+                                                                                        <div className="col-lg-9">
+                                                                                            <Field 
+                                                                                            as={"input"}
+                                                                                            name="reason"
+                                                                                            className="form-control"
+                                                                                            type="text"
+                                                                                            placeholder=""
+                                                                                            />
                                                                                         </div>
-                                                                                               <div className="modal-footer">
-                                                                                               <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                                               </div>
-                                                                                           </div>
-                                                                                           </div>
-                                                                                       </div>
+                                                                                        {/* <ErrorMsg name={"reason"} /> */}
+                                                                                        </div>  
+            
+
+                                                                                                            <button
+                                                                                                            type="submit"
+                                                                                                            className="btn btn-success"
+                                                                                                            >
+                                                                                                            Withdraw
+                                                                                                            </button>
+                                                                                                            </Form>
+                                                                                                        )}
+                                                                                                    </Formik>
+                                                                                                </div>
+                                                                                                    <div className="modal-footer">
+                                                                                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                </div>
+                                                                                            </div>
                                                     </Fragment>
                                                 ))
                                             }
